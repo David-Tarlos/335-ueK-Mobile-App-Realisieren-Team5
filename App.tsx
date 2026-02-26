@@ -2,8 +2,8 @@ import { StatusBar } from "expo-status-bar";
 import { PaperProvider } from "react-native-paper";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import LoginScreen from "./screens/LoginScreen";
-import RegisterScreen from "./screens/RegisterScreen";
+import LoginScreen from "./components/pages/LoginPage";
+import RegisterScreen from "./components/pages/RegisterPage";
 
 const Stack = createNativeStackNavigator();
 
