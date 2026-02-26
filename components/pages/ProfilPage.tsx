@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ProfileTemplate from "../templates/ProfileTemplate";
 import BASE_URL from "../../constants/api";
 
-export default function ProfilPage({ navigation }: any) {
+export default function ProfilPage() {
     const [userData, setUserData] = useState<any>(null);
     const [loading, setLoading] = useState(true);
 
@@ -24,21 +24,15 @@ export default function ProfilPage({ navigation }: any) {
         }
     };
 
-    const handleLogout = () => {
-        navigation.navigate("Login");
-    };
-
     if (loading) return null;
 
     return (
         <ProfileTemplate
             headerTitle="Profil"
-            fullName={`${userData?.firstName || "Alex"} ${userData?.lastName || "Johnson"}`}
-            email={userData?.email || "example@mail.com"}
-            firstName={userData?.firstName || "Joe"}
-            lastName={userData?.lastName || "Doe"}
-            age={userData?.age?.toString() || "67"}
-            onLogout={handleLogout}
+            fullName={`${userData?.firstName || "Error loading First Name"} ${userData?.lastName || "Error loading Last Name"}`}
+            email={userData?.email || "Error loading Email"}
+            firstName={userData?.firstName || "Error loading First Name"}
+            lastName={userData?.lastName || "Error loading Last Name"}
         />
     );
 }

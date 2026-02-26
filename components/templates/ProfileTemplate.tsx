@@ -3,7 +3,6 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import Typography from "../atoms/Typography";
 import Avatar from "../atoms/Avatar";
 import ProfileCard from "../organisms/ProfileCard";
-import LogoutButton from "../atoms/LogoutButton";
 
 interface ProfileTemplateProps {
     headerTitle: string;
@@ -11,8 +10,6 @@ interface ProfileTemplateProps {
     email: string;
     firstName: string;
     lastName: string;
-    age: string;
-    onLogout: () => void;
 }
 
 const ProfileTemplate: React.FC<ProfileTemplateProps> = ({
@@ -21,8 +18,6 @@ const ProfileTemplate: React.FC<ProfileTemplateProps> = ({
     email,
     firstName,
     lastName,
-    age,
-    onLogout,
 }) => {
     return (
         <View style={styles.container}>
@@ -39,10 +34,7 @@ const ProfileTemplate: React.FC<ProfileTemplateProps> = ({
                     email={email}
                     firstName={firstName}
                     lastName={lastName}
-                    age={age}
                 />
-
-                <LogoutButton onPress={onLogout} />
             </ScrollView>
         </View>
     );
