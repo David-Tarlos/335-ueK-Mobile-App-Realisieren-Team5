@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#f0f2f5",
         alignItems: "center",
         paddingHorizontal: 24,
-        paddingTop: 60,
+        paddingTop: 80,
         paddingBottom: 40,
     },
     form: {

@@ -6,21 +6,18 @@ interface ProfileCardProps {
     email: string;
     firstName: string;
     lastName: string;
-    age: string;
 }
 
 const ProfileCard: React.FC<ProfileCardProps> = ({
     email,
     firstName,
     lastName,
-    age,
 }) => {
     return (
         <View style={styles.card}>
             <ProfileDetailItem icon="email-outline" label="E-MAIL" value={email} />
             <ProfileDetailItem icon="account-outline" label="FIRST NAME" value={firstName} />
             <ProfileDetailItem icon="badge-account-outline" label="LAST NAME" value={lastName} />
-            <ProfileDetailItem icon="calendar-outline" label="AGE" value={age} showDivider={false} />
         </View>
     );
 };
