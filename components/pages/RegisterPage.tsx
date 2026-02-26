@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import AuthTemplate from "../templates/AuthTemplate";
 import RegisterForm from "../organisms/RegisterForm";
 import BASE_URL from "../../constants/api";
@@ -57,20 +58,22 @@ export default function RegisterPage({ navigation }: any) {
 
     setLoading(true);
     try {
-      const response = await fetch(`${BASE_URL}/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password, firstName, lastName }),
+      await axios.post(`${BASE_URL}/register`, {
+        email,
+        password,
+        firstName,
+        lastName,
       });
-
-      if (!response.ok) {
-        const data = await response.json().catch(() => ({}));
-        setEmailError(data.message || "Registration failed. Please try again.");
-        return;
-      }
       navigation.navigate("Home");
-    } catch {
-      setEmailError("Connection error. Please try again.");
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        const message =
+          (error.response.data as { message?: string } | undefined)?.message ||
+          "Registration failed. Please try again.";
+        setEmailError(message);
+      } else {
+        setEmailError("Connection error. Please try again.");
+      }
     } finally {
       setLoading(false);
     }

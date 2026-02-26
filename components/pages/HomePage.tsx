@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import { Image, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {

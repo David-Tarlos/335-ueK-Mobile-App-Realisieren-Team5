@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import AuthTemplate from "../templates/AuthTemplate";
 import LoginForm from "../organisms/LoginForm";
 import BASE_URL from "../../constants/api";
@@ -43,22 +44,16 @@ export default function LoginPage({ navigation }: any) {
 
     setLoading(true);
     try {
-      const response = await fetch(`${BASE_URL}/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-
-      if (!response.ok) {
-        setPasswordError("Wrong credentials. Please try again.");
-        return;
-      }
-
-      const data = await response.json();
+      const response = await axios.post(`${BASE_URL}/login`, { email, password });
+      const data = response.data;
       console.log("Login erfolgreich:", data);
       navigation.navigate("Home");
-    } catch {
-      setPasswordError("Connection error. Please try again.");
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        setPasswordError("Wrong credentials. Please try again.");
+      } else {
+        setPasswordError("Connection error. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
