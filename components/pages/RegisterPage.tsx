@@ -68,7 +68,7 @@ export default function RegisterPage({ navigation }: any) {
         setEmailError(data.message || "Registration failed. Please try again.");
         return;
       }
-      navigation.navigate("Login");
+      navigation.navigate("Home");
     } catch {
       setEmailError("Connection error. Please try again.");
     } finally {

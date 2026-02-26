@@ -56,6 +56,7 @@ export default function LoginPage({ navigation }: any) {
 
       const data = await response.json();
       console.log("Login erfolgreich:", data);
+      navigation.navigate("Home");
     } catch {
       setPasswordError("Connection error. Please try again.");
     } finally {
