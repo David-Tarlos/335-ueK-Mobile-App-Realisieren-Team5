@@ -68,6 +68,9 @@ export default function RegisterPage({ navigation }: any) {
       if (response.data?.user?.id) {
         await AsyncStorage.setItem("userId", response.data.user.id.toString());
       }
+      if (response.data?.token) {
+        await AsyncStorage.setItem("token", response.data.token);
+      }
       navigation.navigate("Home");
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {

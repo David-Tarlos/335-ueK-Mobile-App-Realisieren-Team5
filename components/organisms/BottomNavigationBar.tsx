@@ -23,7 +23,8 @@ const BottomNavigationBar: React.FC<BottomNavigationBarProps> = ({
             <BottomNavItem
                 label="Explore"
                 icon="compass-outline"
-                active={false}
+                active={currentRoute === "Explore"}
+                onPress={() => onNavigate("Explore")}
             />
             <BottomNavItem
                 label="Profile"
@@ -38,11 +39,12 @@ const BottomNavigationBar: React.FC<BottomNavigationBarProps> = ({
 const styles = StyleSheet.create({
     container: {
         borderTopWidth: 1,
-        borderTopColor: "#f1f5f9",
-        backgroundColor: "#ffffff",
+        borderTopColor: "#94A3B8",
+        backgroundColor: "rgba(255, 255, 255, 0.9)",
         flexDirection: "row",
-        justifyContent: "space-around",
-        paddingBottom: 24,
+        justifyContent: "space-between",
+        paddingHorizontal: 16,
+        paddingBottom: 32,
         paddingTop: 8,
     },
 });
