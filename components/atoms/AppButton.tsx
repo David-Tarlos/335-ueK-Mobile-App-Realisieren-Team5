@@ -9,6 +9,7 @@ interface AppButtonProps {
     children: React.ReactNode;
     mode?: "text" | "outlined" | "contained" | "elevated" | "contained-tonal";
     style?: any;
+    icon?: string;
 }
 
 const AppButton: React.FC<AppButtonProps> = ({
@@ -18,6 +19,7 @@ const AppButton: React.FC<AppButtonProps> = ({
     children,
     mode = "contained",
     style,
+    icon,
 }) => {
     return (
         <Button
@@ -28,6 +30,7 @@ const AppButton: React.FC<AppButtonProps> = ({
             style={[styles.button, style]}
             contentStyle={styles.buttonContent}
             labelStyle={styles.buttonLabel}
+            icon={icon}
         >
             {children}
         </Button>
@@ -36,9 +39,9 @@ const AppButton: React.FC<AppButtonProps> = ({
 
 const styles = StyleSheet.create({
     button: {
-        marginTop: 12,
-        borderRadius: 8,
-        backgroundColor: "#1d4ed8",
+        marginTop: 35,
+        borderRadius: 12,
+        backgroundColor: "#135BEC",
     },
     buttonContent: {
         paddingVertical: 6,

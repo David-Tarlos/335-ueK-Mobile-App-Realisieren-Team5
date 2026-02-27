@@ -77,6 +77,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
 
             <LabeledInput
                 label="Password"
+                style={styles.passwordField}
                 placeholder="Password"
                 value={password}
                 onChangeText={setPassword}
@@ -91,13 +92,13 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
             />
 
             <AppButton onPress={onRegister} loading={loading} disabled={loading}>
-                Register
+                Sign up
             </AppButton>
 
             <View style={styles.loginLinkRow}>
-                <Typography variant="text">Already got a Account? </Typography>
+                <Typography variant="text">Already got an Account?</Typography>
                 <TouchableOpacity onPress={onNavigateToLogin}>
-                    <Typography variant="link" style={styles.linkNoMargin}>Login</Typography>
+                    <Typography variant="link">Login</Typography>
                 </TouchableOpacity>
             </View>
         </>
@@ -114,14 +115,14 @@ const styles = StyleSheet.create({
     nameFieldRight: {
         marginLeft: 10,
     },
+    passwordField: {
+        marginTop: 8,
+    },
     loginLinkRow: {
-        flexDirection: "row",
+        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
         marginTop: 14,
-    },
-    linkNoMargin: {
-        marginTop: 0,
     },
 });
 

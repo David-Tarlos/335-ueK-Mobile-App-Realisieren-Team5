@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     link: {
         color: "#1d4ed8",
         textAlign: "center",
-        marginTop: 14,
+        marginTop: 9,
         fontSize: 14,
         fontWeight: "500",
     },

@@ -7,7 +7,7 @@ interface LogoProps {
     color?: string;
 }
 
-const Logo: React.FC<LogoProps> = ({ size = 36, color = "#1d4ed8" }) => {
+const Logo: React.FC<LogoProps> = ({ size = 36, color = "#135BEC" }) => {
     return (
         <View style={styles.logoBox}>
             <MaterialCommunityIcons name="earth" size={size} color={color} />
@@ -17,9 +17,9 @@ const Logo: React.FC<LogoProps> = ({ size = 36, color = "#1d4ed8" }) => {
 
 const styles = StyleSheet.create({
     logoBox: {
-        width: 64,
+        width: 72,
         height: 64,
-        borderRadius: 16,
+        borderRadius: 18,
         backgroundColor: "#dbeafe",
         justifyContent: "center",
         alignItems: "center",
