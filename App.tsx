@@ -24,7 +24,7 @@ export default function App() {
           <Stack.Screen name="Login" component={LoginPage} />
           <Stack.Screen name="Register" component={RegisterPage} />
           <Stack.Screen name="Profile" component={ProfilPage} />
-          <Stack.Screen name="CountryDetail" component={CountryDetailPage} />
+          <Stack.Screen name="country" component={CountryDetailPage} />
           <Stack.Screen name="Explore" component={ExplorePage} />
         </Stack.Navigator>
       </NavigationContainer>

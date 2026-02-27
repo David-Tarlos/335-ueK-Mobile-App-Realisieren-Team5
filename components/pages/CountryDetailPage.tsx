@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Image, Alert } from "react-native";
 import axios from "axios";
+import * as SecureStore from "expo-secure-store";
 import BASE_URL from "../../constants/api";
 import DetailTemplate from "../templates/DetailTemplate";
 import DetailCard from "../organisms/DetailCard";
@@ -18,8 +19,12 @@ export default function CountryDetailPage({ route, navigation }: any) {
 
     const fetchCountry = async () => {
         try {
-            const resp = await axios.get(`${BASE_URL}/countries?id=${id}`);
+            const token = await SecureStore.getItemAsync("token");
+            const resp = await axios.get(`${BASE_URL}/countries?id=${id}`, {
+                headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+            });
             const data = Array.isArray(resp.data) ? resp.data[0] : resp.data;
+            if (!data) throw new Error();
             setCountry(data);
         } catch (e) {
             Alert.alert("Error", "No country was found");
@@ -37,8 +42,11 @@ export default function CountryDetailPage({ route, navigation }: any) {
                 style: "destructive",
                 onPress: async () => {
                     try {
-                        await axios.delete(`${BASE_URL}/countries/${id}`);
-                        navigation.navigate("Home");
+                        const token = await SecureStore.getItemAsync("token");
+                        await axios.delete(`${BASE_URL}/countries/${id}`, {
+                            headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+                        });
+                        navigation.navigate("Explore");
                     } catch (e) {
                         Alert.alert("Error", "Failed to delete");
                     }
@@ -71,17 +79,23 @@ export default function CountryDetailPage({ route, navigation }: any) {
 
                 <DetailCard data={detailData} />
 
-                <Typography variant="title" style={styles.aboutTitle}>
-                    About
-                </Typography>
-
                 <View style={styles.buttonContainer}>
                     <AppButton
                         mode="contained"
                         onPress={handleDelete}
                         style={styles.deleteButton}
+                        labelStyle={styles.deleteButtonLabel}
+                        icon="delete-outline"
                     >
                         Delete
+                    </AppButton>
+                    <AppButton
+                        mode="contained"
+                        onPress={() => { }}
+                        style={styles.editButton}
+                        icon="pencil-outline"
+                    >
+                        Edit
                     </AppButton>
                 </View>
             </View>
@@ -104,16 +118,19 @@ const styles = StyleSheet.create({
         fontWeight: "800",
         color: "#0f172a",
     },
-    aboutTitle: {
-        marginTop: 32,
-        fontSize: 24,
-        fontWeight: "700",
-    },
     buttonContainer: {
         marginTop: 24,
         gap: 12,
     },
     deleteButton: {
         backgroundColor: "#e2e8f0",
+        marginTop: 0,
+    },
+    deleteButtonLabel: {
+        color: "#0f172a",
+    },
+    editButton: {
+        backgroundColor: "#135BEC",
+        marginTop: 0,
     },
 });
