@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ProfileTemplate from "../templates/ProfileTemplate";
 import BASE_URL from "../../constants/api";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import * as SecureStore from "expo-secure-store";
 
 export default function ProfilPage({ navigation }: any) {
     const [userData, setUserData] = useState<any>(null);
@@ -14,7 +14,7 @@ export default function ProfilPage({ navigation }: any) {
 
     const fetchUserData = async () => {
         try {
-            const userId = await AsyncStorage.getItem("userId");
+            const userId = await SecureStore.getItemAsync("userId");
             const response = await axios.get(`${BASE_URL}/users/${userId}`);
             if (response.status === 200) {
                 setUserData(response.data || {});

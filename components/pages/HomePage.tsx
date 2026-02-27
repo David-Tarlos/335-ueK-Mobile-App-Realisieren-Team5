@@ -10,7 +10,9 @@ const WORLD_IMAGE =
   "https://media.istockphoto.com/id/1197369584/vector/detailed-world-map-with-countries.jpg?s=612x612&w=0&k=20&c=pW9R8Os-vNEZc1-TKLgHhva-e-OL277-peZdPJKT6Qg=";
 
 export default function HomePage({ navigation }: any) {
-  const handleGoToCountries = () => { };
+  const handleGoToCountries = () => {
+    navigation.navigate("Explore");
+  };
 
   return (
     <MainTemplate

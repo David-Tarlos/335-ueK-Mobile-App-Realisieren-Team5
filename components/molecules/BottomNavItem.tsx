@@ -17,15 +17,21 @@ const BottomNavItem: React.FC<BottomNavItemProps> = ({
   icon,
   onPress,
 }) => {
-  const activeColor = "#2563eb";
-  const inactiveColor = "#94a3b8";
+  const activeColor = "#135BEC";
+  const inactiveColor = "#94A3B8";
+  const handlePress = onPress ?? (() => {});
 
   return (
-    <TouchableRipple style={styles.bottomItem} borderless onPress={onPress}>
+    <TouchableRipple
+      style={styles.bottomItem}
+      borderless
+      rippleColor="rgba(19, 91, 236, 0.2)"
+      onPress={handlePress}
+    >
       <View style={styles.bottomItemInner}>
         <MaterialCommunityIcons
           name={icon as any}
-          size={24}
+          size={20}
           color={active ? activeColor : inactiveColor}
         />
         <Typography
@@ -45,15 +51,20 @@ const BottomNavItem: React.FC<BottomNavItemProps> = ({
 const styles = StyleSheet.create({
   bottomItem: {
     borderRadius: 10,
+    flex: 1,
   },
   bottomItemInner: {
     alignItems: "center",
     justifyContent: "center",
-    minWidth: 88,
+    minHeight: 39,
+    gap: 4,
   },
   bottomItemLabel: {
-    marginTop: 4,
-    fontSize: 11,
+    marginTop: 0,
+    fontSize: 10,
+    lineHeight: 15,
+    fontWeight: "500",
+    letterSpacing: 0.25,
     marginBottom: 0,
   },
 });
