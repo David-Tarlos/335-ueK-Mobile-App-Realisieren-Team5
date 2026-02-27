@@ -3,7 +3,7 @@ import axios from "axios";
 import AuthTemplate from "../templates/AuthTemplate";
 import LoginForm from "../organisms/LoginForm";
 import BASE_URL from "../../constants/api";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const isValidEmail = (email: string): boolean =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -32,9 +32,6 @@ export default function LoginPage({ navigation }: any) {
     if (!password) {
       setPasswordError("Password is required.");
       valid = false;
-    } else if (password.length < 8) {
-      setPasswordError("Password too short. Minimum length is 8 characters.");
-      valid = false;
     }
 
     return valid;
@@ -45,7 +42,10 @@ export default function LoginPage({ navigation }: any) {
 
     setLoading(true);
     try {
-      const response = await axios.post(`${BASE_URL}/login`, { email, password });
+      const response = await axios.post(`${BASE_URL}/login`, {
+        email: email.trim(),
+        password,
+      });
       await AsyncStorage.setItem("userId", response.data.user.id.toString());
       navigation.navigate("Home");
     } catch (error) {

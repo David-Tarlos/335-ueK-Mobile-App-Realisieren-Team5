@@ -1,62 +1,56 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { TouchableRipple } from "react-native-paper";
-import { Ionicons } from "@expo/vector-icons";
 import Typography from "../atoms/Typography";
 
 interface BottomNavItemProps {
-    label: string;
-    icon: keyof typeof Ionicons.glyphMap;
-    active?: boolean;
-    onPress: () => void;
+  label: string;
+  active?: boolean;
+  icon: React.ReactNode;
+  onPress?: () => void;
 }
 
 const BottomNavItem: React.FC<BottomNavItemProps> = ({
-    label,
-    icon,
-    active = false,
-    onPress,
+  label,
+  active = false,
+  icon,
+  onPress,
 }) => {
-    const activeColor = "#2563eb";
-    const inactiveColor = "#94a3b8";
+  const activeColor = "#2563eb";
+  const inactiveColor = "#94a3b8";
 
-    return (
-        <TouchableRipple style={styles.container} borderless onPress={onPress}>
-            <View style={styles.content}>
-                <Ionicons
-                    name={active ? icon : (`${icon}-outline` as any)}
-                    size={24}
-                    color={active ? activeColor : inactiveColor}
-                />
-                <Typography
-                    variant="text"
-                    style={[
-                        styles.label,
-                        { color: active ? activeColor : inactiveColor },
-                    ]}
-                >
-                    {label}
-                </Typography>
-            </View>
-        </TouchableRipple>
-    );
+  return (
+    <TouchableRipple style={styles.bottomItem} borderless onPress={onPress}>
+      <View style={styles.bottomItemInner}>
+        {icon}
+        <Typography
+          variant="text"
+          style={[
+            styles.bottomItemLabel,
+            { color: active ? activeColor : inactiveColor },
+          ]}
+        >
+          {label}
+        </Typography>
+      </View>
+    </TouchableRipple>
+  );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        borderRadius: 10,
-        flex: 1,
-    },
-    content: {
-        alignItems: "center",
-        justifyContent: "center",
-        paddingVertical: 8,
-    },
-    label: {
-        marginTop: 4,
-        fontSize: 11,
-        fontWeight: "500",
-    },
+  bottomItem: {
+    borderRadius: 10,
+  },
+  bottomItemInner: {
+    alignItems: "center",
+    justifyContent: "center",
+    minWidth: 88,
+  },
+  bottomItemLabel: {
+    marginTop: 4,
+    fontSize: 11,
+    marginBottom: 0,
+  },
 });
 
 export default BottomNavItem;
