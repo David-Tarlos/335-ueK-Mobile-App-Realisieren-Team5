@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import * as SecureStore from "expo-secure-store";
 import CountryFiltersHeader from "../organisms/CountryFiltersHeader";
 import CountryListCard from "../organisms/CountryListCard";
 import CountriesEmptyState from "../molecules/CountriesEmptyState";
@@ -55,7 +55,7 @@ export default function ExplorePage({ navigation }: any) {
       setLoadError("");
 
       try {
-        const token = await AsyncStorage.getItem("token");
+        const token = await SecureStore.getItemAsync("token");
         const response = await axios.get<ApiCountry[]>(`${BASE_URL}/countries`, {
           headers: token ? { Authorization: `Bearer ${token}` } : undefined,
         });

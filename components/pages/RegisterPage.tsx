@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import AuthTemplate from "../templates/AuthTemplate";
 import RegisterForm from "../organisms/RegisterForm";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SecureStore from "expo-secure-store";
 import BASE_URL from "../../constants/api";
 
 const isValidEmail = (email: string): boolean =>
@@ -66,10 +66,10 @@ export default function RegisterPage({ navigation }: any) {
         lastName,
       });
       if (response.data?.user?.id) {
-        await AsyncStorage.setItem("userId", response.data.user.id.toString());
+        await SecureStore.setItemAsync("userId", response.data.user.id.toString());
       }
       if (response.data?.token) {
-        await AsyncStorage.setItem("token", response.data.token);
+        await SecureStore.setItemAsync("token", response.data.token);
       }
       navigation.navigate("Home");
     } catch (error) {

@@ -3,7 +3,7 @@ import axios from "axios";
 import AuthTemplate from "../templates/AuthTemplate";
 import LoginForm from "../organisms/LoginForm";
 import BASE_URL from "../../constants/api";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SecureStore from "expo-secure-store";
 
 const isValidEmail = (email: string): boolean =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -46,9 +46,9 @@ export default function LoginPage({ navigation }: any) {
         email: email.trim(),
         password,
       });
-      await AsyncStorage.setItem("userId", response.data.user.id.toString());
+      await SecureStore.setItemAsync("userId", response.data.user.id.toString());
       if (response.data?.token) {
-        await AsyncStorage.setItem("token", response.data.token);
+        await SecureStore.setItemAsync("token", response.data.token);
       }
       navigation.navigate("Home");
     } catch (error) {
