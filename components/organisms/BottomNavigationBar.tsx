@@ -1,54 +1,51 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { Surface } from "react-native-paper";
-import { Ionicons } from "@expo/vector-icons";
 import BottomNavItem from "../molecules/BottomNavItem";
 
-type IconName = keyof typeof Ionicons.glyphMap;
-
-interface BottomNavigationItem {
-  label: string;
-  iconName: IconName;
-  active?: boolean;
-  onPress?: () => void;
-}
-
 interface BottomNavigationBarProps {
-  items: BottomNavigationItem[];
+    currentRoute: string;
+    onNavigate: (route: string) => void;
 }
 
-const BottomNavigationBar: React.FC<BottomNavigationBarProps> = ({ items }) => {
-  return (
-    <Surface style={styles.bottomBar} elevation={1}>
-      {items.map((item) => (
-        <BottomNavItem
-          key={item.label}
-          label={item.label}
-          active={item.active}
-          onPress={item.onPress}
-          icon={
-            <Ionicons
-              name={item.iconName}
-              size={22}
-              color={item.active ? "#2563eb" : "#94a3b8"}
+const BottomNavigationBar: React.FC<BottomNavigationBarProps> = ({
+    currentRoute,
+    onNavigate,
+}) => {
+    return (
+        <Surface style={styles.container} elevation={1}>
+            <BottomNavItem
+                label="Home"
+                icon="home"
+                active={currentRoute === "Home"}
+                onPress={() => onNavigate("Home")}
             />
-          }
-        />
-      ))}
-    </Surface>
-  );
+            <BottomNavItem
+                label="Explore"
+                icon="compass"
+                active={currentRoute === "Explore"}
+                onPress={() => onNavigate("Explore")}
+            />
+            <BottomNavItem
+                label="Profile"
+                icon="person"
+                active={currentRoute === "Profile"}
+                onPress={() => onNavigate("Profile")}
+            />
+        </Surface>
+    );
 };
 
 const styles = StyleSheet.create({
-  bottomBar: {
-    borderTopWidth: 1,
-    borderTopColor: "#dbeafe",
-    backgroundColor: "#ffffff",
-    flexDirection: "row",
-    justifyContent: "space-around",
-    paddingTop: 10,
-    paddingBottom: 12,
-  },
+    container: {
+        borderTopWidth: 1,
+        borderTopColor: "#f1f5f9",
+        backgroundColor: "#ffffff",
+        flexDirection: "row",
+        justifyContent: "space-around",
+        paddingBottom: 24,
+        paddingTop: 8,
+    },
 });
 
 export default BottomNavigationBar;
