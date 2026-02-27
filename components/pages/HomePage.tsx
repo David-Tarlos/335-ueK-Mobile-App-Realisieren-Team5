@@ -1,48 +1,14 @@
 import React from "react";
-import axios from "axios";
 import { Image, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {
-  Appbar,
-  Card,
-  Divider,
-  Surface,
-  TouchableRipple,
-} from "react-native-paper";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Appbar, Card, Divider } from "react-native-paper";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AppButton from "../atoms/AppButton";
 import Typography from "../atoms/Typography";
+import BottomNavigationBar from "../organisms/BottomNavigationBar";
 
 const WORLD_IMAGE =
   "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/World_map_-_low_resolution.svg/1280px-World_map_-_low_resolution.svg.png";
-
-type BottomItemProps = {
-  label: string;
-  active?: boolean;
-  icon: React.ReactNode;
-};
-
-function BottomItem({ label, active = false, icon }: BottomItemProps) {
-  const activeColor = "#2563eb";
-  const inactiveColor = "#94a3b8";
-
-  return (
-    <TouchableRipple style={styles.bottomItem} borderless onPress={() => {}}>
-      <View style={styles.bottomItemInner}>
-        {icon}
-        <Typography
-          variant="text"
-          style={[
-            styles.bottomItemLabel,
-            { color: active ? activeColor : inactiveColor },
-          ]}
-        >
-          {label}
-        </Typography>
-      </View>
-    </TouchableRipple>
-  );
-}
 
 export default function HomePage() {
   const handleGoToCountries = () => {};
@@ -85,21 +51,13 @@ export default function HomePage() {
           </AppButton>
         </ScrollView>
 
-        <Surface style={styles.bottomBar} elevation={1}>
-          <BottomItem
-            label="Home"
-            active
-            icon={<Ionicons name="home-outline" size={22} color="#2563eb" />}
-          />
-          <BottomItem
-            label="Explore"
-            icon={<Ionicons name="compass-outline" size={22} color="#94a3b8" />}
-          />
-          <BottomItem
-            label="Profile"
-            icon={<Ionicons name="person-outline" size={22} color="#94a3b8" />}
-          />
-        </Surface>
+        <BottomNavigationBar
+          items={[
+            { label: "Home", iconName: "home-outline", active: true },
+            { label: "Explore", iconName: "compass-outline" },
+            { label: "Profile", iconName: "person-outline" },
+          ]}
+        />
       </View>
     </SafeAreaView>
   );
@@ -174,31 +132,5 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 12,
     backgroundColor: "#2563eb",
-  },
-  buttonContent: {
-    height: 58,
-    flexDirection: "row-reverse",
-  },
-  bottomBar: {
-    borderTopWidth: 1,
-    borderTopColor: "#dbeafe",
-    backgroundColor: "#ffffff",
-    flexDirection: "row",
-    justifyContent: "space-around",
-    paddingTop: 10,
-    paddingBottom: 12,
-  },
-  bottomItem: {
-    borderRadius: 10,
-  },
-  bottomItemInner: {
-    alignItems: "center",
-    justifyContent: "center",
-    minWidth: 88,
-  },
-  bottomItemLabel: {
-    marginTop: 4,
-    fontSize: 11,
-    marginBottom: 0,
   },
 });
