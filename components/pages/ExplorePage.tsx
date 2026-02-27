@@ -53,11 +53,25 @@ export default function ExplorePage({ navigation }: any) {
     const fetchCountries = async () => {
       setLoading(true);
       setLoadError("");
+      const countriesUrl = `${BASE_URL}/countries`;
 
       try {
         const token = await SecureStore.getItemAsync("token");
-        const response = await axios.get<ApiCountry[]>(`${BASE_URL}/countries`, {
+        console.log("[Countries] Starting request", {
+          url: countriesUrl,
+          hasToken: !!token,
+          tokenLength: token?.length || 0,
+          activeRegion,
+          search,
+        });
+
+        const response = await axios.get<ApiCountry[]>(countriesUrl, {
           headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+        });
+        console.log("[Countries] Success response", {
+          status: response.status,
+          count: response.data?.length,
+          firstCountry: response.data?.[0],
         });
 
         const mappedCountries = response.data.map((country) => ({
@@ -67,11 +81,27 @@ export default function ExplorePage({ navigation }: any) {
           region: country.continent || "Unknown",
           imageUrl: country.flag_url || "https://flagcdn.com/w320/un.png",
         }));
+        console.log("[Countries] Mapped countries", {
+          count: mappedCountries.length,
+          firstMapped: mappedCountries[0],
+        });
 
         setCountries(mappedCountries);
       } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.log("[Countries] Axios error", {
+            message: error.message,
+            code: error.code,
+            status: error.response?.status,
+            data: error.response?.data,
+            headers: error.response?.headers,
+          });
+        } else {
+          console.log("[Countries] Unknown error", error);
+        }
         setLoadError("Countries could not be loaded.");
       } finally {
+        console.log("[Countries] Request finished");
         setLoading(false);
       }
     };

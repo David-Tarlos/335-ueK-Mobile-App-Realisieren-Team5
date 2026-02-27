@@ -41,23 +41,44 @@ export default function LoginPage({ navigation }: any) {
     if (!validate()) return;
 
     setLoading(true);
+    const loginUrl = `${BASE_URL}/login`;
+    console.log("[Login] Starting request", {
+      url: loginUrl,
+      email: email.trim(),
+    });
+
     try {
-      const response = await axios.post(`${BASE_URL}/login`, {
+      const response = await axios.post(loginUrl, {
         email: email.trim(),
         password,
       });
+      console.log("[Login] Success response", {
+        status: response.status,
+        data: response.data,
+      });
+
       await SecureStore.setItemAsync("userId", response.data.user.id.toString());
-      if (response.data?.token) {
-        await SecureStore.setItemAsync("token", response.data.token);
+      const accessToken = response.data?.accessToken || response.data?.token;
+      if (accessToken) {
+        await SecureStore.setItemAsync("token", accessToken);
       }
+
+      console.log("[Login] Stored credentials successfully");
       navigation.navigate("Home");
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
+        console.log("[Login] Axios error response", {
+          status: error.response.status,
+          data: error.response.data,
+          headers: error.response.headers,
+        });
         setPasswordError("Wrong credentials. Please try again.");
       } else {
+        console.log("[Login] Network/unknown error", error);
         setPasswordError("Connection error. Please try again.");
       }
     } finally {
+      console.log("[Login] Request finished");
       setLoading(false);
     }
   };

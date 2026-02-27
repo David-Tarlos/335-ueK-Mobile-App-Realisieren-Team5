@@ -58,30 +58,53 @@ export default function RegisterPage({ navigation }: any) {
     if (!validate()) return;
 
     setLoading(true);
+    const registerUrl = `${BASE_URL}/register`;
+    console.log("[Register] Starting request", {
+      url: registerUrl,
+      email: email.trim(),
+      firstName: firstName.trim(),
+      lastName: lastName.trim(),
+    });
+
     try {
-      const response = await axios.post(`${BASE_URL}/register`, {
-        email,
+      const response = await axios.post(registerUrl, {
+        email: email.trim(),
         password,
-        firstName,
-        lastName,
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
       });
+      console.log("[Register] Success response", {
+        status: response.status,
+        data: response.data,
+      });
+
       if (response.data?.user?.id) {
         await SecureStore.setItemAsync("userId", response.data.user.id.toString());
       }
-      if (response.data?.token) {
-        await SecureStore.setItemAsync("token", response.data.token);
+      const accessToken = response.data?.accessToken || response.data?.token;
+      if (accessToken) {
+        await SecureStore.setItemAsync("token", accessToken);
       }
+
+      console.log("[Register] Stored credentials successfully");
       navigation.navigate("Home");
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
+        console.log("[Register] Axios error response", {
+          status: error.response.status,
+          data: error.response.data,
+          headers: error.response.headers,
+        });
         const message =
           (error.response.data as { message?: string } | undefined)?.message ||
           "Registration failed. Please try again.";
         setEmailError(message);
       } else {
+        console.log("[Register] Network/unknown error", error);
         setEmailError("Connection error. Please try again.");
       }
     } finally {
+      console.log("[Register] Request finished");
       setLoading(false);
     }
   };
