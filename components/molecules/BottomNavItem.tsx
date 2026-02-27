@@ -1,12 +1,13 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { TouchableRipple } from "react-native-paper";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Typography from "../atoms/Typography";
 
 interface BottomNavItemProps {
   label: string;
   active?: boolean;
-  icon: React.ReactNode;
+  icon: string;
   onPress?: () => void;
 }
 
@@ -22,7 +23,11 @@ const BottomNavItem: React.FC<BottomNavItemProps> = ({
   return (
     <TouchableRipple style={styles.bottomItem} borderless onPress={onPress}>
       <View style={styles.bottomItemInner}>
-        {icon}
+        <MaterialCommunityIcons
+          name={icon as any}
+          size={24}
+          color={active ? activeColor : inactiveColor}
+        />
         <Typography
           variant="text"
           style={[

@@ -16,19 +16,18 @@ const BottomNavigationBar: React.FC<BottomNavigationBarProps> = ({
         <Surface style={styles.container} elevation={1}>
             <BottomNavItem
                 label="Home"
-                icon="home"
+                icon="home-outline"
                 active={currentRoute === "Home"}
                 onPress={() => onNavigate("Home")}
             />
             <BottomNavItem
                 label="Explore"
-                icon="compass"
-                active={currentRoute === "Explore"}
-                onPress={() => onNavigate("Explore")}
+                icon="compass-outline"
+                active={false}
             />
             <BottomNavItem
                 label="Profile"
-                icon="person"
+                icon="account-outline"
                 active={currentRoute === "Profile"}
                 onPress={() => onNavigate("Profile")}
             />
