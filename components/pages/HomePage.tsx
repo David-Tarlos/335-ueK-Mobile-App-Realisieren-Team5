@@ -31,7 +31,7 @@ export default function HomePage({ navigation }: any) {
         </Card.Content>
         <Card.Content>
           <View style={styles.countryRow}>
-            <MaterialCommunityIcons name="earth" size={20} color="#2563eb" />
+            <MaterialCommunityIcons name="earth" size={20} color="#135BEC" />
             <Typography variant="title" style={styles.countryCount}>
               195 Countries
             </Typography>
@@ -42,7 +42,7 @@ export default function HomePage({ navigation }: any) {
         </Card.Content>
       </Card>
 
-      <AppButton onPress={handleGoToCountries} style={styles.button}>
+      <AppButton onPress={handleGoToCountries} style={styles.button} icon="arrow-right">
         Go to Countries
       </AppButton>
     </MainTemplate>
@@ -53,12 +53,13 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: "700",
     color: "#0f172a",
-    marginBottom: 10,
+    fontSize: 32,
+    marginBottom: 8,
   },
   subtitle: {
     color: "#64748b",
-    marginBottom: 24,
-    fontSize: 18,
+    marginBottom: 20,
+    fontSize: 14,
   },
   card: {
     borderRadius: 14,
@@ -96,6 +97,7 @@ const styles = StyleSheet.create({
   },
   button: {
     borderRadius: 12,
-    backgroundColor: "#2563eb",
+    backgroundColor: "#135BEC",
+    marginTop: 4,
   },
 });

@@ -86,7 +86,8 @@ export default function RegisterPage({ navigation }: any) {
   return (
     <AuthTemplate
       title="CountryCruxCH"
-      formTitle="Register"
+      subtitle="Welcome to this site"
+      formTitle="Create an Account"
     >
       <RegisterForm
         firstName={firstName}

@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#ffffff",
     },
     inputOutline: {
-        borderRadius: 8,
+        borderRadius: 12,
     },
 });
 

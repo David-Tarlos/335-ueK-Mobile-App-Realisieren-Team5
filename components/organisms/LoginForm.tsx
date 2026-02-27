@@ -1,5 +1,5 @@
 import React from "react";
-import { TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { TextInput } from "react-native-paper";
 import LabeledInput from "../molecules/LabeledInput";
 import AppButton from "../atoms/AppButton";
@@ -42,10 +42,12 @@ const LoginForm: React.FC<LoginFormProps> = ({
                 error={emailError}
                 keyboardType="email-address"
                 autoCapitalize="none"
+                style={styles.emailField}
             />
 
             <LabeledInput
                 label="Password"
+                style={styles.passwordField}
                 placeholder="Password"
                 value={password}
                 onChangeText={setPassword}
@@ -63,11 +65,29 @@ const LoginForm: React.FC<LoginFormProps> = ({
                 Login
             </AppButton>
 
-            <TouchableOpacity onPress={onNavigateToRegister}>
-                <Typography variant="link">Create Account</Typography>
-            </TouchableOpacity>
+            <View style={styles.registerLinkRow}>
+                <Typography variant="text">Dont have an Account yet?</Typography>
+                <TouchableOpacity onPress={onNavigateToRegister}>
+                    <Typography variant="link">Create an Account</Typography>
+                </TouchableOpacity>
+            </View>
         </>
     );
 };
+
+const styles = StyleSheet.create({
+    emailField: {
+        marginTop: -22,
+    },
+    passwordField: {
+        marginTop: 8,
+    },
+    registerLinkRow: {
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 14,
+    },
+});
 
 export default LoginForm;

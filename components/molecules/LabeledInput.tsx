@@ -1,6 +1,6 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
-import { HelperText } from "react-native-paper";
+import { View, Text, StyleSheet } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Typography from "../atoms/Typography";
 import AppTextInput from "../atoms/AppTextInput";
 
@@ -42,17 +42,31 @@ const LabeledInput: React.FC<LabeledInputProps> = ({
                 keyboardType={keyboardType}
                 autoCapitalize={autoCapitalize}
             />
-            <HelperText type="error" visible={!!error} style={styles.helperText}>
-                {error}
-            </HelperText>
+            <View style={styles.errorRow}>
+                {!!error && (
+                    <>
+                        <MaterialCommunityIcons name="alert-circle-outline" size={16} color="#b91c1c" />
+                        <Text style={styles.errorText}>{error}</Text>
+                    </>
+                )}
+            </View>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    helperText: {
-        paddingHorizontal: 0,
+    errorRow: {
+        flexDirection: "row",
+        alignItems: "flex-start",
+        marginTop: 4,
         marginBottom: 2,
+        minHeight: 20,
+        gap: 6,
+    },
+    errorText: {
+        fontSize: 13,
+        color: "#b91c1c",
+        flex: 1,
     },
 });
 

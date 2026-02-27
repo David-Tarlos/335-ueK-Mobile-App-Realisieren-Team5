@@ -61,9 +61,10 @@ export default function LoginPage({ navigation }: any) {
 
   return (
     <AuthTemplate
-      title="Country Details"
-      subtitle="Check global data instantly"
+      title="CountryCruxCH"
+      subtitle="Welcome to this site"
       formTitle="Login"
+      paddingTop={160}
     >
       <LoginForm
         email={email}

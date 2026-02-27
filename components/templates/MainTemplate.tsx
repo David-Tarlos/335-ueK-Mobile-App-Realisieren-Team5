@@ -1,6 +1,7 @@
 import React from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Divider } from "react-native-paper";
 import Typography from "../atoms/Typography";
 import BottomNavigationBar from "../organisms/BottomNavigationBar";
 
@@ -25,6 +26,7 @@ const MainTemplate: React.FC<MainTemplateProps> = ({
                 <Typography variant="header" style={styles.header}>
                     {title}
                 </Typography>
+                <Divider />
 
                 {scrollable ? (
                     <ScrollView contentContainerStyle={styles.content}>
@@ -61,6 +63,7 @@ const styles = StyleSheet.create({
     content: {
         flexGrow: 1,
         paddingHorizontal: 24,
+        paddingTop: 72,
         paddingBottom: 24,
     },
     flex1: {
