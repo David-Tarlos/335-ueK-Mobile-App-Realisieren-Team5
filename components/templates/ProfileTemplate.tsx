@@ -1,55 +1,52 @@
 import React from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
-import Typography from "../atoms/Typography";
+import { StyleSheet, View } from "react-native";
 import Avatar from "../atoms/Avatar";
 import ProfileCard from "../organisms/ProfileCard";
-
+import MainTemplate from "./MainTemplate";
+import Typography from "../atoms/Typography";
 interface ProfileTemplateProps {
-    headerTitle: string;
-    fullName: string;
-    email: string;
-    firstName: string;
-    lastName: string;
+  fullName: string;
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  age?: string;
+  currentRoute: string;
+  onNavigate: (route: string) => void;
 }
 
 const ProfileTemplate: React.FC<ProfileTemplateProps> = ({
-    headerTitle,
     fullName,
     email,
     firstName,
     lastName,
+    age,
+    currentRoute,
+    onNavigate,
 }) => {
     return (
-        <View style={styles.container}>
-            <Typography variant="header">{headerTitle}</Typography>
-            <ScrollView contentContainerStyle={styles.scrollContent}>
-                <View style={styles.avatarSection}>
-                    <Avatar />
-                    <Typography variant="title" style={styles.fullName}>
-                        {fullName}
-                    </Typography>
-                </View>
+        <MainTemplate
+            title="Profil"
+            currentRoute={currentRoute}
+            onNavigate={onNavigate}
+        >
+            <View style={styles.avatarSection}>
+                <Avatar />
+                <Typography variant="title" style={styles.fullName}>
+                    {fullName}
+                </Typography>
+            </View>
 
-                <ProfileCard
-                    email={email}
-                    firstName={firstName}
-                    lastName={lastName}
-                />
-            </ScrollView>
-        </View>
+            <ProfileCard
+                email={email}
+                firstName={firstName}
+                lastName={lastName}
+                age={age}
+            />
+        </MainTemplate>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#f9fafb",
-    },
-    scrollContent: {
-        paddingHorizontal: 24,
-        paddingBottom: 40,
-        alignItems: "center",
-    },
     avatarSection: {
         alignItems: "center",
         marginTop: 32,
@@ -58,6 +55,7 @@ const styles = StyleSheet.create({
         marginTop: 16,
         fontSize: 24,
         fontWeight: "800",
+        textAlign: "center",
     },
 });
 

@@ -3,21 +3,36 @@ import { View, StyleSheet } from "react-native";
 import ProfileDetailItem from "../molecules/ProfileDetailItem";
 
 interface ProfileCardProps {
-    email: string;
-    firstName: string;
-    lastName: string;
+    email?: string;
+    firstName?: string;
+    lastName?: string;
+    age?: string;
 }
 
 const ProfileCard: React.FC<ProfileCardProps> = ({
     email,
     firstName,
     lastName,
+    age,
 }) => {
+    const items = [
+        { icon: "email-outline", label: "E-MAIL", value: email },
+        { icon: "account-outline", label: "FIRST NAME", value: firstName },
+        { icon: "badge-account-outline", label: "LAST NAME", value: lastName },
+        { icon: "calendar-outline", label: "AGE", value: age },
+    ].filter((item) => item.value);
+
     return (
         <View style={styles.card}>
-            <ProfileDetailItem icon="email-outline" label="E-MAIL" value={email} />
-            <ProfileDetailItem icon="account-outline" label="FIRST NAME" value={firstName} />
-            <ProfileDetailItem icon="badge-account-outline" label="LAST NAME" value={lastName} />
+            {items.map((item, index) => (
+                <ProfileDetailItem
+                    key={item.label}
+                    icon={item.icon as any}
+                    label={item.label}
+                    value={item.value!}
+                    showDivider={index < items.length - 1}
+                />
+            ))}
         </View>
     );
 };

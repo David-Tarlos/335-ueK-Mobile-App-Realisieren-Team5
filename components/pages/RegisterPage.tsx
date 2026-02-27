@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import AuthTemplate from "../templates/AuthTemplate";
 import RegisterForm from "../organisms/RegisterForm";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import BASE_URL from "../../constants/api";
 
 const isValidEmail = (email: string): boolean =>
@@ -58,12 +59,15 @@ export default function RegisterPage({ navigation }: any) {
 
     setLoading(true);
     try {
-      await axios.post(`${BASE_URL}/register`, {
+      const response = await axios.post(`${BASE_URL}/register`, {
         email,
         password,
         firstName,
         lastName,
       });
+      if (response.data?.user?.id) {
+        await AsyncStorage.setItem("userId", response.data.user.id.toString());
+      }
       navigation.navigate("Home");
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {

@@ -55,10 +55,6 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: "bold",
         color: "#111827",
-        paddingTop: 80,
-        paddingBottom: 20,
-        paddingHorizontal: 24,
-        backgroundColor: "#ffffff",
     },
     detailLabel: {
         fontSize: 10,
