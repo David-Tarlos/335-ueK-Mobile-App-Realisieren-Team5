@@ -31,9 +31,6 @@ export default function LoginPage({ navigation }: any) {
     if (!password) {
       setPasswordError("Password is required.");
       valid = false;
-    } else if (password.length < 8) {
-      setPasswordError("Password too short. Minimum length is 8 characters.");
-      valid = false;
     }
 
     return valid;
@@ -44,7 +41,10 @@ export default function LoginPage({ navigation }: any) {
 
     setLoading(true);
     try {
-      const response = await axios.post(`${BASE_URL}/login`, { email, password });
+      const response = await axios.post(`${BASE_URL}/login`, {
+        email: email.trim(),
+        password,
+      });
       const data = response.data;
       console.log("Login erfolgreich:", data);
       navigation.navigate("Home");
