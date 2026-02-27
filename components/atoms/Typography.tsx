@@ -2,7 +2,7 @@ import React from "react";
 import { Text, StyleSheet } from "react-native";
 
 interface TypographyProps {
-    variant: "title" | "subtitle" | "label" | "formTitle" | "link" | "text";
+    variant: "title" | "subtitle" | "label" | "formTitle" | "link" | "text" | "header" | "detailLabel" | "detailValue" | "secondaryText";
     children: React.ReactNode;
     style?: any;
 }
@@ -51,6 +51,28 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: "#6b7280",
     },
+    header: {
+        fontSize: 24,
+        fontWeight: "bold",
+        color: "#111827",
+    },
+    detailLabel: {
+        fontSize: 10,
+        fontWeight: "bold",
+        color: "#9ca3af",
+        textTransform: "uppercase",
+        letterSpacing: 0.5,
+    },
+    detailValue: {
+        fontSize: 16,
+        fontWeight: "bold",
+        color: "#1f2937",
+        marginTop: 2,
+    },
+    secondaryText: {
+        fontSize: 14,
+        color: "#6b7280",
+    }
 });
 
 export default Typography;

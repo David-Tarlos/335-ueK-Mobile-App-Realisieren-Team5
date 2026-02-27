@@ -1,90 +1,55 @@
 import React from "react";
-import { Image, ScrollView, StyleSheet, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Appbar, Card, Divider } from "react-native-paper";
+import { Image, StyleSheet, View } from "react-native";
+import { Card } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AppButton from "../atoms/AppButton";
 import Typography from "../atoms/Typography";
-import BottomNavigationBar from "../organisms/BottomNavigationBar";
+import MainTemplate from "../templates/MainTemplate";
 
 const WORLD_IMAGE =
-  "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/World_map_-_low_resolution.svg/1280px-World_map_-_low_resolution.svg.png";
+  "https://media.istockphoto.com/id/1197369584/vector/detailed-world-map-with-countries.jpg?s=612x612&w=0&k=20&c=pW9R8Os-vNEZc1-TKLgHhva-e-OL277-peZdPJKT6Qg=";
 
-export default function HomePage() {
-  const handleGoToCountries = () => {};
+export default function HomePage({ navigation }: any) {
+  const handleGoToCountries = () => { };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <View style={styles.container}>
-        <Appbar.Header mode="small" style={styles.header}>
-          <Appbar.Content title="Home" titleStyle={styles.headerTitle} />
-        </Appbar.Header>
-        <Divider />
+    <MainTemplate
+      title="Home"
+      currentRoute="Home"
+      onNavigate={(route) => navigation.navigate(route)}
+    >
+      <Typography variant="title" style={styles.title}>
+        Welcome
+      </Typography>
+      <Typography variant="subtitle" style={styles.subtitle}>
+        This site is about the Countries of this World
+      </Typography>
 
-        <ScrollView contentContainerStyle={styles.content}>
-          <Typography variant="title" style={styles.title}>
-            Welcome
+      <Card mode="outlined" style={styles.card}>
+        <Card.Content style={styles.cardImageWrapper}>
+          <Image source={{ uri: WORLD_IMAGE }} style={styles.image} />
+        </Card.Content>
+        <Card.Content>
+          <View style={styles.countryRow}>
+            <MaterialCommunityIcons name="earth" size={20} color="#2563eb" />
+            <Typography variant="title" style={styles.countryCount}>
+              195 Countries
+            </Typography>
+          </View>
+          <Typography variant="text" style={styles.countrySubtitle}>
+            Big world!
           </Typography>
-          <Typography variant="subtitle" style={styles.subtitle}>
-            This site is about the Countries of this World
-          </Typography>
+        </Card.Content>
+      </Card>
 
-          <Card mode="outlined" style={styles.card}>
-            <Card.Content style={styles.cardImageWrapper}>
-              <Image source={{ uri: WORLD_IMAGE }} style={styles.image} />
-            </Card.Content>
-            <Card.Content>
-              <View style={styles.countryRow}>
-                <MaterialCommunityIcons name="earth" size={20} color="#2563eb" />
-                <Typography variant="title" style={styles.countryCount}>
-                  195 Countries
-                </Typography>
-              </View>
-              <Typography variant="text" style={styles.countrySubtitle}>
-                Big world!
-              </Typography>
-            </Card.Content>
-          </Card>
-
-          <AppButton onPress={handleGoToCountries} style={styles.button}>
-            Go to Countries
-          </AppButton>
-        </ScrollView>
-
-        <BottomNavigationBar
-          items={[
-            { label: "Home", iconName: "home-outline", active: true },
-            { label: "Explore", iconName: "compass-outline" },
-            { label: "Profile", iconName: "person-outline" },
-          ]}
-        />
-      </View>
-    </SafeAreaView>
+      <AppButton onPress={handleGoToCountries} style={styles.button}>
+        Go to Countries
+      </AppButton>
+    </MainTemplate>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: "#ffffff",
-  },
-  container: {
-    flex: 1,
-    backgroundColor: "#ffffff",
-  },
-  header: {
-    backgroundColor: "#ffffff",
-    elevation: 0,
-  },
-  headerTitle: {
-    fontWeight: "700",
-    color: "#0f172a",
-  },
-  content: {
-    paddingHorizontal: 24,
-    paddingTop: 20,
-    paddingBottom: 24,
-  },
   title: {
     fontWeight: "700",
     color: "#0f172a",

@@ -3,6 +3,7 @@ import axios from "axios";
 import AuthTemplate from "../templates/AuthTemplate";
 import LoginForm from "../organisms/LoginForm";
 import BASE_URL from "../../constants/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const isValidEmail = (email: string): boolean =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -45,8 +46,7 @@ export default function LoginPage({ navigation }: any) {
         email: email.trim(),
         password,
       });
-      const data = response.data;
-      console.log("Login erfolgreich:", data);
+      await AsyncStorage.setItem("userId", response.data.user.id.toString());
       navigation.navigate("Home");
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
