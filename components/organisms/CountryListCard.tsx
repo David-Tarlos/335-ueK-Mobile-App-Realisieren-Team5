@@ -1,5 +1,6 @@
 import React from "react";
 import { Image, StyleSheet, View } from "react-native";
+import { TouchableRipple } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Typography from "../atoms/Typography";
 
@@ -8,6 +9,7 @@ interface CountryListCardProps {
   capital: string;
   imageUrl: string;
   large?: boolean;
+  onPress?: () => void;
 }
 
 const CountryListCard: React.FC<CountryListCardProps> = ({
@@ -15,25 +17,33 @@ const CountryListCard: React.FC<CountryListCardProps> = ({
   capital,
   imageUrl,
   large = false,
+  onPress,
 }) => {
   return (
-    <View style={styles.card}>
-      <Image
-        source={{ uri: imageUrl }}
-        style={[styles.image, large ? styles.largeImage : styles.smallImage]}
-      />
-      <View style={styles.content}>
-        <Typography variant="text" style={styles.countryName}>
-          {name}
-        </Typography>
-        <View style={styles.metaRow}>
-          <MaterialCommunityIcons name="office-building-outline" size={12} color="#64748B" />
-          <Typography variant="text" style={styles.capital}>
-            {capital}
+    <TouchableRipple
+      onPress={onPress}
+      style={styles.ripple}
+      borderless
+      rippleColor="rgba(19, 91, 236, 0.1)"
+    >
+      <View style={styles.card}>
+        <Image
+          source={{ uri: imageUrl }}
+          style={[styles.image, large ? styles.largeImage : styles.smallImage]}
+        />
+        <View style={styles.content}>
+          <Typography variant="text" style={styles.countryName}>
+            {name}
           </Typography>
+          <View style={styles.metaRow}>
+            <MaterialCommunityIcons name="office-building-outline" size={12} color="#64748B" />
+            <Typography variant="text" style={styles.capital}>
+              {capital}
+            </Typography>
+          </View>
         </View>
       </View>
-    </View>
+    </TouchableRipple>
   );
 };
 
@@ -79,6 +89,9 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     color: "#64748B",
     marginBottom: 0,
+  },
+  ripple: {
+    borderRadius: 12,
   },
 });
 

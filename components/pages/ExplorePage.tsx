@@ -154,6 +154,7 @@ export default function ExplorePage({ navigation }: any) {
                   capital={country.capital}
                   imageUrl={country.imageUrl}
                   large={index === 0}
+                  onPress={() => navigation.navigate("country", { id: country.id })}
                 />
               ))}
             </View>
