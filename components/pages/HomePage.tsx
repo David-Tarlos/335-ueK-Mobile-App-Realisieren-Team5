@@ -3,14 +3,14 @@ import { Image, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   Appbar,
-  Button,
   Card,
   Divider,
   Surface,
-  Text,
   TouchableRipple,
 } from "react-native-paper";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import AppButton from "../atoms/AppButton";
+import Typography from "../atoms/Typography";
 
 const WORLD_IMAGE =
   "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/World_map_-_low_resolution.svg/1280px-World_map_-_low_resolution.svg.png";
@@ -29,18 +29,23 @@ function BottomItem({ label, active = false, icon }: BottomItemProps) {
     <TouchableRipple style={styles.bottomItem} borderless onPress={() => {}}>
       <View style={styles.bottomItemInner}>
         {icon}
-        <Text
-          variant="labelSmall"
-          style={{ color: active ? activeColor : inactiveColor, marginTop: 4 }}
+        <Typography
+          variant="text"
+          style={[
+            styles.bottomItemLabel,
+            { color: active ? activeColor : inactiveColor },
+          ]}
         >
           {label}
-        </Text>
+        </Typography>
       </View>
     </TouchableRipple>
   );
 }
 
 export default function HomePage() {
+  const handleGoToCountries = () => {};
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
@@ -50,12 +55,12 @@ export default function HomePage() {
         <Divider />
 
         <ScrollView contentContainerStyle={styles.content}>
-          <Text variant="headlineMedium" style={styles.title}>
+          <Typography variant="title" style={styles.title}>
             Welcome
-          </Text>
-          <Text variant="titleMedium" style={styles.subtitle}>
+          </Typography>
+          <Typography variant="subtitle" style={styles.subtitle}>
             This site is about the Countries of this World
-          </Text>
+          </Typography>
 
           <Card mode="outlined" style={styles.card}>
             <Card.Content style={styles.cardImageWrapper}>
@@ -64,30 +69,19 @@ export default function HomePage() {
             <Card.Content>
               <View style={styles.countryRow}>
                 <MaterialCommunityIcons name="earth" size={20} color="#2563eb" />
-                <Text variant="headlineSmall" style={styles.countryCount}>
+                <Typography variant="title" style={styles.countryCount}>
                   195 Countries
-                </Text>
+                </Typography>
               </View>
-              <Text variant="titleMedium" style={styles.countrySubtitle}>
+              <Typography variant="text" style={styles.countrySubtitle}>
                 Big world!
-              </Text>
+              </Typography>
             </Card.Content>
           </Card>
 
-          <Button
-            mode="contained"
-            contentStyle={styles.buttonContent}
-            style={styles.button}
-            icon={({ size, color }) => (
-              <MaterialCommunityIcons
-                name="arrow-right"
-                size={size}
-                color={color}
-              />
-            )}
-          >
+          <AppButton onPress={handleGoToCountries} style={styles.button}>
             Go to Countries
-          </Button>
+          </AppButton>
         </ScrollView>
 
         <Surface style={styles.bottomBar} elevation={1}>
@@ -140,6 +134,7 @@ const styles = StyleSheet.create({
   subtitle: {
     color: "#64748b",
     marginBottom: 24,
+    fontSize: 18,
   },
   card: {
     borderRadius: 14,
@@ -166,11 +161,14 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     fontWeight: "700",
     color: "#0f172a",
+    marginBottom: 0,
+    fontSize: 24,
   },
   countrySubtitle: {
     color: "#64748b",
     marginTop: 4,
     marginBottom: 8,
+    fontSize: 16,
   },
   button: {
     borderRadius: 12,
@@ -196,5 +194,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     minWidth: 88,
+  },
+  bottomItemLabel: {
+    marginTop: 4,
+    fontSize: 11,
+    marginBottom: 0,
   },
 });
