@@ -4,6 +4,7 @@ import Avatar from "../atoms/Avatar";
 import ProfileCard from "../organisms/ProfileCard";
 import MainTemplate from "./MainTemplate";
 import Typography from "../atoms/Typography";
+import LogoutButton from "../molecules/LogoutButton";
 interface ProfileTemplateProps {
   fullName: string;
   email?: string;
@@ -12,6 +13,7 @@ interface ProfileTemplateProps {
   age?: string;
   currentRoute: string;
   onNavigate: (route: string) => void;
+  onLogout: () => void;
 }
 
 const ProfileTemplate: React.FC<ProfileTemplateProps> = ({
@@ -22,6 +24,7 @@ const ProfileTemplate: React.FC<ProfileTemplateProps> = ({
     age,
     currentRoute,
     onNavigate,
+    onLogout,
 }) => {
     return (
         <MainTemplate
@@ -42,6 +45,7 @@ const ProfileTemplate: React.FC<ProfileTemplateProps> = ({
                 lastName={lastName}
                 age={age}
             />
+            <LogoutButton onPress={onLogout} />
         </MainTemplate>
     );
 };
