@@ -23,7 +23,7 @@ Folgende Tools müssen auf dem Gerät installiert sein:
 ### 1. Repository klonen
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/David-Tarlos/335-ueK-Mobile-App-Realisieren-Team5.git
 cd 335-ueK-Mobile-App-Realisieren-Team5
 ```
 
