@@ -11,6 +11,8 @@ interface AppButtonProps {
     style?: any;
     labelStyle?: any;
     icon?: string;
+    textColor?: string;
+    contentStyle?: any;
 }
 
 const AppButton: React.FC<AppButtonProps> = ({
@@ -22,6 +24,8 @@ const AppButton: React.FC<AppButtonProps> = ({
     style,
     labelStyle,
     icon,
+    textColor,
+    contentStyle,
 }) => {
     return (
         <Button
@@ -29,8 +33,9 @@ const AppButton: React.FC<AppButtonProps> = ({
             onPress={onPress}
             loading={loading}
             disabled={disabled}
+            textColor={textColor}
             style={[styles.button, style]}
-            contentStyle={styles.buttonContent}
+            contentStyle={[styles.buttonContent, contentStyle]}
             labelStyle={[styles.buttonLabel, labelStyle]}
             icon={icon}
         >
