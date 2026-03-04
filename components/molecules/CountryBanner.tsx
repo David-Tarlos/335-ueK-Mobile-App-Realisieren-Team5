@@ -31,11 +31,17 @@ const CountryBanner: React.FC<CountryBannerProps> = ({
                 !rounded && styles.noRadius
             ]}
         >
-            <Image
-                source={{ uri: flagUrl || "https://media.istockphoto.com/id/1197369584/vector/detailed-world-map-with-countries.jpg?s=612x612&w=0&k=20&c=pW9R8Os-vNEZc1-TKLgHhva-e-OL277-peZdPJKT6Qg=" }}
-                style={styles.headerImage}
-            />
-            {editable && (
+            {flagUrl ? (
+                <Image
+                    source={{ uri: flagUrl }}
+                    style={styles.headerImage}
+                />
+            ) : (
+                <View style={[styles.headerImage, styles.placeholder]}>
+                    <MaterialCommunityIcons name="camera-plus-outline" size={80} color="#94a3b8" />
+                </View>
+            )}
+            {editable && flagUrl && (
                 <View style={styles.cameraOverlay}>
                     <MaterialCommunityIcons name="camera-plus-outline" size={60} color="#ffffff" />
                 </View>
@@ -69,6 +75,14 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "100%",
         backgroundColor: "#e2e8f0",
+    },
+    placeholder: {
+        backgroundColor: "#94a3b833",
+        justifyContent: "center",
+        alignItems: "center",
+        borderWidth: 1,
+        borderColor: "#cbd5e1",
+        borderStyle: "dashed",
     },
     cameraOverlay: {
         ...StyleSheet.absoluteFillObject,

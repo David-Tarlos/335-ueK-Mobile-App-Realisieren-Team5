@@ -118,7 +118,7 @@ export default function ExplorePage({ navigation }: any) {
           )}
         </ScrollView>
 
-        <Pressable style={styles.fab} onPress={() => { }}>
+        <Pressable style={styles.fab} onPress={() => navigation.navigate("CountryAdd")}>
           <MaterialCommunityIcons name="plus" size={24} color="#FFFFFF" />
         </Pressable>
 

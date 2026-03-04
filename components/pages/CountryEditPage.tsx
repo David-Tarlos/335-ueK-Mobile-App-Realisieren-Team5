@@ -6,7 +6,7 @@ import * as ImagePicker from "expo-image-picker";
 import BASE_URL from "../../constants/api";
 import DetailTemplate from "../templates/DetailTemplate";
 import CountryBanner from "../molecules/CountryBanner";
-import CountryEditForm from "../organisms/CountryEditForm";
+import CountryForm from "../organisms/CountryForm";
 import AppButton from "../atoms/AppButton";
 
 import { useCountries, Country } from "../../context/CountryContext";
@@ -22,7 +22,10 @@ export default function CountryEditPage({ route, navigation }: any) {
     const [capital, setCapital] = useState("");
     const [population, setPopulation] = useState("");
     const [continent, setContinent] = useState("");
+    const [language, setLanguage] = useState("");
     const [flagUrl, setFlagUrl] = useState("");
+
+    const [errors, setErrors] = useState<any>({});
 
     useEffect(() => {
         const country = countries.find(c => c.id === id);
@@ -31,6 +34,7 @@ export default function CountryEditPage({ route, navigation }: any) {
             setCapital(country.capital || "");
             setPopulation(country.population ? country.population.toString() : "");
             setContinent(country.continent || "");
+            setLanguage(country.language || "");
             setFlagUrl(country.flag_url || "");
             setLoading(false);
         } else if (id) {
@@ -51,6 +55,7 @@ export default function CountryEditPage({ route, navigation }: any) {
                 setCapital(data.capital || "");
                 setPopulation(data.population ? data.population.toString() : "");
                 setContinent(data.continent || "");
+                setLanguage(data.language || "");
                 setFlagUrl(data.flag_url || "");
             }
         } catch (e) {
@@ -82,7 +87,7 @@ export default function CountryEditPage({ route, navigation }: any) {
 
     const handleSave = async () => {
         if (!name.trim()) {
-            Alert.alert("Error", "Country name is required");
+            setErrors({ name: "Country name is required" });
             return;
         }
 
@@ -95,6 +100,7 @@ export default function CountryEditPage({ route, navigation }: any) {
                 capital: capital.trim(),
                 population: updatedPop,
                 continent: continent.trim(),
+                language: language.trim(),
                 flag_url: flagUrl,
             };
 
@@ -173,15 +179,21 @@ export default function CountryEditPage({ route, navigation }: any) {
                     onPress={handlePickImage}
                 />
 
-                <CountryEditForm
+                <CountryForm
                     name={name}
-                    setName={setName}
+                    setName={(val) => {
+                        setName(val);
+                        if (errors.name) setErrors({ ...errors, name: undefined });
+                    }}
                     capital={capital}
                     setCapital={setCapital}
                     population={population}
                     setPopulation={setPopulation}
                     continent={continent}
                     setContinent={setContinent}
+                    language={language}
+                    setLanguage={setLanguage}
+                    errors={errors}
                 />
             </View>
         </DetailTemplate>
@@ -194,7 +206,7 @@ const styles = StyleSheet.create({
         paddingTop: 16,
     },
     buttonContainer: {
-        gap: 4,
+        gap: 10,
     },
     cancelButton: {
         backgroundColor: "#e2e8f0",
