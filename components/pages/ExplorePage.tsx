@@ -11,26 +11,9 @@ import BottomNavigationBar from "../organisms/BottomNavigationBar";
 import Typography from "../atoms/Typography";
 import BASE_URL from "../../constants/api";
 
+import { useCountries, Country } from "../../context/CountryContext";
+
 const REGIONS = ["All Regions", "Europe", "Asia", "Americas", "Africa", "Oceania"];
-
-interface ApiCountry {
-  id: number;
-  country_name: string;
-  capital: string | null;
-  continent: string | null;
-  population: number | null;
-  area_km2: number | null;
-  flag_url: string | null;
-  currency: string | null;
-}
-
-interface CountryItem {
-  id: number;
-  name: string;
-  capital: string;
-  region: string;
-  imageUrl: string;
-}
 
 const matchesRegion = (countryRegion: string, selectedRegion: string): boolean => {
   if (selectedRegion === "All Regions") return true;
@@ -45,79 +28,53 @@ const matchesRegion = (countryRegion: string, selectedRegion: string): boolean =
 export default function ExplorePage({ navigation }: any) {
   const [search, setSearch] = useState("");
   const [activeRegion, setActiveRegion] = useState("All Regions");
-  const [countries, setCountries] = useState<CountryItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { countries, setCountries } = useCountries();
+  const [loading, setLoading] = useState(false);
   const [loadError, setLoadError] = useState("");
 
   useEffect(() => {
     const fetchCountries = async () => {
+      if (countries.length > 0) return;
+
       setLoading(true);
       setLoadError("");
       const countriesUrl = `${BASE_URL}/countries`;
 
       try {
         const token = await SecureStore.getItemAsync("token");
-        console.log("[Countries] Starting request", {
-          url: countriesUrl,
-          hasToken: !!token,
-          tokenLength: token?.length || 0,
-          activeRegion,
-          search,
-        });
-
-        const response = await axios.get<ApiCountry[]>(countriesUrl, {
+        const response = await axios.get<any[]>(countriesUrl, {
           headers: token ? { Authorization: `Bearer ${token}` } : undefined,
         });
-        console.log("[Countries] Success response", {
-          status: response.status,
-          count: response.data?.length,
-          firstCountry: response.data?.[0],
-        });
 
-        const mappedCountries = response.data.map((country) => ({
+        const mappedCountries: Country[] = response.data.map((country) => ({
           id: country.id,
-          name: country.country_name,
+          country_name: country.country_name,
           capital: country.capital || "Unknown capital",
-          region: country.continent || "Unknown",
-          imageUrl: country.flag_url || "https://flagcdn.com/w320/un.png",
+          continent: country.continent || "Unknown",
+          flag_url: country.flag_url,
+          population: country.population,
         }));
-        console.log("[Countries] Mapped countries", {
-          count: mappedCountries.length,
-          firstMapped: mappedCountries[0],
-        });
 
         setCountries(mappedCountries);
       } catch (error) {
-        if (axios.isAxiosError(error)) {
-          console.log("[Countries] Axios error", {
-            message: error.message,
-            code: error.code,
-            status: error.response?.status,
-            data: error.response?.data,
-            headers: error.response?.headers,
-          });
-        } else {
-          console.log("[Countries] Unknown error", error);
-        }
         setLoadError("Countries could not be loaded.");
       } finally {
-        console.log("[Countries] Request finished");
         setLoading(false);
       }
     };
 
     fetchCountries();
-  }, []);
+  }, [countries.length, setCountries]);
 
   const filteredCountries = useMemo(() => {
     const normalizedSearch = search.trim().toLowerCase();
 
     return countries.filter((country) => {
-      const regionMatches = matchesRegion(country.region, activeRegion);
+      const regionMatches = matchesRegion(country.continent || "", activeRegion);
       const searchMatches =
         normalizedSearch.length === 0 ||
-        country.name.toLowerCase().includes(normalizedSearch) ||
-        country.capital.toLowerCase().includes(normalizedSearch);
+        country.country_name.toLowerCase().includes(normalizedSearch) ||
+        (country.capital || "").toLowerCase().includes(normalizedSearch);
 
       return regionMatches && searchMatches;
     });
@@ -150,9 +107,9 @@ export default function ExplorePage({ navigation }: any) {
               {filteredCountries.map((country, index) => (
                 <CountryListCard
                   key={country.id}
-                  name={country.name}
-                  capital={country.capital}
-                  imageUrl={country.imageUrl}
+                  name={country.country_name}
+                  capital={country.capital || "Unknown"}
+                  imageUrl={country.flag_url || "https://flagcdn.com/w320/un.png"}
                   large={index === 0}
                   onPress={() => navigation.navigate("country", { id: country.id })}
                 />
@@ -161,7 +118,7 @@ export default function ExplorePage({ navigation }: any) {
           )}
         </ScrollView>
 
-        <Pressable style={styles.fab} onPress={() => {}}>
+        <Pressable style={styles.fab} onPress={() => { }}>
           <MaterialCommunityIcons name="plus" size={24} color="#FFFFFF" />
         </Pressable>
 

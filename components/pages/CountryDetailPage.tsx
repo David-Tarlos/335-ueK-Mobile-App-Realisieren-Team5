@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Image, Alert } from "react-native";
+import { View, StyleSheet, Alert } from "react-native";
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 import BASE_URL from "../../constants/api";
@@ -7,14 +7,27 @@ import DetailTemplate from "../templates/DetailTemplate";
 import DetailCard from "../organisms/DetailCard";
 import Typography from "../atoms/Typography";
 import AppButton from "../atoms/AppButton";
+import CountryBanner from "../molecules/CountryBanner";
+
+import { useCountries } from "../../context/CountryContext";
 
 export default function CountryDetailPage({ route, navigation }: any) {
     const { id } = route.params || {};
-    const [country, setCountry] = useState<any>(null);
-    const [loading, setLoading] = useState(true);
+    const { countries, setCountries, deleteCountry } = useCountries();
+    const countryFromContext = countries.find(c => c.id === id);
+    const [displayCountry, setDisplayCountry] = useState(countryFromContext);
+    const [loading, setLoading] = useState(!countryFromContext);
+    const [isDeleting, setIsDeleting] = useState(false);
 
     useEffect(() => {
-        if (id) fetchCountry();
+        if (countryFromContext) {
+            setDisplayCountry(countryFromContext);
+            setLoading(false);
+        }
+    }, [countryFromContext]);
+
+    useEffect(() => {
+        if (id && !displayCountry) fetchCountry();
     }, [id]);
 
     const fetchCountry = async () => {
@@ -25,7 +38,9 @@ export default function CountryDetailPage({ route, navigation }: any) {
             });
             const data = Array.isArray(resp.data) ? resp.data[0] : resp.data;
             if (!data) throw new Error();
-            setCountry(data);
+
+            setCountries([...countries, data]);
+            setDisplayCountry(data);
         } catch (e) {
             Alert.alert("Error", "No country was found");
             navigation.goBack();
@@ -46,7 +61,9 @@ export default function CountryDetailPage({ route, navigation }: any) {
                         await axios.delete(`${BASE_URL}/countries/${id}`, {
                             headers: token ? { Authorization: `Bearer ${token}` } : undefined,
                         });
+                        setIsDeleting(true);
                         navigation.navigate("Explore");
+                        deleteCountry(id);
                     } catch (e) {
                         Alert.alert("Error", "Failed to delete");
                     }
@@ -55,22 +72,54 @@ export default function CountryDetailPage({ route, navigation }: any) {
         ]);
     };
 
-    if (loading || !country) return null;
+    if (loading || !displayCountry) return null;
+
+    const country = displayCountry;
+
+    const formatPopulation = (num: number) => {
+        if (!num) return "N/A";
+        if (num >= 1000000) return `${(num / 1000000).toFixed(1)} Million`;
+        return num.toLocaleString();
+    };
 
     const detailData = [
         { icon: "office-building-marker", label: "Capital", value: country.capital || "N/A" },
-        { icon: "account-group", label: "Population", value: country.population?.toLocaleString() || "N/A" },
+        { icon: "account-group", label: "Population", value: formatPopulation(country.population || 0) },
         { icon: "earth", label: "Continent", value: country.continent || "N/A" },
-        { icon: "ruler-square", label: "Area", value: country.area_km2 ? `${country.area_km2} km²` : "N/A" },
-        { icon: "cash-multiple", label: "Currency", value: country.currency || "N/A" },
+        { icon: "translate", label: "Language", value: country.language || "N/A" },
     ];
 
+    const footer = (
+        <View style={styles.buttonContainer}>
+            <AppButton
+                mode="contained"
+                onPress={handleDelete}
+                style={styles.deleteButton}
+                labelStyle={styles.deleteButtonLabel}
+                icon="delete-outline"
+            >
+                Delete
+            </AppButton>
+            <AppButton
+                mode="contained"
+                onPress={() => navigation.navigate("CountryEdit", { id })}
+                style={styles.editButton}
+                icon="pencil-outline"
+            >
+                Edit
+            </AppButton>
+        </View>
+    );
+
     return (
-        <DetailTemplate title="Detail View" onClose={() => navigation.goBack()}>
-            <Image
-                source={{ uri: country.flag_url || "https://media.istockphoto.com/id/1197369584/vector/detailed-world-map-with-countries.jpg?s=612x612&w=0&k=20&c=pW9R8Os-vNEZc1-TKLgHhva-e-OL277-peZdPJKT6Qg=" }}
-                style={styles.mapImage}
-            />
+        <DetailTemplate title="Detail View" onClose={() => navigation.goBack()} footer={footer}>
+            {country.flag_url && (
+                <CountryBanner
+                    flagUrl={country.flag_url}
+                    height={300}
+                    rounded={false}
+                />
+            )}
 
             <View style={styles.contentPadding}>
                 <Typography variant="header" style={styles.countryName}>
@@ -78,59 +127,35 @@ export default function CountryDetailPage({ route, navigation }: any) {
                 </Typography>
 
                 <DetailCard data={detailData} />
-
-                <View style={styles.buttonContainer}>
-                    <AppButton
-                        mode="contained"
-                        onPress={handleDelete}
-                        style={styles.deleteButton}
-                        labelStyle={styles.deleteButtonLabel}
-                        icon="delete-outline"
-                    >
-                        Delete
-                    </AppButton>
-                    <AppButton
-                        mode="contained"
-                        onPress={() => { }}
-                        style={styles.editButton}
-                        icon="pencil-outline"
-                    >
-                        Edit
-                    </AppButton>
-                </View>
             </View>
         </DetailTemplate>
     );
 }
 
 const styles = StyleSheet.create({
-    mapImage: {
-        width: "100%",
-        height: 250,
-        backgroundColor: "#e2e8f0",
-    },
     contentPadding: {
         paddingHorizontal: 24,
-        paddingTop: 32,
+        paddingTop: 24,
     },
     countryName: {
-        fontSize: 40,
-        fontWeight: "800",
+        fontSize: 48,
+        fontWeight: "900",
         color: "#0f172a",
+        marginBottom: 24,
     },
     buttonContainer: {
-        marginTop: 24,
-        gap: 12,
+        gap: 10,
     },
     deleteButton: {
         backgroundColor: "#e2e8f0",
-        marginTop: 0,
+        borderRadius: 20,
     },
     deleteButtonLabel: {
         color: "#0f172a",
+        fontWeight: "700",
     },
     editButton: {
         backgroundColor: "#135BEC",
-        marginTop: 0,
+        borderRadius: 20,
     },
 });
