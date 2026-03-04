@@ -9,6 +9,7 @@ import ProfilPage from "./components/pages/ProfilPage";
 
 import CountryDetailPage from "./components/pages/CountryDetailPage";
 import CountryEditPage from "./components/pages/CountryEditPage";
+import CountryAddPage from "./components/pages/CountryAddPage";
 import ExplorePage from "./components/pages/ExplorePage";
 import { CountryProvider } from "./context/CountryContext";
 
@@ -29,6 +30,7 @@ export default function App() {
             <Stack.Screen name="Profile" component={ProfilPage} />
             <Stack.Screen name="country" component={CountryDetailPage} />
             <Stack.Screen name="CountryEdit" component={CountryEditPage} />
+            <Stack.Screen name="CountryAdd" component={CountryAddPage} />
             <Stack.Screen name="Explore" component={ExplorePage} />
           </Stack.Navigator>
         </NavigationContainer>
