@@ -29,8 +29,37 @@ cd 335-ueK-Mobile-App-Realisieren-Team5
 
 ### 2. Abhängigkeiten installieren
 
+Alle Abhängigkeiten sind in `package.json` deklariert und werden mit folgendem Befehl installiert:
+
 ```bash
 npm install
+```
+
+> Dieser Befehl installiert alle Pakete inklusive der im Laufe des Projekts hinzugefügten Abhängigkeiten (siehe unten).
+
+#### Übersicht der im Projekt hinzugefügten Pakete
+
+Die folgenden Pakete wurden nachträglich installiert. Bei einem frischen Clone wird alles über `npm install` abgedeckt – diese Befehle dienen als Referenz oder falls einzelne Pakete neu installiert werden müssen.
+
+**Navigation**
+```bash
+npm install @react-navigation/native @react-navigation/native-stack
+npx expo install react-native-screens react-native-safe-area-context
+```
+
+**HTTP-Client**
+```bash
+npm install axios
+```
+
+**Sicherer Speicher (ersetzt AsyncStorage)**
+```bash
+npx expo install expo-secure-store
+```
+
+**Web-Unterstützung**
+```bash
+npx expo install react-native-web react-dom
 ```
 
 ### 3. Backend starten (Docker)
@@ -130,4 +159,6 @@ npm run web        # Im Browser starten
 | TypeScript | Typsicherheit |
 | React Navigation | Navigation zwischen Screens |
 | React Native Paper | UI-Komponenten |
+| Axios | HTTP-Client für API-Calls |
+| Expo SecureStore | Sicheres Speichern von Token |
 | JSON Server (Docker) | Backend / REST API |
