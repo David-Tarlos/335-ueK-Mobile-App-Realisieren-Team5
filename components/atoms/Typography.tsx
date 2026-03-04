@@ -1,10 +1,10 @@
 import React from "react";
-import { Text, StyleSheet } from "react-native";
+import { StyleProp, StyleSheet, Text, TextStyle } from "react-native";
 
 interface TypographyProps {
     variant: "title" | "subtitle" | "label" | "formTitle" | "link" | "text" | "header" | "detailLabel" | "detailValue" | "secondaryText";
     children: React.ReactNode;
-    style?: any;
+    style?: StyleProp<TextStyle>;
 }
 
 const Typography: React.FC<TypographyProps> = ({ variant, children, style }) => {

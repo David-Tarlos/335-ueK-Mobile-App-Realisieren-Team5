@@ -1,14 +1,26 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { createCountry } from "../../constants/api";
 import DetailTemplate from "../templates/DetailTemplate";
 import CountryBanner from "../molecules/CountryBanner";
 import CountryForm from "../organisms/CountryForm";
 import AppButton from "../atoms/AppButton";
 import { useCountries } from "../../context/CountryContext";
+import { RootStackParamList } from "../../types/navigation";
 
-export default function CountryAddPage({ navigation }: any) {
+type CountryAddPageProps = NativeStackScreenProps<RootStackParamList, "CountryAdd">;
+
+type CountryFormErrors = {
+    name?: string;
+    capital?: string;
+    population?: string;
+    continent?: string;
+    language?: string;
+};
+
+export default function CountryAddPage({ navigation }: CountryAddPageProps) {
     const { setCountries, countries } = useCountries();
     const [saving, setSaving] = useState(false);
 
@@ -19,7 +31,7 @@ export default function CountryAddPage({ navigation }: any) {
     const [language, setLanguage] = useState("");
     const [flagUrl, setFlagUrl] = useState("");
 
-    const [errors, setErrors] = useState<any>({});
+    const [errors, setErrors] = useState<CountryFormErrors>({});
 
     const handlePickImage = async () => {
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -40,8 +52,8 @@ export default function CountryAddPage({ navigation }: any) {
         }
     };
 
-    const validate = () => {
-        const newErrors: any = {};
+    const validate = (): boolean => {
+        const newErrors: CountryFormErrors = {};
         if (!name.trim()) newErrors.name = "Country name is required";
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;

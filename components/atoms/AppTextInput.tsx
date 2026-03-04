@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleProp, StyleSheet, ViewStyle } from "react-native";
 import { TextInput } from "react-native-paper";
 
 interface AppTextInputProps {
@@ -9,10 +9,10 @@ interface AppTextInputProps {
     placeholder?: string;
     secureTextEntry?: boolean;
     error?: boolean;
-    right?: React.ReactNode;
+    right?: React.ComponentProps<typeof TextInput>["right"];
     keyboardType?: "default" | "email-address" | "numeric" | "phone-pad";
     autoCapitalize?: "none" | "sentences" | "words" | "characters";
-    style?: any;
+    style?: StyleProp<ViewStyle>;
 }
 
 const AppTextInput: React.FC<AppTextInputProps> = ({

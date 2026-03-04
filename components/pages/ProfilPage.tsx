@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import ProfileTemplate from "../templates/ProfileTemplate";
-import { getUserById } from "../../constants/api";
+import { getUserById, UserDto } from "../../constants/api";
 import * as SecureStore from "expo-secure-store";
+import { RootStackParamList } from "../../types/navigation";
 
-export default function ProfilPage({ navigation }: any) {
-    const [userData, setUserData] = useState<any>(null);
+type ProfilPageProps = NativeStackScreenProps<RootStackParamList, "Profile">;
+
+export default function ProfilPage({ navigation }: ProfilPageProps) {
+    const [userData, setUserData] = useState<UserDto | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {

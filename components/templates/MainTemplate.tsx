@@ -4,12 +4,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Divider } from "react-native-paper";
 import Typography from "../atoms/Typography";
 import BottomNavigationBar from "../organisms/BottomNavigationBar";
+import { BottomNavRoute } from "../../types/navigation";
 
 interface MainTemplateProps {
     title: string;
     children: React.ReactNode;
-    currentRoute: string;
-    onNavigate: (route: string) => void;
+    currentRoute: BottomNavRoute;
+    onNavigate: (route: BottomNavRoute) => void;
     scrollable?: boolean;
 }
 

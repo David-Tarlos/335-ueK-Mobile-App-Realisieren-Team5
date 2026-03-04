@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import AuthTemplate from "../templates/AuthTemplate";
 import LoginForm from "../organisms/LoginForm";
 import { loginUser } from "../../constants/api";
 import * as SecureStore from "expo-secure-store";
+import { RootStackParamList } from "../../types/navigation";
 
 const isValidEmail = (email: string): boolean =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-export default function LoginPage({ navigation }: any) {
+type LoginPageProps = NativeStackScreenProps<RootStackParamList, "Login">;
+
+export default function LoginPage({ navigation }: LoginPageProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);

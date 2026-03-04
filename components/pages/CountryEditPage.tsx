@@ -1,16 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { deleteCountryById, getCountryById, updateCountryById } from "../../constants/api";
 import DetailTemplate from "../templates/DetailTemplate";
 import CountryBanner from "../molecules/CountryBanner";
 import CountryForm from "../organisms/CountryForm";
 import AppButton from "../atoms/AppButton";
 
-import { useCountries } from "../../context/CountryContext";
+import { Country, useCountries } from "../../context/CountryContext";
+import { RootStackParamList } from "../../types/navigation";
 
-export default function CountryEditPage({ route, navigation }: any) {
-    const { id } = route.params || {};
+type CountryEditPageProps = NativeStackScreenProps<RootStackParamList, "CountryEdit">;
+
+type CountryFormErrors = {
+    name?: string;
+    capital?: string;
+    population?: string;
+    continent?: string;
+    language?: string;
+};
+
+export default function CountryEditPage({ route, navigation }: CountryEditPageProps) {
+    const { id } = route.params;
     const { countries, updateCountry, deleteCountry, setCountries } = useCountries();
     const [loading, setLoading] = useState(!countries.find(c => c.id === id));
     const [saving, setSaving] = useState(false);
@@ -22,7 +34,7 @@ export default function CountryEditPage({ route, navigation }: any) {
     const [language, setLanguage] = useState("");
     const [flagUrl, setFlagUrl] = useState("");
 
-    const [errors, setErrors] = useState<any>({});
+    const [errors, setErrors] = useState<CountryFormErrors>({});
 
     useEffect(() => {
         const country = countries.find(c => c.id === id);
@@ -98,7 +110,7 @@ export default function CountryEditPage({ route, navigation }: any) {
 
             await updateCountryById(id, updatedData);
 
-            updateCountry({ id, ...updatedData });
+            updateCountry({ id, ...updatedData } as Country);
             Alert.alert("Success", "Country details updated");
             navigation.goBack();
         } catch (e) {

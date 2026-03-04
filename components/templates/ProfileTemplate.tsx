@@ -5,14 +5,15 @@ import ProfileCard from "../organisms/ProfileCard";
 import MainTemplate from "./MainTemplate";
 import Typography from "../atoms/Typography";
 import LogoutButton from "../molecules/LogoutButton";
+import { BottomNavRoute } from "../../types/navigation";
 interface ProfileTemplateProps {
   fullName: string;
   email?: string;
   firstName?: string;
   lastName?: string;
   age?: string;
-  currentRoute: string;
-  onNavigate: (route: string) => void;
+  currentRoute: BottomNavRoute;
+  onNavigate: (route: BottomNavRoute) => void;
   onLogout: () => void;
 }
 

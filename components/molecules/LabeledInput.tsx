@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleProp, StyleSheet, ViewStyle } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Typography from "../atoms/Typography";
 import AppTextInput from "../atoms/AppTextInput";
@@ -14,7 +14,7 @@ interface LabeledInputProps {
     right?: React.ReactNode;
     keyboardType?: "default" | "email-address" | "numeric" | "phone-pad";
     autoCapitalize?: "none" | "sentences" | "words" | "characters";
-    style?: any;
+    style?: StyleProp<ViewStyle>;
 }
 
 const LabeledInput: React.FC<LabeledInputProps> = ({

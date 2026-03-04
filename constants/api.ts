@@ -1,5 +1,5 @@
 import { Platform } from 'react-native';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import * as SecureStore from 'expo-secure-store';
 
 const API_PORT = 3030;
@@ -43,44 +43,67 @@ type AuthPayload = {
   password: string;
 };
 
+export type UserDto = {
+  id: number;
+  email: string;
+  firstName?: string;
+  lastName?: string;
+  age?: number;
+};
+
+type AuthResponse = {
+  user: UserDto;
+  accessToken?: string;
+  token?: string;
+};
+
 type RegisterPayload = AuthPayload & {
   firstName: string;
   lastName: string;
 };
 
-type CountryPayload = {
+export type CountryDto = {
+  id: number;
   country_name: string;
-  capital: string;
-  population: number;
-  continent: string;
-  flag_url: string;
-  language: string;
+  capital: string | null;
+  population: number | null;
+  continent: string | null;
+  flag_url: string | null;
+  language?: string | null;
 };
 
-export const loginUser = async (payload: AuthPayload) =>
+type CountryPayload = Omit<CountryDto, 'id'>;
+
+export const loginUser = async (payload: AuthPayload): Promise<AxiosResponse<AuthResponse>> =>
   api.post('/login', payload);
 
-export const registerUser = async (payload: RegisterPayload) =>
+export const registerUser = async (
+  payload: RegisterPayload,
+): Promise<AxiosResponse<AuthResponse>> =>
   api.post('/register', payload);
 
-export const getCountries = async () => api.get('/countries');
+export const getCountries = async (): Promise<AxiosResponse<CountryDto[]>> =>
+  api.get('/countries');
 
-export const getCountryById = async (id: number | string) => {
-  const response = await api.get(`/countries?id=${id}`);
+export const getCountryById = async (id: number | string): Promise<CountryDto | undefined> => {
+  const response = await api.get<CountryDto[] | CountryDto>(`/countries?id=${id}`);
   return Array.isArray(response.data) ? response.data[0] : response.data;
 };
 
-export const createCountry = async (payload: CountryPayload) =>
+export const createCountry = async (
+  payload: CountryPayload,
+): Promise<AxiosResponse<CountryDto>> =>
   api.post('/countries', payload);
 
 export const updateCountryById = async (
   id: number | string,
   payload: CountryPayload,
-) => api.put(`/countries/${id}`, payload);
+): Promise<AxiosResponse<CountryDto>> => api.put(`/countries/${id}`, payload);
 
 export const deleteCountryById = async (id: number | string) =>
   api.delete(`/countries/${id}`);
 
-export const getUserById = async (id: number | string) => api.get(`/users/${id}`);
+export const getUserById = async (id: number | string): Promise<AxiosResponse<UserDto>> =>
+  api.get(`/users/${id}`);
 
 export default BASE_URL;

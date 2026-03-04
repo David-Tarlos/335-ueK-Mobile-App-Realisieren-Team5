@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import AuthTemplate from "../templates/AuthTemplate";
 import RegisterForm from "../organisms/RegisterForm";
 import * as SecureStore from "expo-secure-store";
 import { registerUser } from "../../constants/api";
+import { RootStackParamList } from "../../types/navigation";
 
 const isValidEmail = (email: string): boolean =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-export default function RegisterPage({ navigation }: any) {
+type RegisterPageProps = NativeStackScreenProps<RootStackParamList, "Register">;
+
+export default function RegisterPage({ navigation }: RegisterPageProps) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");

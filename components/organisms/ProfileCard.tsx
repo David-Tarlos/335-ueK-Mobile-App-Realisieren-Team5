@@ -1,5 +1,6 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import ProfileDetailItem from "../molecules/ProfileDetailItem";
 
 interface ProfileCardProps {
@@ -15,7 +16,11 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
     lastName,
     age,
 }) => {
-    const items = [
+    const items: {
+        icon: keyof typeof MaterialCommunityIcons.glyphMap;
+        label: string;
+        value?: string;
+    }[] = [
         { icon: "email-outline", label: "E-MAIL", value: email },
         { icon: "account-outline", label: "FIRST NAME", value: firstName },
         { icon: "badge-account-outline", label: "LAST NAME", value: lastName },
@@ -27,7 +32,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
             {items.map((item, index) => (
                 <ProfileDetailItem
                     key={item.label}
-                    icon={item.icon as any}
+                    icon={item.icon}
                     label={item.label}
                     value={item.value!}
                     showDivider={index < items.length - 1}

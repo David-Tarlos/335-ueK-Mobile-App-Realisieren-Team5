@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Alert } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { deleteCountryById, getCountryById } from "../../constants/api";
 import DetailTemplate from "../templates/DetailTemplate";
 import DetailCard from "../organisms/DetailCard";
@@ -7,13 +9,16 @@ import Typography from "../atoms/Typography";
 import AppButton from "../atoms/AppButton";
 import CountryBanner from "../molecules/CountryBanner";
 
-import { useCountries } from "../../context/CountryContext";
+import { Country, useCountries } from "../../context/CountryContext";
+import { RootStackParamList } from "../../types/navigation";
 
-export default function CountryDetailPage({ route, navigation }: any) {
-    const { id } = route.params || {};
+type CountryDetailPageProps = NativeStackScreenProps<RootStackParamList, "country">;
+
+export default function CountryDetailPage({ route, navigation }: CountryDetailPageProps) {
+    const { id } = route.params;
     const { countries, setCountries, deleteCountry } = useCountries();
-    const countryFromContext = countries.find(c => c.id === id);
-    const [displayCountry, setDisplayCountry] = useState(countryFromContext);
+    const countryFromContext = countries.find((c) => c.id === id);
+    const [displayCountry, setDisplayCountry] = useState<Country | undefined>(countryFromContext);
     const [loading, setLoading] = useState(!countryFromContext);
 
     useEffect(() => {
@@ -71,7 +76,11 @@ export default function CountryDetailPage({ route, navigation }: any) {
         return num.toLocaleString();
     };
 
-    const detailData = [
+    const detailData: {
+        icon: keyof typeof MaterialCommunityIcons.glyphMap;
+        label: string;
+        value: string;
+    }[] = [
         { icon: "office-building-marker", label: "Capital", value: country.capital || "N/A" },
         { icon: "account-group", label: "Population", value: formatPopulation(country.population || 0) },
         { icon: "earth", label: "Continent", value: country.continent || "N/A" },

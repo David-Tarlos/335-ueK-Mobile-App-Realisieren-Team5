@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleProp, StyleSheet, TextStyle, ViewStyle } from "react-native";
 import { Button } from "react-native-paper";
 
 interface AppButtonProps {
@@ -8,11 +8,11 @@ interface AppButtonProps {
     disabled?: boolean;
     children: React.ReactNode;
     mode?: "text" | "outlined" | "contained" | "elevated" | "contained-tonal";
-    style?: any;
-    labelStyle?: any;
+    style?: StyleProp<ViewStyle>;
+    labelStyle?: StyleProp<TextStyle>;
     icon?: string;
     textColor?: string;
-    contentStyle?: any;
+    contentStyle?: StyleProp<ViewStyle>;
 }
 
 const AppButton: React.FC<AppButtonProps> = ({

@@ -1,10 +1,11 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import InfoRow from "../molecules/InfoRow";
 
 interface DetailCardProps {
     data: {
-        icon: any;
+        icon: keyof typeof MaterialCommunityIcons.glyphMap;
         label: string;
         value: string;
     }[];

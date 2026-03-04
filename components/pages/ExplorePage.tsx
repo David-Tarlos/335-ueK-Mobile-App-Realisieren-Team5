@@ -2,14 +2,18 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import CountryFiltersHeader from "../organisms/CountryFiltersHeader";
 import CountryListCard from "../organisms/CountryListCard";
 import CountriesEmptyState from "../molecules/CountriesEmptyState";
 import BottomNavigationBar from "../organisms/BottomNavigationBar";
 import Typography from "../atoms/Typography";
-import { getCountries } from "../../constants/api";
+import { CountryDto, getCountries } from "../../constants/api";
+import { RootStackParamList } from "../../types/navigation";
 
 import { useCountries, Country } from "../../context/CountryContext";
+
+type ExplorePageProps = NativeStackScreenProps<RootStackParamList, "Explore">;
 
 const REGIONS = ["All Regions", "Europe", "Asia", "Americas", "Africa", "Oceania"];
 
@@ -23,7 +27,7 @@ const matchesRegion = (countryRegion: string, selectedRegion: string): boolean =
   return countryRegion.toLowerCase() === selectedRegion.toLowerCase();
 };
 
-export default function ExplorePage({ navigation }: any) {
+export default function ExplorePage({ navigation }: ExplorePageProps) {
   const [search, setSearch] = useState("");
   const [activeRegion, setActiveRegion] = useState("All Regions");
   const { countries, setCountries } = useCountries();
@@ -40,7 +44,7 @@ export default function ExplorePage({ navigation }: any) {
       try {
         const response = await getCountries();
 
-        const mappedCountries: Country[] = (response.data as any[]).map((country: any) => ({
+        const mappedCountries: Country[] = response.data.map((country: CountryDto) => ({
           id: country.id,
           country_name: country.country_name,
           capital: country.capital || "Unknown capital",

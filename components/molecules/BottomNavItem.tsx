@@ -7,7 +7,7 @@ import Typography from "../atoms/Typography";
 interface BottomNavItemProps {
   label: string;
   active?: boolean;
-  icon: string;
+  icon: keyof typeof MaterialCommunityIcons.glyphMap;
   onPress?: () => void;
 }
 
@@ -30,7 +30,7 @@ const BottomNavItem: React.FC<BottomNavItemProps> = ({
     >
       <View style={styles.bottomItemInner}>
         <MaterialCommunityIcons
-          name={icon as any}
+          name={icon}
           size={20}
           color={active ? activeColor : inactiveColor}
         />

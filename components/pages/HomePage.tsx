@@ -2,14 +2,18 @@ import React from "react";
 import { Image, StyleSheet, View } from "react-native";
 import { Card } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import AppButton from "../atoms/AppButton";
 import Typography from "../atoms/Typography";
 import MainTemplate from "../templates/MainTemplate";
+import { RootStackParamList } from "../../types/navigation";
 
 const WORLD_IMAGE =
   "https://media.istockphoto.com/id/1197369584/vector/detailed-world-map-with-countries.jpg?s=612x612&w=0&k=20&c=pW9R8Os-vNEZc1-TKLgHhva-e-OL277-peZdPJKT6Qg=";
 
-export default function HomePage({ navigation }: any) {
+type HomePageProps = NativeStackScreenProps<RootStackParamList, "Home">;
+
+export default function HomePage({ navigation }: HomePageProps) {
   const handleGoToCountries = () => {
     navigation.navigate("Explore");
   };

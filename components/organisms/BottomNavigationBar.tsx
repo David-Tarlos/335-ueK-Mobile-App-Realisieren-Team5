@@ -2,10 +2,11 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { Surface } from "react-native-paper";
 import BottomNavItem from "../molecules/BottomNavItem";
+import { BottomNavRoute } from "../../types/navigation";
 
 interface BottomNavigationBarProps {
-    currentRoute: string;
-    onNavigate: (route: string) => void;
+    currentRoute: BottomNavRoute;
+    onNavigate: (route: BottomNavRoute) => void;
 }
 
 const BottomNavigationBar: React.FC<BottomNavigationBarProps> = ({

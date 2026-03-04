@@ -12,8 +12,9 @@ import CountryEditPage from "./components/pages/CountryEditPage";
 import CountryAddPage from "./components/pages/CountryAddPage";
 import ExplorePage from "./components/pages/ExplorePage";
 import { CountryProvider } from "./context/CountryContext";
+import { RootStackParamList } from "./types/navigation";
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
