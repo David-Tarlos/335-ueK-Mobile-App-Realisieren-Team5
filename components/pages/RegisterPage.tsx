@@ -95,10 +95,16 @@ export default function RegisterPage({ navigation }: any) {
           data: error.response.data,
           headers: error.response.headers,
         });
-        const message =
-          (error.response.data as { message?: string } | undefined)?.message ||
-          "Registration failed. Please try again.";
-        setEmailError(message);
+        const data = error.response.data;
+        const dataStr = typeof data === "string" ? data : JSON.stringify(data);
+        if (dataStr.toLowerCase().includes("already exists")) {
+          setEmailError("This email address is already in use.");
+        } else {
+          const message =
+            (typeof data === "object" ? (data as { message?: string })?.message : null) ||
+            "Registration failed. Please try again.";
+          setEmailError(message);
+        }
       } else {
         console.log("[Register] Network/unknown error", error);
         setEmailError("Connection error. Please try again.");
