@@ -91,7 +91,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
                 }
             />
 
-            <AppButton onPress={onRegister} loading={loading} disabled={loading}>
+            <AppButton onPress={onRegister} loading={loading} disabled={loading} style={styles.registerButton}>
                 Sign up
             </AppButton>
 
@@ -117,6 +117,9 @@ const styles = StyleSheet.create({
     },
     passwordField: {
         marginTop: 8,
+    },
+    registerButton: {
+        marginTop: 35,
     },
     loginLinkRow: {
         flexDirection: "column",

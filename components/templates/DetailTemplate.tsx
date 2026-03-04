@@ -8,9 +8,10 @@ interface DetailTemplateProps {
     title: string;
     onClose: () => void;
     children: React.ReactNode;
+    footer?: React.ReactNode;
 }
 
-const DetailTemplate: React.FC<DetailTemplateProps> = ({ title, onClose, children }) => {
+const DetailTemplate: React.FC<DetailTemplateProps> = ({ title, onClose, children, footer }) => {
     return (
         <SafeAreaView style={styles.safeArea} edges={["top"]}>
             <View style={styles.header}>
@@ -19,9 +20,14 @@ const DetailTemplate: React.FC<DetailTemplateProps> = ({ title, onClose, childre
                 </TouchableOpacity>
                 <Typography variant="header" style={styles.headerTitle}>{title}</Typography>
             </View>
-            <ScrollView contentContainerStyle={styles.content}>
+            <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
                 {children}
             </ScrollView>
+            {footer && (
+                <View style={styles.footer}>
+                    {footer}
+                </View>
+            )}
         </SafeAreaView>
     );
 };
@@ -47,9 +53,20 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "700",
     },
+    scrollView: {
+        flex: 1,
+    },
     content: {
-        paddingBottom: 40,
+        paddingBottom: 20,
         backgroundColor: "#f8fafc",
+    },
+    footer: {
+        backgroundColor: "#ffffff",
+        borderTopWidth: 1,
+        borderTopColor: "#f1f5f9",
+        paddingHorizontal: 20,
+        paddingTop: 12,
+        paddingBottom: 24,
     },
 });
 

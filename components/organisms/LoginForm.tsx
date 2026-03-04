@@ -61,7 +61,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
                 }
             />
 
-            <AppButton onPress={onLogin} loading={loading} disabled={loading}>
+            <AppButton onPress={onLogin} loading={loading} disabled={loading} style={styles.loginButton}>
                 Login
             </AppButton>
 
@@ -81,6 +81,9 @@ const styles = StyleSheet.create({
     },
     passwordField: {
         marginTop: 8,
+    },
+    loginButton: {
+        marginTop: 35,
     },
     registerLinkRow: {
         flexDirection: "column",

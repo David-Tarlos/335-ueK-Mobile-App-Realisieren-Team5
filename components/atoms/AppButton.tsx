@@ -46,7 +46,6 @@ const AppButton: React.FC<AppButtonProps> = ({
 
 const styles = StyleSheet.create({
     button: {
-        marginTop: 35,
         borderRadius: 12,
         backgroundColor: "#135BEC",
     },
