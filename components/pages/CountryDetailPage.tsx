@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Alert } from "react-native";
-import axios from "axios";
-import * as SecureStore from "expo-secure-store";
-import BASE_URL from "../../constants/api";
+import { deleteCountryById, getCountryById } from "../../constants/api";
 import DetailTemplate from "../templates/DetailTemplate";
 import DetailCard from "../organisms/DetailCard";
 import Typography from "../atoms/Typography";
@@ -17,7 +15,6 @@ export default function CountryDetailPage({ route, navigation }: any) {
     const countryFromContext = countries.find(c => c.id === id);
     const [displayCountry, setDisplayCountry] = useState(countryFromContext);
     const [loading, setLoading] = useState(!countryFromContext);
-    const [isDeleting, setIsDeleting] = useState(false);
 
     useEffect(() => {
         if (countryFromContext) {
@@ -32,11 +29,7 @@ export default function CountryDetailPage({ route, navigation }: any) {
 
     const fetchCountry = async () => {
         try {
-            const token = await SecureStore.getItemAsync("token");
-            const resp = await axios.get(`${BASE_URL}/countries?id=${id}`, {
-                headers: token ? { Authorization: `Bearer ${token}` } : undefined,
-            });
-            const data = Array.isArray(resp.data) ? resp.data[0] : resp.data;
+            const data = await getCountryById(id);
             if (!data) throw new Error();
 
             setCountries([...countries, data]);
@@ -57,11 +50,7 @@ export default function CountryDetailPage({ route, navigation }: any) {
                 style: "destructive",
                 onPress: async () => {
                     try {
-                        const token = await SecureStore.getItemAsync("token");
-                        await axios.delete(`${BASE_URL}/countries/${id}`, {
-                            headers: token ? { Authorization: `Bearer ${token}` } : undefined,
-                        });
-                        setIsDeleting(true);
+                        await deleteCountryById(id);
                         navigation.navigate("Explore");
                         deleteCountry(id);
                     } catch (e) {

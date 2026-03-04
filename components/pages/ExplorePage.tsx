@@ -2,14 +2,12 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import axios from "axios";
-import * as SecureStore from "expo-secure-store";
 import CountryFiltersHeader from "../organisms/CountryFiltersHeader";
 import CountryListCard from "../organisms/CountryListCard";
 import CountriesEmptyState from "../molecules/CountriesEmptyState";
 import BottomNavigationBar from "../organisms/BottomNavigationBar";
 import Typography from "../atoms/Typography";
-import BASE_URL from "../../constants/api";
+import { getCountries } from "../../constants/api";
 
 import { useCountries, Country } from "../../context/CountryContext";
 
@@ -38,15 +36,11 @@ export default function ExplorePage({ navigation }: any) {
 
       setLoading(true);
       setLoadError("");
-      const countriesUrl = `${BASE_URL}/countries`;
 
       try {
-        const token = await SecureStore.getItemAsync("token");
-        const response = await axios.get<any[]>(countriesUrl, {
-          headers: token ? { Authorization: `Bearer ${token}` } : undefined,
-        });
+        const response = await getCountries();
 
-        const mappedCountries: Country[] = response.data.map((country) => ({
+        const mappedCountries: Country[] = (response.data as any[]).map((country: any) => ({
           id: country.id,
           country_name: country.country_name,
           capital: country.capital || "Unknown capital",

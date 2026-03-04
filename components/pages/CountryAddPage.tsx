@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Alert } from "react-native";
-import axios from "axios";
-import * as SecureStore from "expo-secure-store";
 import * as ImagePicker from "expo-image-picker";
-import BASE_URL from "../../constants/api";
+import { createCountry } from "../../constants/api";
 import DetailTemplate from "../templates/DetailTemplate";
 import CountryBanner from "../molecules/CountryBanner";
 import CountryForm from "../organisms/CountryForm";
 import AppButton from "../atoms/AppButton";
-import { useCountries, Country } from "../../context/CountryContext";
+import { useCountries } from "../../context/CountryContext";
 
 export default function CountryAddPage({ navigation }: any) {
     const { setCountries, countries } = useCountries();
@@ -56,7 +54,6 @@ export default function CountryAddPage({ navigation }: any) {
         const popValue = parseInt(population.replace(/[^0-9]/g, "")) || 0;
 
         try {
-            const token = await SecureStore.getItemAsync("token");
             const newCountry = {
                 country_name: name.trim(),
                 capital: capital.trim(),
@@ -66,9 +63,7 @@ export default function CountryAddPage({ navigation }: any) {
                 language: language.trim(),
             };
 
-            const response = await axios.post(`${BASE_URL}/countries`, newCountry, {
-                headers: token ? { Authorization: `Bearer ${token}` } : undefined,
-            });
+            const response = await createCountry(newCountry);
 
             const createdCountry = response.data;
             setCountries([...countries, createdCountry]);

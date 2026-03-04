@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ProfileTemplate from "../templates/ProfileTemplate";
-import BASE_URL from "../../constants/api";
-import axios from "axios";
+import { getUserById } from "../../constants/api";
 import * as SecureStore from "expo-secure-store";
 
 export default function ProfilPage({ navigation }: any) {
@@ -15,7 +14,9 @@ export default function ProfilPage({ navigation }: any) {
     const fetchUserData = async () => {
         try {
             const userId = await SecureStore.getItemAsync("userId");
-            const response = await axios.get(`${BASE_URL}/users/${userId}`);
+            if (!userId) return;
+
+            const response = await getUserById(userId);
             if (response.status === 200) {
                 setUserData(response.data || {});
             }

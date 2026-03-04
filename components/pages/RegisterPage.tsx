@@ -3,7 +3,7 @@ import axios from "axios";
 import AuthTemplate from "../templates/AuthTemplate";
 import RegisterForm from "../organisms/RegisterForm";
 import * as SecureStore from "expo-secure-store";
-import BASE_URL from "../../constants/api";
+import { registerUser } from "../../constants/api";
 
 const isValidEmail = (email: string): boolean =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -58,16 +58,15 @@ export default function RegisterPage({ navigation }: any) {
     if (!validate()) return;
 
     setLoading(true);
-    const registerUrl = `${BASE_URL}/register`;
     console.log("[Register] Starting request", {
-      url: registerUrl,
+      endpoint: "/register",
       email: email.trim(),
       firstName: firstName.trim(),
       lastName: lastName.trim(),
     });
 
     try {
-      const response = await axios.post(registerUrl, {
+      const response = await registerUser({
         email: email.trim(),
         password,
         firstName: firstName.trim(),

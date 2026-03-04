@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import AuthTemplate from "../templates/AuthTemplate";
 import LoginForm from "../organisms/LoginForm";
-import BASE_URL from "../../constants/api";
+import { loginUser } from "../../constants/api";
 import * as SecureStore from "expo-secure-store";
 
 const isValidEmail = (email: string): boolean =>
@@ -41,14 +41,13 @@ export default function LoginPage({ navigation }: any) {
     if (!validate()) return;
 
     setLoading(true);
-    const loginUrl = `${BASE_URL}/login`;
     console.log("[Login] Starting request", {
-      url: loginUrl,
+      endpoint: "/login",
       email: email.trim(),
     });
 
     try {
-      const response = await axios.post(loginUrl, {
+      const response = await loginUser({
         email: email.trim(),
         password,
       });

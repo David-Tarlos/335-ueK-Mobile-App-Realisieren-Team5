@@ -1,22 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Alert } from "react-native";
-import axios from "axios";
-import * as SecureStore from "expo-secure-store";
 import * as ImagePicker from "expo-image-picker";
-import BASE_URL from "../../constants/api";
+import { deleteCountryById, getCountryById, updateCountryById } from "../../constants/api";
 import DetailTemplate from "../templates/DetailTemplate";
 import CountryBanner from "../molecules/CountryBanner";
 import CountryForm from "../organisms/CountryForm";
 import AppButton from "../atoms/AppButton";
 
-import { useCountries, Country } from "../../context/CountryContext";
+import { useCountries } from "../../context/CountryContext";
 
 export default function CountryEditPage({ route, navigation }: any) {
     const { id } = route.params || {};
     const { countries, updateCountry, deleteCountry, setCountries } = useCountries();
     const [loading, setLoading] = useState(!countries.find(c => c.id === id));
     const [saving, setSaving] = useState(false);
-    const [isDeleting, setIsDeleting] = useState(false);
 
     const [name, setName] = useState("");
     const [capital, setCapital] = useState("");
@@ -44,11 +41,7 @@ export default function CountryEditPage({ route, navigation }: any) {
 
     const fetchCountry = async () => {
         try {
-            const token = await SecureStore.getItemAsync("token");
-            const resp = await axios.get(`${BASE_URL}/countries?id=${id}`, {
-                headers: token ? { Authorization: `Bearer ${token}` } : undefined,
-            });
-            const data = Array.isArray(resp.data) ? resp.data[0] : resp.data;
+            const data = await getCountryById(id);
             if (data) {
                 setCountries([...countries, data]);
                 setName(data.country_name || "");
@@ -94,7 +87,6 @@ export default function CountryEditPage({ route, navigation }: any) {
         setSaving(true);
         const updatedPop = parseInt(population.replace(/[^0-9]/g, "")) || 0;
         try {
-            const token = await SecureStore.getItemAsync("token");
             const updatedData = {
                 country_name: name.trim(),
                 capital: capital.trim(),
@@ -104,9 +96,7 @@ export default function CountryEditPage({ route, navigation }: any) {
                 flag_url: flagUrl,
             };
 
-            await axios.put(`${BASE_URL}/countries/${id}`, updatedData, {
-                headers: token ? { Authorization: `Bearer ${token}` } : undefined,
-            });
+            await updateCountryById(id, updatedData);
 
             updateCountry({ id, ...updatedData });
             Alert.alert("Success", "Country details updated");
@@ -126,11 +116,7 @@ export default function CountryEditPage({ route, navigation }: any) {
                 style: "destructive",
                 onPress: async () => {
                     try {
-                        const token = await SecureStore.getItemAsync("token");
-                        await axios.delete(`${BASE_URL}/countries/${id}`, {
-                            headers: token ? { Authorization: `Bearer ${token}` } : undefined,
-                        });
-                        setIsDeleting(true);
+                        await deleteCountryById(id);
                         navigation.navigate("Explore");
                         deleteCountry(id);
                     } catch (e) {
