@@ -9,6 +9,10 @@ interface AppButtonProps {
     children: React.ReactNode;
     mode?: "text" | "outlined" | "contained" | "elevated" | "contained-tonal";
     style?: any;
+    icon?: string;
+    textColor?: string;
+    labelStyle?: any;
+    contentStyle?: any;
 }
 
 const AppButton: React.FC<AppButtonProps> = ({
@@ -18,6 +22,10 @@ const AppButton: React.FC<AppButtonProps> = ({
     children,
     mode = "contained",
     style,
+    icon,
+    textColor,
+    labelStyle,
+    contentStyle,
 }) => {
     return (
         <Button
@@ -25,9 +33,11 @@ const AppButton: React.FC<AppButtonProps> = ({
             onPress={onPress}
             loading={loading}
             disabled={disabled}
+            icon={icon}
+            textColor={textColor}
             style={[styles.button, style]}
-            contentStyle={styles.buttonContent}
-            labelStyle={styles.buttonLabel}
+            contentStyle={[styles.buttonContent, contentStyle]}
+            labelStyle={[styles.buttonLabel, labelStyle]}
         >
             {children}
         </Button>
