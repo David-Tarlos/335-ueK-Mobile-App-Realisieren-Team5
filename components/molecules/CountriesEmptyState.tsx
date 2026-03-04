@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import Typography from "../atoms/Typography";
+import { COLORS } from "../../theme/colors";
 
 const CountriesEmptyState: React.FC = () => {
   return (
@@ -26,14 +27,14 @@ const styles = StyleSheet.create({
     fontSize: 24,
     lineHeight: 32,
     fontWeight: "700",
-    color: "#0F172A",
+    color: COLORS.textPrimary,
     textAlign: "center",
     marginBottom: 0,
   },
   description: {
     fontSize: 16,
     lineHeight: 26,
-    color: "#64748B",
+    color: COLORS.textSecondary,
     textAlign: "center",
     maxWidth: 344,
     marginBottom: 0,

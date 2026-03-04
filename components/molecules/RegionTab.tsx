@@ -1,6 +1,7 @@
 import React from "react";
 import { Pressable, StyleSheet } from "react-native";
 import Typography from "../atoms/Typography";
+import { COLORS } from "../../theme/colors";
 
 interface RegionTabProps {
   label: string;
@@ -26,16 +27,16 @@ const styles = StyleSheet.create({
     borderBottomColor: "transparent",
   },
   activeTab: {
-    borderBottomColor: "#137FEC",
+    borderBottomColor: COLORS.primaryAlt,
   },
   text: {
     fontSize: 14,
     fontWeight: "700",
-    color: "#64748B",
+    color: COLORS.textSecondary,
     marginBottom: 0,
   },
   activeText: {
-    color: "#137FEC",
+    color: COLORS.primaryAlt,
   },
 });
 

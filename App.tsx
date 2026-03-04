@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginPage from "./components/pages/LoginPage";
 import RegisterPage from "./components/pages/RegisterPage";
 import HomePage from "./components/pages/HomePage";
-import ProfilPage from "./components/pages/ProfilPage";
+import ProfilePage from "./components/pages/ProfilePage";
 
 import CountryDetailPage from "./components/pages/CountryDetailPage";
 import CountryEditPage from "./components/pages/CountryEditPage";
@@ -28,8 +28,8 @@ export default function App() {
             <Stack.Screen name="Home" component={HomePage} />
             <Stack.Screen name="Login" component={LoginPage} />
             <Stack.Screen name="Register" component={RegisterPage} />
-            <Stack.Screen name="Profile" component={ProfilPage} />
-            <Stack.Screen name="country" component={CountryDetailPage} />
+            <Stack.Screen name="Profile" component={ProfilePage} />
+            <Stack.Screen name="CountryDetail" component={CountryDetailPage} />
             <Stack.Screen name="CountryEdit" component={CountryEditPage} />
             <Stack.Screen name="CountryAdd" component={CountryAddPage} />
             <Stack.Screen name="Explore" component={ExplorePage} />

@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import AuthTemplate from "../templates/AuthTemplate";
 import RegisterForm from "../organisms/RegisterForm";
 import * as SecureStore from "expo-secure-store";
 import { registerUser } from "../../constants/api";
 import { RootStackParamList } from "../../types/navigation";
+import { STORAGE_KEYS } from "../../constants/storage";
+import { apiErrorContains, getApiErrorMessage } from "../../utils/error";
 
 const isValidEmail = (email: string): boolean =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -62,12 +63,6 @@ export default function RegisterPage({ navigation }: RegisterPageProps) {
     if (!validate()) return;
 
     setLoading(true);
-    console.log("[Register] Starting request", {
-      endpoint: "/register",
-      email: email.trim(),
-      firstName: firstName.trim(),
-      lastName: lastName.trim(),
-    });
 
     try {
       const response = await registerUser({
@@ -76,44 +71,23 @@ export default function RegisterPage({ navigation }: RegisterPageProps) {
         firstName: firstName.trim(),
         lastName: lastName.trim(),
       });
-      console.log("[Register] Success response", {
-        status: response.status,
-        data: response.data,
-      });
 
       if (response.data?.user?.id) {
-        await SecureStore.setItemAsync("userId", response.data.user.id.toString());
+        await SecureStore.setItemAsync(STORAGE_KEYS.userId, response.data.user.id.toString());
       }
       const accessToken = response.data?.accessToken || response.data?.token;
       if (accessToken) {
-        await SecureStore.setItemAsync("token", accessToken);
+        await SecureStore.setItemAsync(STORAGE_KEYS.token, accessToken);
       }
 
-      console.log("[Register] Stored credentials successfully");
       navigation.navigate("Home");
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        console.log("[Register] Axios error response", {
-          status: error.response.status,
-          data: error.response.data,
-          headers: error.response.headers,
-        });
-        const data = error.response.data;
-        const dataStr = typeof data === "string" ? data : JSON.stringify(data);
-        if (dataStr.toLowerCase().includes("already exists")) {
-          setEmailError("This email address is already in use.");
-        } else {
-          const message =
-            (typeof data === "object" ? (data as { message?: string })?.message : null) ||
-            "Registration failed. Please try again.";
-          setEmailError(message);
-        }
+      if (apiErrorContains(error, "already exists")) {
+        setEmailError("This email address is already in use.");
       } else {
-        console.log("[Register] Network/unknown error", error);
-        setEmailError("Connection error. Please try again.");
+        setEmailError(getApiErrorMessage(error, "Registration failed. Please try again."));
       }
     } finally {
-      console.log("[Register] Request finished");
       setLoading(false);
     }
   };

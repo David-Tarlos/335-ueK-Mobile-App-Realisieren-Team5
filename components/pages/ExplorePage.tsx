@@ -10,6 +10,8 @@ import BottomNavigationBar from "../organisms/BottomNavigationBar";
 import Typography from "../atoms/Typography";
 import { CountryDto, getCountries } from "../../constants/api";
 import { RootStackParamList } from "../../types/navigation";
+import { COLORS } from "../../theme/colors";
+import { getApiErrorMessage } from "../../utils/error";
 
 import { useCountries, Country } from "../../context/CountryContext";
 
@@ -55,7 +57,7 @@ export default function ExplorePage({ navigation }: ExplorePageProps) {
 
         setCountries(mappedCountries);
       } catch (error) {
-        setLoadError("Countries could not be loaded.");
+        setLoadError(getApiErrorMessage(error, "Countries could not be loaded."));
       } finally {
         setLoading(false);
       }
@@ -109,7 +111,7 @@ export default function ExplorePage({ navigation }: ExplorePageProps) {
                   capital={country.capital || "Unknown"}
                   imageUrl={country.flag_url || "https://flagcdn.com/w320/un.png"}
                   large={index === 0}
-                  onPress={() => navigation.navigate("country", { id: country.id })}
+                  onPress={() => navigation.navigate("CountryDetail", { id: country.id })}
                 />
               ))}
             </View>
@@ -117,7 +119,7 @@ export default function ExplorePage({ navigation }: ExplorePageProps) {
         </ScrollView>
 
         <Pressable style={styles.fab} onPress={() => navigation.navigate("CountryAdd")}>
-          <MaterialCommunityIcons name="plus" size={24} color="#FFFFFF" />
+          <MaterialCommunityIcons name="plus" size={24} color={COLORS.white} />
         </Pressable>
 
         <BottomNavigationBar
@@ -132,11 +134,11 @@ export default function ExplorePage({ navigation }: ExplorePageProps) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: COLORS.white,
   },
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: COLORS.white,
   },
   contentContainer: {
     flexGrow: 1,
@@ -150,14 +152,14 @@ const styles = StyleSheet.create({
   infoText: {
     marginTop: 12,
     textAlign: "center",
-    color: "#64748B",
+    color: COLORS.textSecondary,
     fontSize: 16,
     marginBottom: 0,
   },
   errorText: {
     marginTop: 12,
     textAlign: "center",
-    color: "#B91C1C",
+    color: COLORS.danger,
     fontSize: 16,
     marginBottom: 0,
   },
@@ -168,10 +170,10 @@ const styles = StyleSheet.create({
     width: 52,
     height: 52,
     borderRadius: 16,
-    backgroundColor: "#135BEC",
+    backgroundColor: COLORS.primary,
     justifyContent: "center",
     alignItems: "center",
-    shadowColor: "#135BEC",
+    shadowColor: COLORS.primary,
     shadowOffset: { width: 0, height: 10 },
     shadowOpacity: 0.3,
     shadowRadius: 15,

@@ -1,8 +1,9 @@
 import React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import Typography from "../atoms/Typography";
 import SearchBar from "../atoms/SearchBar";
+import PageHeader from "../molecules/PageHeader";
 import RegionTab from "../molecules/RegionTab";
+import { COLORS } from "../../theme/colors";
 
 interface CountryFiltersHeaderProps {
   searchValue: string;
@@ -21,11 +22,7 @@ const CountryFiltersHeader: React.FC<CountryFiltersHeaderProps> = ({
 }) => {
   return (
     <View style={styles.wrapper}>
-      <View style={styles.topBar}>
-        <Typography variant="text" style={styles.title}>
-          Country List
-        </Typography>
-      </View>
+      <PageHeader title="Country List" />
 
       <View style={styles.filtersSection}>
         <SearchBar value={searchValue} onChangeText={onChangeSearch} />
@@ -51,26 +48,7 @@ const CountryFiltersHeader: React.FC<CountryFiltersHeaderProps> = ({
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: "#FFFFFF",
-    borderBottomWidth: 1,
-    borderBottomColor: "#E2E8F0",
-  },
-  topBar: {
-    height: 92,
-    justifyContent: "flex-end",
-    paddingHorizontal: 16,
-    paddingBottom: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "#E2E8F0",
-    backgroundColor: "#FFFFFF",
-  },
-  title: {
-    fontSize: 20,
-    lineHeight: 25,
-    fontWeight: "700",
-    color: "#0F172A",
-    letterSpacing: -0.5,
-    marginBottom: 0,
+    backgroundColor: COLORS.white,
   },
   filtersSection: {
     paddingHorizontal: 16,
@@ -79,7 +57,7 @@ const styles = StyleSheet.create({
   },
   tabsScroll: {
     borderBottomWidth: 1,
-    borderBottomColor: "#E2E8F0",
+    borderBottomColor: COLORS.borderLight,
   },
   tabsContainer: {
     alignItems: "center",

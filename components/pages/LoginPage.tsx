@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import AuthTemplate from "../templates/AuthTemplate";
 import LoginForm from "../organisms/LoginForm";
 import { loginUser } from "../../constants/api";
 import * as SecureStore from "expo-secure-store";
 import { RootStackParamList } from "../../types/navigation";
+import { STORAGE_KEYS } from "../../constants/storage";
+import { getApiErrorMessage } from "../../utils/error";
 
 const isValidEmail = (email: string): boolean =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -45,43 +46,24 @@ export default function LoginPage({ navigation }: LoginPageProps) {
     if (!validate()) return;
 
     setLoading(true);
-    console.log("[Login] Starting request", {
-      endpoint: "/login",
-      email: email.trim(),
-    });
 
     try {
       const response = await loginUser({
         email: email.trim(),
         password,
       });
-      console.log("[Login] Success response", {
-        status: response.status,
-        data: response.data,
-      });
 
-      await SecureStore.setItemAsync("userId", response.data.user.id.toString());
+      await SecureStore.setItemAsync(STORAGE_KEYS.userId, response.data.user.id.toString());
       const accessToken = response.data?.accessToken || response.data?.token;
       if (accessToken) {
-        await SecureStore.setItemAsync("token", accessToken);
+        await SecureStore.setItemAsync(STORAGE_KEYS.token, accessToken);
       }
 
-      console.log("[Login] Stored credentials successfully");
       navigation.navigate("Home");
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        console.log("[Login] Axios error response", {
-          status: error.response.status,
-          data: error.response.data,
-          headers: error.response.headers,
-        });
-        setPasswordError("Wrong credentials. Please try again.");
-      } else {
-        console.log("[Login] Network/unknown error", error);
-        setPasswordError("Connection error. Please try again.");
-      }
+      const message = getApiErrorMessage(error, "Connection error. Please try again.");
+      setPasswordError(message === "Connection error. Please try again." ? "Connection error. Please try again." : "Wrong credentials. Please try again.");
     } finally {
-      console.log("[Login] Request finished");
       setLoading(false);
     }
   };

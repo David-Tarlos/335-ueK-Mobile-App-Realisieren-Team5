@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, View, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Typography from "../atoms/Typography";
+import { COLORS } from "../../theme/colors";
 
 interface DetailTemplateProps {
     title: string;
@@ -16,7 +17,7 @@ const DetailTemplate: React.FC<DetailTemplateProps> = ({ title, onClose, childre
         <SafeAreaView style={styles.safeArea} edges={["top"]}>
             <View style={styles.header}>
                 <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-                    <MaterialCommunityIcons name="close" size={28} color="#0f172a" />
+                    <MaterialCommunityIcons name="close" size={28} color={COLORS.textPrimary} />
                 </TouchableOpacity>
                 <Typography variant="header" style={styles.headerTitle}>{title}</Typography>
             </View>
@@ -35,7 +36,7 @@ const DetailTemplate: React.FC<DetailTemplateProps> = ({ title, onClose, childre
 const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
-        backgroundColor: "#ffffff",
+        backgroundColor: COLORS.white,
     },
     header: {
         flexDirection: "row",
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         paddingVertical: 12,
         borderBottomWidth: 1,
-        borderBottomColor: "#f1f5f9",
+        borderBottomColor: COLORS.borderMuted,
     },
     closeButton: {
         padding: 4,
@@ -58,12 +59,12 @@ const styles = StyleSheet.create({
     },
     content: {
         paddingBottom: 20,
-        backgroundColor: "#f8fafc",
+        backgroundColor: COLORS.borderMuted,
     },
     footer: {
-        backgroundColor: "#ffffff",
+        backgroundColor: COLORS.white,
         borderTopWidth: 1,
-        borderTopColor: "#f1f5f9",
+        borderTopColor: COLORS.borderMuted,
         paddingHorizontal: 20,
         paddingTop: 12,
         paddingBottom: 24,

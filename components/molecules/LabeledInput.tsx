@@ -3,6 +3,7 @@ import { View, Text, StyleProp, StyleSheet, ViewStyle } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Typography from "../atoms/Typography";
 import AppTextInput from "../atoms/AppTextInput";
+import { COLORS } from "../../theme/colors";
 
 interface LabeledInputProps {
     label: string;
@@ -45,7 +46,7 @@ const LabeledInput: React.FC<LabeledInputProps> = ({
             <View style={styles.errorRow}>
                 {!!error && (
                     <>
-                        <MaterialCommunityIcons name="alert-circle-outline" size={16} color="#b91c1c" />
+                        <MaterialCommunityIcons name="alert-circle-outline" size={16} color={COLORS.danger} />
                         <Text style={styles.errorText}>{error}</Text>
                     </>
                 )}
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
     },
     errorText: {
         fontSize: 13,
-        color: "#b91c1c",
+        color: COLORS.danger,
         flex: 1,
     },
 });

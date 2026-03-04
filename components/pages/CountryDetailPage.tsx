@@ -3,6 +3,8 @@ import { View, StyleSheet, Alert } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { deleteCountryById, getCountryById } from "../../constants/api";
+import { COLORS } from "../../theme/colors";
+import { getApiErrorMessage } from "../../utils/error";
 import DetailTemplate from "../templates/DetailTemplate";
 import DetailCard from "../organisms/DetailCard";
 import Typography from "../atoms/Typography";
@@ -12,7 +14,7 @@ import CountryBanner from "../molecules/CountryBanner";
 import { Country, useCountries } from "../../context/CountryContext";
 import { RootStackParamList } from "../../types/navigation";
 
-type CountryDetailPageProps = NativeStackScreenProps<RootStackParamList, "country">;
+type CountryDetailPageProps = NativeStackScreenProps<RootStackParamList, "CountryDetail">;
 
 export default function CountryDetailPage({ route, navigation }: CountryDetailPageProps) {
     const { id } = route.params;
@@ -39,8 +41,8 @@ export default function CountryDetailPage({ route, navigation }: CountryDetailPa
 
             setCountries([...countries, data]);
             setDisplayCountry(data);
-        } catch (e) {
-            Alert.alert("Error", "No country was found");
+        } catch (error) {
+            Alert.alert("Error", getApiErrorMessage(error, "No country was found"));
             navigation.goBack();
         } finally {
             setLoading(false);
@@ -58,8 +60,8 @@ export default function CountryDetailPage({ route, navigation }: CountryDetailPa
                         await deleteCountryById(id);
                         navigation.navigate("Explore");
                         deleteCountry(id);
-                    } catch (e) {
-                        Alert.alert("Error", "Failed to delete");
+                    } catch (error) {
+                        Alert.alert("Error", getApiErrorMessage(error, "Failed to delete"));
                     }
                 },
             },
@@ -138,22 +140,22 @@ const styles = StyleSheet.create({
     countryName: {
         fontSize: 48,
         fontWeight: "900",
-        color: "#0f172a",
+        color: COLORS.textPrimary,
         marginBottom: 24,
     },
     buttonContainer: {
         gap: 10,
     },
     deleteButton: {
-        backgroundColor: "#e2e8f0",
+        backgroundColor: COLORS.neutralButton,
         borderRadius: 20,
     },
     deleteButtonLabel: {
-        color: "#0f172a",
+        color: COLORS.textPrimary,
         fontWeight: "700",
     },
     editButton: {
-        backgroundColor: "#135BEC",
+        backgroundColor: COLORS.primary,
         borderRadius: 20,
     },
 });

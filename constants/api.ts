@@ -1,6 +1,7 @@
 import { Platform } from 'react-native';
 import axios, { AxiosResponse } from 'axios';
 import * as SecureStore from 'expo-secure-store';
+import { STORAGE_KEYS } from './storage';
 
 const API_PORT = 3030;
 
@@ -22,15 +23,13 @@ export const api = axios.create({
 api.interceptors.request.use(
   async (config) => {
     try {
-      const token = await SecureStore.getItemAsync('token');
+      const token = await SecureStore.getItemAsync(STORAGE_KEYS.token);
 
       if (token) {
         config.headers = config.headers ?? {};
         config.headers.Authorization = `Bearer ${token}`;
       }
-    } catch (error) {
-      console.error('Error reading token from SecureStore:', error);
-    }
+    } catch {}
 
     return config;
   },
@@ -105,5 +104,3 @@ export const deleteCountryById = async (id: number | string) =>
 
 export const getUserById = async (id: number | string): Promise<AxiosResponse<UserDto>> =>
   api.get(`/users/${id}`);
-
-export default BASE_URL;

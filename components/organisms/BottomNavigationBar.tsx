@@ -3,6 +3,7 @@ import { StyleSheet } from "react-native";
 import { Surface } from "react-native-paper";
 import BottomNavItem from "../molecules/BottomNavItem";
 import { BottomNavRoute } from "../../types/navigation";
+import { COLORS } from "../../theme/colors";
 
 interface BottomNavigationBarProps {
     currentRoute: BottomNavRoute;
@@ -40,8 +41,8 @@ const BottomNavigationBar: React.FC<BottomNavigationBarProps> = ({
 const styles = StyleSheet.create({
     container: {
         borderTopWidth: 1,
-        borderTopColor: "#94A3B8",
-        backgroundColor: "rgba(255, 255, 255, 0.9)",
+        borderTopColor: COLORS.borderLight,
+        backgroundColor: COLORS.white,
         flexDirection: "row",
         justifyContent: "space-between",
         paddingHorizontal: 16,

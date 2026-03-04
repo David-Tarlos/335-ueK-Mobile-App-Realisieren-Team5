@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Typography from "../atoms/Typography";
+import { COLORS } from "../../theme/colors";
 
 interface InfoRowProps {
     icon: keyof typeof MaterialCommunityIcons.glyphMap;
@@ -15,7 +16,7 @@ const InfoRow: React.FC<InfoRowProps> = ({ icon, label, value, showDivider = tru
         <View style={styles.container}>
             <View style={styles.content}>
                 <View style={styles.left}>
-                    <MaterialCommunityIcons name={icon} size={24} color="#3b82f6" />
+                    <MaterialCommunityIcons name={icon} size={24} color={COLORS.primaryInfo} />
                     <Typography variant="text" style={styles.label}>{label}</Typography>
                 </View>
                 <Typography variant="title" style={styles.value}>{value}</Typography>
@@ -42,18 +43,18 @@ const styles = StyleSheet.create({
     },
     label: {
         marginLeft: 12,
-        color: "#64748b",
+        color: COLORS.textSecondary,
         fontSize: 16,
     },
     value: {
         fontSize: 16,
         fontWeight: "700",
-        color: "#0f172a",
+        color: COLORS.textPrimary,
         marginBottom: 0,
     },
     divider: {
         height: 1,
-        backgroundColor: "#f1f5f9",
+        backgroundColor: COLORS.borderMuted,
         marginHorizontal: 16,
     },
 });

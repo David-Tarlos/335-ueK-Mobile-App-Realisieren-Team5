@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { TouchableRipple } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Typography from "../atoms/Typography";
+import { COLORS } from "../../theme/colors";
 
 interface BottomNavItemProps {
   label: string;
@@ -17,8 +18,8 @@ const BottomNavItem: React.FC<BottomNavItemProps> = ({
   icon,
   onPress,
 }) => {
-  const activeColor = "#135BEC";
-  const inactiveColor = "#94A3B8";
+  const activeColor = COLORS.primary;
+  const inactiveColor = COLORS.textMuted;
   const handlePress = onPress ?? (() => {});
 
   return (

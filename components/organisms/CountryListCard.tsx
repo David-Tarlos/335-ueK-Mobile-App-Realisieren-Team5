@@ -3,6 +3,7 @@ import { Image, StyleSheet, View } from "react-native";
 import { TouchableRipple } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Typography from "../atoms/Typography";
+import { COLORS } from "../../theme/colors";
 
 interface CountryListCardProps {
   name: string;
@@ -36,7 +37,7 @@ const CountryListCard: React.FC<CountryListCardProps> = ({
             {name}
           </Typography>
           <View style={styles.metaRow}>
-            <MaterialCommunityIcons name="office-building-outline" size={12} color="#64748B" />
+            <MaterialCommunityIcons name="office-building-outline" size={12} color={COLORS.textSecondary} />
             <Typography variant="text" style={styles.capital}>
               {capital}
             </Typography>
@@ -49,10 +50,10 @@ const CountryListCard: React.FC<CountryListCardProps> = ({
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: COLORS.white,
     borderRadius: 12,
     overflow: "hidden",
-    shadowColor: "#000000",
+    shadowColor: COLORS.black,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
     shadowRadius: 2,
@@ -76,7 +77,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     lineHeight: 28,
     fontWeight: "700",
-    color: "#0F172A",
+    color: COLORS.textPrimary,
     marginBottom: 0,
   },
   metaRow: {
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
   capital: {
     fontSize: 14,
     lineHeight: 20,
-    color: "#64748B",
+    color: COLORS.textSecondary,
     marginBottom: 0,
   },
   ripple: {

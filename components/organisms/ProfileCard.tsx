@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import ProfileDetailItem from "../molecules/ProfileDetailItem";
+import { COLORS } from "../../theme/colors";
 
 interface ProfileCardProps {
     email?: string;
@@ -44,12 +45,12 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
 
 const styles = StyleSheet.create({
     card: {
-        backgroundColor: "#ffffff",
+        backgroundColor: COLORS.white,
         borderRadius: 12,
         marginTop: 32,
         width: "100%",
         elevation: 2,
-        shadowColor: "#000",
+        shadowColor: COLORS.black,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 4,

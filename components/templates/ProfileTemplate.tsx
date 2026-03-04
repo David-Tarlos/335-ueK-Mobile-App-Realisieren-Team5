@@ -29,7 +29,7 @@ const ProfileTemplate: React.FC<ProfileTemplateProps> = ({
 }) => {
     return (
         <MainTemplate
-            title="Profil"
+            title="Profile"
             currentRoute={currentRoute}
             onNavigate={onNavigate}
         >

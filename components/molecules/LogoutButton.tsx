@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import AppButton from "../atoms/AppButton";
+import { COLORS } from "../../theme/colors";
 
 interface LogoutButtonProps {
     onPress: () => void;
@@ -12,7 +13,7 @@ const LogoutButton: React.FC<LogoutButtonProps> = ({ onPress }) => {
             onPress={onPress}
             mode="outlined"
             icon="logout-variant"
-            textColor="#c73b45"
+            textColor={COLORS.dangerSoft}
             style={styles.button}
             contentStyle={styles.content}
             labelStyle={styles.label}
@@ -27,9 +28,9 @@ const styles = StyleSheet.create({
         width: "100%",
         marginTop: 16,
         borderRadius: 12,
-        borderColor: "#efc7ca",
+        borderColor: COLORS.dangerBorder,
         borderWidth: 1.5,
-        backgroundColor: "#fff7f8",
+        backgroundColor: COLORS.dangerBackground,
     },
     content: {
         minHeight: 64,

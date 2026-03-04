@@ -3,6 +3,7 @@ import { View, StyleSheet } from "react-native";
 import IconBox from "../atoms/IconBox";
 import Typography from "../atoms/Typography";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { COLORS } from "../../theme/colors";
 
 interface ProfileDetailItemProps {
     icon: keyof typeof MaterialCommunityIcons.glyphMap;
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
     },
     divider: {
         height: 1,
-        backgroundColor: "#f3f4f6",
+        backgroundColor: COLORS.borderSubtle,
         marginLeft: 76,
     },
 });

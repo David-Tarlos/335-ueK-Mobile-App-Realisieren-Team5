@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { COLORS } from "../../theme/colors";
 
 interface SearchBarProps {
   value: string;
@@ -11,7 +12,7 @@ interface SearchBarProps {
 const SearchBar: React.FC<SearchBarProps> = ({
   value,
   onChangeText,
-  placeholder = "Search countries",
+  placeholder = "Search Countries",
 }) => {
   return (
     <View style={styles.container}>
@@ -19,10 +20,10 @@ const SearchBar: React.FC<SearchBarProps> = ({
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
-        placeholderTextColor="#64748B"
+        placeholderTextColor={COLORS.textSecondary}
         style={styles.input}
       />
-      <MaterialCommunityIcons name="magnify" size={18} color="#94A3B8" />
+      <MaterialCommunityIcons name="magnify" size={18} color={COLORS.textMuted} />
     </View>
   );
 };
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
   container: {
     height: 47,
     borderRadius: 12,
-    backgroundColor: "#F1F5F9",
+    backgroundColor: COLORS.borderMuted,
     paddingHorizontal: 16,
     flexDirection: "row",
     alignItems: "center",
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     fontSize: 16,
-    color: "#0F172A",
+    color: COLORS.textPrimary,
     paddingVertical: 0,
     marginRight: 10,
   },

@@ -1,6 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { COLORS } from "../../theme/colors";
 
 interface IconBoxProps {
     name: keyof typeof MaterialCommunityIcons.glyphMap;
@@ -10,8 +11,8 @@ interface IconBoxProps {
 
 const IconBox: React.FC<IconBoxProps> = ({
     name,
-    color = "#1d4ed8",
-    backgroundColor = "#ebf2ff",
+    color = COLORS.textLink,
+    backgroundColor = COLORS.primaryTint,
 }) => {
     return (
         <View style={[styles.box, { backgroundColor }]}>

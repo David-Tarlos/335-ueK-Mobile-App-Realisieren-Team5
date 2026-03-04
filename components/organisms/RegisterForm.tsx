@@ -66,7 +66,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
             </View>
 
             <LabeledInput
-                label="E-Mail"
+                label="E-mail"
                 placeholder="user@example.com"
                 value={email}
                 onChangeText={setEmail}

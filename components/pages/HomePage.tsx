@@ -7,6 +7,7 @@ import AppButton from "../atoms/AppButton";
 import Typography from "../atoms/Typography";
 import MainTemplate from "../templates/MainTemplate";
 import { RootStackParamList } from "../../types/navigation";
+import { COLORS } from "../../theme/colors";
 
 const WORLD_IMAGE =
   "https://media.istockphoto.com/id/1197369584/vector/detailed-world-map-with-countries.jpg?s=612x612&w=0&k=20&c=pW9R8Os-vNEZc1-TKLgHhva-e-OL277-peZdPJKT6Qg=";
@@ -37,7 +38,7 @@ export default function HomePage({ navigation }: HomePageProps) {
         </Card.Content>
         <Card.Content>
           <View style={styles.countryRow}>
-            <MaterialCommunityIcons name="earth" size={20} color="#135BEC" />
+            <MaterialCommunityIcons name="earth" size={20} color={COLORS.primary} />
             <Typography variant="title" style={styles.countryCount}>
               195 Countries
             </Typography>
@@ -58,21 +59,21 @@ export default function HomePage({ navigation }: HomePageProps) {
 const styles = StyleSheet.create({
   title: {
     fontWeight: "700",
-    color: "#0f172a",
+    color: COLORS.textPrimary,
     fontSize: 32,
     marginBottom: 8,
   },
   subtitle: {
-    color: "#64748b",
+    color: COLORS.textSecondary,
     marginBottom: 20,
     fontSize: 14,
   },
   card: {
     borderRadius: 14,
-    borderColor: "#e2e8f0",
+    borderColor: COLORS.borderLight,
     overflow: "hidden",
     marginBottom: 26,
-    backgroundColor: "#ffffff",
+    backgroundColor: COLORS.white,
   },
   cardImageWrapper: {
     paddingHorizontal: 0,
@@ -81,7 +82,7 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: 200,
-    backgroundColor: "#f1f5f9",
+    backgroundColor: COLORS.borderMuted,
   },
   countryRow: {
     marginTop: 6,
@@ -91,19 +92,19 @@ const styles = StyleSheet.create({
   countryCount: {
     marginLeft: 8,
     fontWeight: "700",
-    color: "#0f172a",
+    color: COLORS.textPrimary,
     marginBottom: 0,
     fontSize: 24,
   },
   countrySubtitle: {
-    color: "#64748b",
+    color: COLORS.textSecondary,
     marginTop: 4,
     marginBottom: 8,
     fontSize: 16,
   },
   button: {
     borderRadius: 12,
-    backgroundColor: "#135BEC",
+    backgroundColor: COLORS.primary,
     marginTop: 4,
   },
 });

@@ -2,6 +2,7 @@ import React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import Logo from "../atoms/Logo";
 import Typography from "../atoms/Typography";
+import { COLORS } from "../../theme/colors";
 
 interface AuthTemplateProps {
   title: string;
@@ -45,7 +46,7 @@ const AuthTemplate: React.FC<AuthTemplateProps> = ({
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: "#ffffff",
+    backgroundColor: COLORS.screenBackground,
     alignItems: "center",
     paddingHorizontal: 24,
     paddingTop: 85,

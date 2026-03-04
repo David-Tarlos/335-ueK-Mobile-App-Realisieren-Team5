@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleProp, StyleSheet, TextStyle, ViewStyle } from "react-native";
 import { Button } from "react-native-paper";
+import { COLORS } from "../../theme/colors";
 
 interface AppButtonProps {
     onPress: () => void;
@@ -47,7 +48,7 @@ const AppButton: React.FC<AppButtonProps> = ({
 const styles = StyleSheet.create({
     button: {
         borderRadius: 12,
-        backgroundColor: "#135BEC",
+        backgroundColor: COLORS.primary,
     },
     buttonContent: {
         paddingVertical: 6,

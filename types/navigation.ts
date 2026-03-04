@@ -3,7 +3,7 @@ export type RootStackParamList = {
   Login: undefined;
   Register: undefined;
   Profile: undefined;
-  country: { id: number };
+  CountryDetail: { id: number };
   CountryEdit: { id: number };
   CountryAdd: undefined;
   Explore: undefined;

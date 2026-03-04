@@ -1,10 +1,10 @@
 import React from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Divider } from "react-native-paper";
-import Typography from "../atoms/Typography";
 import BottomNavigationBar from "../organisms/BottomNavigationBar";
+import PageHeader from "../molecules/PageHeader";
 import { BottomNavRoute } from "../../types/navigation";
+import { COLORS } from "../../theme/colors";
 
 interface MainTemplateProps {
     title: string;
@@ -24,10 +24,7 @@ const MainTemplate: React.FC<MainTemplateProps> = ({
     return (
         <SafeAreaView style={styles.safeArea} edges={["top"]}>
             <View style={styles.container}>
-                <Typography variant="header" style={styles.header}>
-                    {title}
-                </Typography>
-                <Divider />
+                <PageHeader title={title} />
 
                 {scrollable ? (
                     <ScrollView contentContainerStyle={styles.content}>
@@ -51,15 +48,10 @@ const MainTemplate: React.FC<MainTemplateProps> = ({
 const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
-        backgroundColor: "#ffffff",
+        backgroundColor: COLORS.screenBackground,
     },
     container: {
         flex: 1,
-    },
-    header: {
-        paddingVertical: 20,
-        paddingHorizontal: 24,
-        backgroundColor: "#ffffff",
     },
     content: {
         flexGrow: 1,

@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet, Image, Pressable } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Typography from "../atoms/Typography";
+import { COLORS } from "../../theme/colors";
 
 interface CountryBannerProps {
     flagUrl: string;
@@ -38,12 +39,12 @@ const CountryBanner: React.FC<CountryBannerProps> = ({
                 />
             ) : (
                 <View style={[styles.headerImage, styles.placeholder]}>
-                    <MaterialCommunityIcons name="camera-plus-outline" size={80} color="#94a3b8" />
+                    <MaterialCommunityIcons name="camera-plus-outline" size={80} color={COLORS.textMuted} />
                 </View>
             )}
             {editable && flagUrl && (
                 <View style={styles.cameraOverlay}>
-                    <MaterialCommunityIcons name="camera-plus-outline" size={60} color="#ffffff" />
+                    <MaterialCommunityIcons name="camera-plus-outline" size={60} color={COLORS.white} />
                 </View>
             )}
             {(description || title) && (
@@ -74,14 +75,14 @@ const styles = StyleSheet.create({
     headerImage: {
         width: "100%",
         height: "100%",
-        backgroundColor: "#e2e8f0",
+        backgroundColor: COLORS.borderLight,
     },
     placeholder: {
-        backgroundColor: "#94a3b833",
+        backgroundColor: "rgba(148, 163, 184, 0.2)",
         justifyContent: "center",
         alignItems: "center",
         borderWidth: 1,
-        borderColor: "#cbd5e1",
+        borderColor: COLORS.borderLight,
         borderStyle: "dashed",
     },
     cameraOverlay: {
@@ -99,13 +100,13 @@ const styles = StyleSheet.create({
         backgroundColor: "rgba(0,0,0,0.15)",
     },
     description: {
-        color: "#ffffff",
+        color: COLORS.white,
         fontSize: 14,
         fontWeight: "500",
         marginBottom: 2,
     },
     title: {
-        color: "#ffffff",
+        color: COLORS.white,
         fontSize: 24,
         fontWeight: "700",
     },

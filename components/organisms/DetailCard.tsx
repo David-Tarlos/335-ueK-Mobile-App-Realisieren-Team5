@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import InfoRow from "../molecules/InfoRow";
+import { COLORS } from "../../theme/colors";
 
 interface DetailCardProps {
     data: {
@@ -29,10 +30,10 @@ const DetailCard: React.FC<DetailCardProps> = ({ data }) => {
 
 const styles = StyleSheet.create({
     card: {
-        backgroundColor: "#ffffff",
+        backgroundColor: COLORS.white,
         borderRadius: 16,
         borderWidth: 1,
-        borderColor: "#f1f5f9",
+        borderColor: COLORS.borderMuted,
         overflow: "hidden",
         marginTop: 24,
     },

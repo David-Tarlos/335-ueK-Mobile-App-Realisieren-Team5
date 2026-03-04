@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleProp, StyleSheet, ViewStyle } from "react-native";
 import { TextInput } from "react-native-paper";
+import { COLORS } from "../../theme/colors";
 
 interface AppTextInputProps {
     label?: string;
@@ -45,7 +46,7 @@ const AppTextInput: React.FC<AppTextInputProps> = ({
 
 const styles = StyleSheet.create({
     input: {
-        backgroundColor: "#ffffff",
+        backgroundColor: COLORS.inputBackground,
     },
     inputOutline: {
         borderRadius: 12,
