@@ -34,19 +34,6 @@ export default function ProfilPage({ navigation }: any) {
         ? `${firstName || ""} ${lastName || ""}`.trim()
         : "No name found";
 
-    const handleLogout = async () => {
-        try {
-            await AsyncStorage.removeItem("userId");
-        } catch (error) {
-            console.error("Error during logout:", error);
-        } finally {
-            navigation.reset({
-                index: 0,
-                routes: [{ name: "Login" }],
-            });
-        }
-    };
-
     return (
         <ProfileTemplate
             fullName={fullName}
@@ -56,7 +43,6 @@ export default function ProfilPage({ navigation }: any) {
             age={userData?.age?.toString()}
             currentRoute="Profile"
             onNavigate={(route) => navigation.navigate(route)}
-            onLogout={handleLogout}
         />
     );
 }
