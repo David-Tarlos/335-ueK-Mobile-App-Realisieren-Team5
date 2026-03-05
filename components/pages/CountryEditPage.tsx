@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { View, StyleSheet, Alert } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { getCountryById, updateCountryById } from "../../constants/api";
@@ -25,15 +25,16 @@ type CountryEditPageProps = NativeStackScreenProps<RootStackParamList, "CountryE
  * Edit screen for updating an existing country's data.
  * Pre-fills the form from context or fetches the country from the API.
  * Allows picking a new flag image from the device library, and saves changes via the update API.
- * Also provides a Delete action.
+ * Cancel exits immediately when unchanged, or asks for confirmation when there are unsaved changes.
  */
 
 export default function CountryEditPage({ route, navigation }: CountryEditPageProps) {
     const { id } = route.params;
-    const { countries, updateCountry, deleteCountry, setCountries } = useCountries();
+    const { countries, updateCountry, setCountries } = useCountries();
     const [loading, setLoading] = useState(!countries.find(c => c.id === id));
     const [saving, setSaving] = useState(false);
     const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+    const [showDiscardDialog, setShowDiscardDialog] = useState(false);
 
     const [name, setName] = useState("");
     const [capital, setCapital] = useState("");
@@ -43,16 +44,56 @@ export default function CountryEditPage({ route, navigation }: CountryEditPagePr
     const [flagUrl, setFlagUrl] = useState("");
 
     const [errors, setErrors] = useState<CountryFormErrors>({});
+    const [initialValues, setInitialValues] = useState<{
+        name: string;
+        capital: string;
+        population: string;
+        continent: string;
+        language: string;
+        flagUrl: string;
+    } | null>(null);
+
+    const setFormFromCountry = (country: Country) => {
+        const countryName = country.country_name || "";
+        const countryCapital = country.capital || "";
+        const countryPopulation = country.population ? country.population.toString() : "";
+        const countryContinent = country.continent || "";
+        const countryLanguage = country.language || "";
+        const countryFlagUrl = country.flag_url || "";
+
+        setName(countryName);
+        setCapital(countryCapital);
+        setPopulation(countryPopulation);
+        setContinent(countryContinent);
+        setLanguage(countryLanguage);
+        setFlagUrl(countryFlagUrl);
+        setInitialValues({
+            name: countryName.trim(),
+            capital: countryCapital.trim(),
+            population: sanitizePopulationInput(countryPopulation),
+            continent: countryContinent.trim(),
+            language: countryLanguage.trim(),
+            flagUrl: countryFlagUrl.trim(),
+        });
+    };
+
+    const hasUnsavedChanges = useMemo(() => {
+        if (!initialValues) return false;
+
+        return (
+            initialValues.name !== name.trim() ||
+            initialValues.capital !== capital.trim() ||
+            initialValues.population !== sanitizePopulationInput(population) ||
+            initialValues.continent !== continent.trim() ||
+            initialValues.language !== language.trim() ||
+            initialValues.flagUrl !== flagUrl.trim()
+        );
+    }, [initialValues, name, capital, population, continent, language, flagUrl]);
 
     useEffect(() => {
         const country = countries.find(c => c.id === id);
         if (country) {
-            setName(country.country_name || "");
-            setCapital(country.capital || "");
-            setPopulation(country.population ? country.population.toString() : "");
-            setContinent(country.continent || "");
-            setLanguage(country.language || "");
-            setFlagUrl(country.flag_url || "");
+            setFormFromCountry(country);
             setLoading(false);
         } else if (id) {
             fetchCountry();
@@ -64,12 +105,7 @@ export default function CountryEditPage({ route, navigation }: CountryEditPagePr
             const data = await getCountryById(id);
             if (data) {
                 setCountries([...countries, data]);
-                setName(data.country_name || "");
-                setCapital(data.capital || "");
-                setPopulation(data.population ? data.population.toString() : "");
-                setContinent(data.continent || "");
-                setLanguage(data.language || "");
-                setFlagUrl(data.flag_url || "");
+                setFormFromCountry(data);
             }
         } catch (error) {
             Alert.alert("Error", getApiErrorMessage(error, "Could not load country data"));
@@ -111,6 +147,14 @@ export default function CountryEditPage({ route, navigation }: CountryEditPagePr
 
             updateCountry({ id, ...updatedData } as Country);
             setShowSuccessDialog(true);
+            setInitialValues({
+                name: updatedData.country_name,
+                capital: updatedData.capital,
+                population: updatedData.population.toString(),
+                continent: updatedData.continent,
+                language: updatedData.language,
+                flagUrl: updatedData.flag_url.trim(),
+            });
         } catch (error) {
             Alert.alert("Error", getApiErrorMessage(error, "Failed to save changes"));
         } finally {
@@ -118,28 +162,18 @@ export default function CountryEditPage({ route, navigation }: CountryEditPagePr
         }
     };
 
-    const handleDelete = async () => {
-        Alert.alert("Delete", "Are you sure you want to delete this country?", [
-            { text: "Cancel", style: "cancel" },
-            {
-                text: "Delete",
-                style: "destructive",
-                onPress: () => {
-                    const countryToDelete = countries.find((country) => country.id === id) ?? {
-                        id,
-                        country_name: name.trim(),
-                        capital: capital.trim() || null,
-                        population: parseInt(population.replace(/[^0-9]/g, "")) || 0,
-                        continent: continent.trim() || null,
-                        language: language.trim() || null,
-                        flag_url: flagUrl || null,
-                    };
+    const handleCancel = () => {
+        if (!hasUnsavedChanges) {
+            navigation.goBack();
+            return;
+        }
 
-                    deleteCountry(id);
-                    navigation.navigate("Explore", { pendingDeletion: countryToDelete });
-                },
-            },
-        ]);
+        setShowDiscardDialog(true);
+    };
+
+    const handleDiscardConfirm = () => {
+        setShowDiscardDialog(false);
+        navigation.goBack();
     };
 
     const handleSuccessConfirm = () => {
@@ -153,12 +187,12 @@ export default function CountryEditPage({ route, navigation }: CountryEditPagePr
         <View style={styles.buttonContainer}>
             <AppButton
                 mode="contained"
-                onPress={handleDelete}
+                onPress={handleCancel}
                 style={styles.cancelButton}
                 labelStyle={styles.cancelButtonLabel}
-                icon="delete-outline"
+                icon="close"
             >
-                Delete
+                Cancel
             </AppButton>
             <AppButton
                 mode="contained"
@@ -168,13 +202,13 @@ export default function CountryEditPage({ route, navigation }: CountryEditPagePr
                 style={styles.saveButton}
                 icon="pencil-outline"
             >
-                Save
+                Save Changes
             </AppButton>
         </View>
     );
 
     return (
-        <DetailTemplate title="Edit" onClose={() => navigation.goBack()} footer={footer}>
+        <DetailTemplate title="Edit" onClose={handleCancel} footer={footer}>
             <View style={styles.formPadding}>
                 <CountryBanner
                     flagUrl={flagUrl}
@@ -220,6 +254,17 @@ export default function CountryEditPage({ route, navigation }: CountryEditPagePr
                 title="Success"
                 message="Country details updated"
                 onConfirm={handleSuccessConfirm}
+            />
+
+            <AppAlertDialog
+                visible={showDiscardDialog}
+                title="Discard changes"
+                message="You have unsaved changes. Do you really want to discard them?"
+                cancelLabel="Keep editing"
+                onCancel={() => setShowDiscardDialog(false)}
+                confirmLabel="Discard"
+                confirmTone="destructive"
+                onConfirm={handleDiscardConfirm}
             />
         </DetailTemplate>
     );

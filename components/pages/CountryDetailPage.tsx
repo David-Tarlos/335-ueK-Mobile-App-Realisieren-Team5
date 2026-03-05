@@ -9,6 +9,7 @@ import DetailTemplate from "../templates/DetailTemplate";
 import DetailCard from "../organisms/DetailCard";
 import Typography from "../atoms/Typography";
 import AppButton from "../atoms/AppButton";
+import AppAlertDialog from "../molecules/AppAlertDialog";
 import CountryBanner from "../molecules/CountryBanner";
 
 import { Country, useCountries } from "../../context/CountryContext";
@@ -28,6 +29,7 @@ export default function CountryDetailPage({ route, navigation }: CountryDetailPa
     const countryFromContext = countries.find((c) => c.id === id);
     const [displayCountry, setDisplayCountry] = useState<Country | undefined>(countryFromContext);
     const [loading, setLoading] = useState(!countryFromContext);
+    const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
     useEffect(() => {
         if (countryFromContext) {
@@ -55,21 +57,17 @@ export default function CountryDetailPage({ route, navigation }: CountryDetailPa
         }
     };
 
-    const handleDelete = async () => {
-        Alert.alert("Delete", "Are you sure?", [
-            { text: "Cancel", style: "cancel" },
-            {
-                text: "Delete",
-                style: "destructive",
-                onPress: () => {
-                    const countryToDelete = displayCountry;
-                    if (!countryToDelete) return;
+    const handleDelete = () => {
+        setShowDeleteDialog(true);
+    };
 
-                    deleteCountry(id);
-                    navigation.navigate("Explore", { pendingDeletion: countryToDelete });
-                },
-            },
-        ]);
+    const handleConfirmDelete = () => {
+        const countryToDelete = displayCountry;
+        if (!countryToDelete) return;
+
+        setShowDeleteDialog(false);
+        deleteCountry(id);
+        navigation.navigate("Explore", { pendingDeletion: countryToDelete });
     };
 
     if (loading || !displayCountry) return null;
@@ -132,6 +130,17 @@ export default function CountryDetailPage({ route, navigation }: CountryDetailPa
 
                 <DetailCard data={detailData} />
             </View>
+
+            <AppAlertDialog
+                visible={showDeleteDialog}
+                title="Delete"
+                message="Are you sure you want to delete this country?"
+                cancelLabel="Cancel"
+                onCancel={() => setShowDeleteDialog(false)}
+                confirmLabel="Delete"
+                confirmTone="destructive"
+                onConfirm={handleConfirmDelete}
+            />
         </DetailTemplate>
     );
 }
