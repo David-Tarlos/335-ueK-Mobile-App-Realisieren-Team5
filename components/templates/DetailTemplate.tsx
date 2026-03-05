@@ -5,6 +5,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Typography from "../atoms/Typography";
 import { COLORS } from "../../theme/colors";
 
+/** Props for the {@link DetailTemplate} component. */
 interface DetailTemplateProps {
     title: string;
     onClose: () => void;
@@ -12,6 +13,10 @@ interface DetailTemplateProps {
     footer?: React.ReactNode;
 }
 
+/**
+ * Layout template for detail and edit screens presented modally.
+ * Provides a header row with a close button and title, a scrollable content area, and an optional sticky footer.
+ */
 const DetailTemplate: React.FC<DetailTemplateProps> = ({ title, onClose, children, footer }) => {
     return (
         <SafeAreaView style={styles.safeArea} edges={["top"]}>

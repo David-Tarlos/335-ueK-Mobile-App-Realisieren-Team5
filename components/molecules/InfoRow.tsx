@@ -4,6 +4,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Typography from "../atoms/Typography";
 import { COLORS } from "../../theme/colors";
 
+/** Props for the {@link InfoRow} component. */
 interface InfoRowProps {
     icon: keyof typeof MaterialCommunityIcons.glyphMap;
     label: string;
@@ -11,6 +12,10 @@ interface InfoRowProps {
     showDivider?: boolean;
 }
 
+/**
+ * A horizontal row displaying an icon, a label, and a value.
+ * Used inside {@link DetailCard} to show individual country attributes.
+ */
 const InfoRow: React.FC<InfoRowProps> = ({ icon, label, value, showDivider = true }) => {
     return (
         <View style={styles.container}>

@@ -3,12 +3,17 @@ import { Pressable, StyleSheet } from "react-native";
 import Typography from "../atoms/Typography";
 import { COLORS } from "../../theme/colors";
 
+/** Props for the {@link RegionTab} component. */
 interface RegionTabProps {
   label: string;
   active?: boolean;
   onPress: () => void;
 }
 
+/**
+ * A pressable tab for selecting a geographic region filter.
+ * Displays an underline when active to indicate the current selection.
+ */
 const RegionTab: React.FC<RegionTabProps> = ({ label, active = false, onPress }) => {
   return (
     <Pressable onPress={onPress} style={[styles.tab, active && styles.activeTab]}>

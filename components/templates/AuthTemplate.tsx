@@ -4,6 +4,7 @@ import Logo from "../atoms/Logo";
 import Typography from "../atoms/Typography";
 import { COLORS } from "../../theme/colors";
 
+/** Props for the {@link AuthTemplate} component. */
 interface AuthTemplateProps {
   title: string;
   subtitle?: string;
@@ -12,6 +13,10 @@ interface AuthTemplateProps {
   paddingTop?: number;
 }
 
+/**
+ * Layout template for authentication screens (Login, Register).
+ * Renders the app logo, a title, an optional subtitle, and a form section with a title.
+ */
 const AuthTemplate: React.FC<AuthTemplateProps> = ({
   title,
   subtitle,

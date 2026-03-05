@@ -3,6 +3,7 @@ import { StyleProp, StyleSheet, TextStyle, ViewStyle } from "react-native";
 import { Button } from "react-native-paper";
 import { COLORS } from "../../theme/colors";
 
+/** Props for the {@link AppButton} component. */
 interface AppButtonProps {
     onPress: () => void;
     loading?: boolean;
@@ -16,6 +17,10 @@ interface AppButtonProps {
     contentStyle?: StyleProp<ViewStyle>;
 }
 
+/**
+ * A styled button component wrapping react-native-paper's `Button`.
+ * Provides consistent rounded styling and supports all standard button modes (contained, outlined, text, etc.).
+ */
 const AppButton: React.FC<AppButtonProps> = ({
     onPress,
     loading,

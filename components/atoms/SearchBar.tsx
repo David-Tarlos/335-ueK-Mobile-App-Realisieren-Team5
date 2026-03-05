@@ -3,12 +3,17 @@ import { StyleSheet, TextInput, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { COLORS } from "../../theme/colors";
 
+/** Props for the {@link SearchBar} component. */
 interface SearchBarProps {
   value: string;
   onChangeText: (text: string) => void;
   placeholder?: string;
 }
 
+/**
+ * A search input field with a magnify icon on the right.
+ * Used in the country list header to filter countries by name or capital.
+ */
 const SearchBar: React.FC<SearchBarProps> = ({
   value,
   onChangeText,

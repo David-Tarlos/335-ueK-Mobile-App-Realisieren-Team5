@@ -5,6 +5,7 @@ import LabeledInput from "../molecules/LabeledInput";
 import AppButton from "../atoms/AppButton";
 import Typography from "../atoms/Typography";
 
+/** Props for the {@link LoginForm} component. */
 interface LoginFormProps {
     email: string;
     setEmail: (val: string) => void;
@@ -19,6 +20,10 @@ interface LoginFormProps {
     onNavigateToRegister: () => void;
 }
 
+/**
+ * The login form with email and password fields, a submit button, and a link to the register screen.
+ * All state and handlers are provided by the parent ({@link LoginPage}).
+ */
 const LoginForm: React.FC<LoginFormProps> = ({
     email,
     setEmail,

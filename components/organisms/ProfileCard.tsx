@@ -4,6 +4,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import ProfileDetailItem from "../molecules/ProfileDetailItem";
 import { COLORS } from "../../theme/colors";
 
+/** Props for the {@link ProfileCard} component. */
 interface ProfileCardProps {
     email?: string;
     firstName?: string;
@@ -11,6 +12,10 @@ interface ProfileCardProps {
     age?: string;
 }
 
+/**
+ * A card displaying the logged-in user's profile details (email, first name, last name, age).
+ * Only fields with a value are rendered.
+ */
 const ProfileCard: React.FC<ProfileCardProps> = ({
     email,
     firstName,

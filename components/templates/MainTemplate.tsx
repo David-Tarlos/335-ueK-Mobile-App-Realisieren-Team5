@@ -6,6 +6,7 @@ import PageHeader from "../molecules/PageHeader";
 import { BottomNavRoute } from "../../types/navigation";
 import { COLORS } from "../../theme/colors";
 
+/** Props for the {@link MainTemplate} component. */
 interface MainTemplateProps {
     title: string;
     children: React.ReactNode;
@@ -14,6 +15,10 @@ interface MainTemplateProps {
     scrollable?: boolean;
 }
 
+/**
+ * Layout template for the main app screens (Home, Profile).
+ * Renders a page header at the top, scrollable (or fixed) content in the middle, and the bottom navigation bar.
+ */
 const MainTemplate: React.FC<MainTemplateProps> = ({
     title,
     children,

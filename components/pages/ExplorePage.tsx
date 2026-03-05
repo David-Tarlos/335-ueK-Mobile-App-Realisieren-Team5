@@ -17,6 +17,12 @@ import { useCountries, Country } from "../../context/CountryContext";
 
 type ExplorePageProps = NativeStackScreenProps<RootStackParamList, "Explore">;
 
+/**
+ * Explore screen displaying the full country list with search and region filters.
+ * Fetches countries from the API on first load (cached in context), supports filtering by name/capital and region,
+ * and provides a FAB to navigate to the add-country screen.
+ */
+
 const REGIONS = ["All Regions", "Europe", "Asia", "Americas", "Africa", "Oceania"];
 
 const matchesRegion = (countryRegion: string, selectedRegion: string): boolean => {

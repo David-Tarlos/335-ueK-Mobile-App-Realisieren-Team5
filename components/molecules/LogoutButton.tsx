@@ -3,10 +3,15 @@ import { StyleSheet } from "react-native";
 import AppButton from "../atoms/AppButton";
 import { COLORS } from "../../theme/colors";
 
+/** Props for the {@link LogoutButton} component. */
 interface LogoutButtonProps {
     onPress: () => void;
 }
 
+/**
+ * A danger-styled outlined button for logging out the current user.
+ * Displayed at the bottom of the profile screen.
+ */
 const LogoutButton: React.FC<LogoutButtonProps> = ({ onPress }) => {
     return (
         <AppButton

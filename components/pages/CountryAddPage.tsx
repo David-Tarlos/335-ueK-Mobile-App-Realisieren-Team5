@@ -14,6 +14,12 @@ import { RootStackParamList } from "../../types/navigation";
 
 type CountryAddPageProps = NativeStackScreenProps<RootStackParamList, "CountryAdd">;
 
+/**
+ * Add-country screen for creating a new country entry.
+ * Provides a flag image picker and a form for name, capital, population, region, and language.
+ * Saves the new country via the API and appends it to the shared country context.
+ */
+
 type CountryFormErrors = {
     name?: string;
     capital?: string;
