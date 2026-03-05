@@ -4,6 +4,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import InfoRow from "../molecules/InfoRow";
 import { COLORS } from "../../theme/colors";
 
+/** Props for the {@link DetailCard} component. */
 interface DetailCardProps {
     data: {
         icon: keyof typeof MaterialCommunityIcons.glyphMap;
@@ -12,6 +13,10 @@ interface DetailCardProps {
     }[];
 }
 
+/**
+ * A card that renders a list of {@link InfoRow} entries separated by dividers.
+ * Used on the country detail screen to display attributes such as capital, population, and language.
+ */
 const DetailCard: React.FC<DetailCardProps> = ({ data }) => {
     return (
         <View style={styles.card}>

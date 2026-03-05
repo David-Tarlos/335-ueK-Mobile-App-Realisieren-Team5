@@ -15,6 +15,13 @@ import { RootStackParamList } from "../../types/navigation";
 
 type CountryEditPageProps = NativeStackScreenProps<RootStackParamList, "CountryEdit">;
 
+/**
+ * Edit screen for updating an existing country's data.
+ * Pre-fills the form from context or fetches the country from the API.
+ * Allows picking a new flag image from the device library, and saves changes via the update API.
+ * Also provides a Delete action.
+ */
+
 type CountryFormErrors = {
     name?: string;
     capital?: string;

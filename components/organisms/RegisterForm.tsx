@@ -5,6 +5,7 @@ import LabeledInput from "../molecules/LabeledInput";
 import AppButton from "../atoms/AppButton";
 import Typography from "../atoms/Typography";
 
+/** Props for the {@link RegisterForm} component. */
 interface RegisterFormProps {
     firstName: string;
     setFirstName: (val: string) => void;
@@ -25,6 +26,11 @@ interface RegisterFormProps {
     onNavigateToLogin: () => void;
 }
 
+/**
+ * The registration form with first name, last name, email, and password fields.
+ * Includes a link back to the login screen and a submit button.
+ * All state and handlers are provided by the parent ({@link RegisterPage}).
+ */
 const RegisterForm: React.FC<RegisterFormProps> = ({
     firstName,
     setFirstName,

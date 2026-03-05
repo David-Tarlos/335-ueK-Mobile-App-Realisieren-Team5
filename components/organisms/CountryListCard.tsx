@@ -5,6 +5,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Typography from "../atoms/Typography";
 import { COLORS } from "../../theme/colors";
 
+/** Props for the {@link CountryListCard} component. */
 interface CountryListCardProps {
   name: string;
   capital: string;
@@ -13,6 +14,10 @@ interface CountryListCardProps {
   onPress?: () => void;
 }
 
+/**
+ * A tappable card showing a country's flag image, name, and capital city.
+ * Supports a `large` variant with a taller image for the first item in the list.
+ */
 const CountryListCard: React.FC<CountryListCardProps> = ({
   name,
   capital,

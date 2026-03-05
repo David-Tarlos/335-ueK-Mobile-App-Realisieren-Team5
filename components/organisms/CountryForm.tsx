@@ -3,6 +3,7 @@ import { View, StyleSheet, Pressable } from "react-native";
 import { TextInput, Menu } from "react-native-paper";
 import LabeledInput from "../molecules/LabeledInput";
 
+/** Props for the {@link CountryForm} component. */
 interface CountryFormProps {
     name: string;
     setName: (val: string) => void;
@@ -25,6 +26,10 @@ interface CountryFormProps {
 
 const regions = ["Africa", "Americas", "Asia", "Europe", "Oceania"];
 
+/**
+ * A form for entering or editing country data (name, capital, population, region, language).
+ * The region field uses a dropdown menu instead of a free-text input.
+ */
 const CountryForm: React.FC<CountryFormProps> = ({
     name,
     setName,

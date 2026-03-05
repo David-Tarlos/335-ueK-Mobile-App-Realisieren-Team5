@@ -3,6 +3,7 @@ import { StyleProp, StyleSheet, ViewStyle } from "react-native";
 import { TextInput } from "react-native-paper";
 import { COLORS } from "../../theme/colors";
 
+/** Props for the {@link AppTextInput} component. */
 interface AppTextInputProps {
     label?: string;
     value: string;
@@ -16,6 +17,10 @@ interface AppTextInputProps {
     style?: StyleProp<ViewStyle>;
 }
 
+/**
+ * A styled outlined text input wrapping react-native-paper's `TextInput`.
+ * Applies a consistent rounded border and background color across all form fields.
+ */
 const AppTextInput: React.FC<AppTextInputProps> = ({
     value,
     onChangeText,

@@ -4,10 +4,15 @@ import { Divider } from "react-native-paper";
 import Typography from "../atoms/Typography";
 import { COLORS } from "../../theme/colors";
 
+/** Props for the {@link PageHeader} component. */
 interface PageHeaderProps {
   title: string;
 }
 
+/**
+ * A page header with a title and a horizontal divider below it.
+ * Used at the top of main screens to identify the current section.
+ */
 const PageHeader: React.FC<PageHeaderProps> = ({ title }) => {
   return (
     <View style={styles.container}>

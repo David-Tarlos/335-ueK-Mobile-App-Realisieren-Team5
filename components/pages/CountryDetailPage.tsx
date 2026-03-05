@@ -16,6 +16,12 @@ import { RootStackParamList } from "../../types/navigation";
 
 type CountryDetailPageProps = NativeStackScreenProps<RootStackParamList, "CountryDetail">;
 
+/**
+ * Detail screen for a single country.
+ * Reads the country from context if available, otherwise fetches it from the API.
+ * Displays the flag banner, country name, and a detail card with capital, population, continent and language.
+ * Provides Edit and Delete actions.
+ */
 export default function CountryDetailPage({ route, navigation }: CountryDetailPageProps) {
     const { id } = route.params;
     const { countries, setCountries, deleteCountry } = useCountries();

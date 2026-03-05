@@ -5,6 +5,7 @@ import Typography from "../atoms/Typography";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { COLORS } from "../../theme/colors";
 
+/** Props for the {@link ProfileDetailItem} component. */
 interface ProfileDetailItemProps {
     icon: keyof typeof MaterialCommunityIcons.glyphMap;
     label: string;
@@ -12,6 +13,10 @@ interface ProfileDetailItemProps {
     showDivider?: boolean;
 }
 
+/**
+ * A single detail row inside the profile card.
+ * Shows an {@link IconBox}, a small label above, and the corresponding value below.
+ */
 const ProfileDetailItem: React.FC<ProfileDetailItemProps> = ({
     icon,
     label,

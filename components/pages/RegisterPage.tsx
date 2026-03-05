@@ -13,6 +13,10 @@ const isValidEmail = (email: string): boolean =>
 
 type RegisterPageProps = NativeStackScreenProps<RootStackParamList, "Register">;
 
+/**
+ * Registration page for creating a new user account.
+ * Validates all fields, calls the register API, stores the access token securely, and navigates to the Home screen on success.
+ */
 export default function RegisterPage({ navigation }: RegisterPageProps) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");

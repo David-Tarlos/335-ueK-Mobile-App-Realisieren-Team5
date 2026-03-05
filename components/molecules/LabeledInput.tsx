@@ -5,6 +5,7 @@ import Typography from "../atoms/Typography";
 import AppTextInput from "../atoms/AppTextInput";
 import { COLORS } from "../../theme/colors";
 
+/** Props for the {@link LabeledInput} component. */
 interface LabeledInputProps {
     label: string;
     value: string;
@@ -18,6 +19,10 @@ interface LabeledInputProps {
     style?: StyleProp<ViewStyle>;
 }
 
+/**
+ * A form field combining a label, a text input, and an inline error message.
+ * Wraps {@link AppTextInput} and adds a label above and an error row below.
+ */
 const LabeledInput: React.FC<LabeledInputProps> = ({
     label,
     value,

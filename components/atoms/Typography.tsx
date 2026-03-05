@@ -2,12 +2,17 @@ import React from "react";
 import { StyleProp, StyleSheet, Text, TextStyle } from "react-native";
 import { COLORS } from "../../theme/colors";
 
+/** Props for the {@link Typography} component. */
 interface TypographyProps {
     variant: "title" | "subtitle" | "label" | "formTitle" | "link" | "text" | "header" | "detailLabel" | "detailValue" | "secondaryText";
     children: React.ReactNode;
     style?: StyleProp<TextStyle>;
 }
 
+/**
+ * A text component with predefined style variants.
+ * Centralises all text styling so font sizes, weights, and colors stay consistent across the app.
+ */
 const Typography: React.FC<TypographyProps> = ({ variant, children, style }) => {
     return (
         <Text style={[styles[variant], style]}>

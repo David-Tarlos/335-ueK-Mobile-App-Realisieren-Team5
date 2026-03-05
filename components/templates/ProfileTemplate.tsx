@@ -6,6 +6,7 @@ import MainTemplate from "./MainTemplate";
 import Typography from "../atoms/Typography";
 import LogoutButton from "../molecules/LogoutButton";
 import { BottomNavRoute } from "../../types/navigation";
+/** Props for the {@link ProfileTemplate} component. */
 interface ProfileTemplateProps {
   fullName: string;
   email?: string;
@@ -17,6 +18,10 @@ interface ProfileTemplateProps {
   onLogout: () => void;
 }
 
+/**
+ * Layout template for the profile screen.
+ * Built on top of {@link MainTemplate} and displays the user's avatar, full name, detail card, and logout button.
+ */
 const ProfileTemplate: React.FC<ProfileTemplateProps> = ({
     fullName,
     email,

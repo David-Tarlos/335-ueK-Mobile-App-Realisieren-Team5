@@ -4,6 +4,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Typography from "../atoms/Typography";
 import { COLORS } from "../../theme/colors";
 
+/** Props for the {@link CountryBanner} component. */
 interface CountryBannerProps {
     flagUrl: string;
     description?: string;
@@ -14,6 +15,11 @@ interface CountryBannerProps {
     onPress?: () => void;
 }
 
+/**
+ * A full-width banner displaying a country's flag image.
+ * Optionally shows an overlay with title and description text.
+ * In editable mode a camera overlay is shown and pressing the banner triggers `onPress`.
+ */
 const CountryBanner: React.FC<CountryBannerProps> = ({
     flagUrl,
     description,

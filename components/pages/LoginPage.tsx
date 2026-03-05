@@ -13,6 +13,10 @@ const isValidEmail = (email: string): boolean =>
 
 type LoginPageProps = NativeStackScreenProps<RootStackParamList, "Login">;
 
+/**
+ * Login page that handles user authentication.
+ * Validates email and password, calls the login API, stores the access token securely, and navigates to the Home screen on success.
+ */
 export default function LoginPage({ navigation }: LoginPageProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

@@ -5,6 +5,7 @@ import PageHeader from "../molecules/PageHeader";
 import RegionTab from "../molecules/RegionTab";
 import { COLORS } from "../../theme/colors";
 
+/** Props for the {@link CountryFiltersHeader} component. */
 interface CountryFiltersHeaderProps {
   searchValue: string;
   onChangeSearch: (text: string) => void;
@@ -13,6 +14,10 @@ interface CountryFiltersHeaderProps {
   onSelectRegion: (region: string) => void;
 }
 
+/**
+ * Header for the country list screen combining a page title, a search bar, and scrollable region tabs.
+ * Allows the user to filter the list by text search and geographic region simultaneously.
+ */
 const CountryFiltersHeader: React.FC<CountryFiltersHeaderProps> = ({
   searchValue,
   onChangeSearch,

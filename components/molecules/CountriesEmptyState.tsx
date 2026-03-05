@@ -3,6 +3,10 @@ import { StyleSheet, View } from "react-native";
 import Typography from "../atoms/Typography";
 import { COLORS } from "../../theme/colors";
 
+/**
+ * Empty state displayed in the country list when no countries match the current search or filter.
+ * Shows a title and a hint to add new countries.
+ */
 const CountriesEmptyState: React.FC = () => {
   return (
     <View style={styles.container}>

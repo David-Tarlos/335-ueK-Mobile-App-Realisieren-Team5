@@ -5,11 +5,16 @@ import BottomNavItem from "../molecules/BottomNavItem";
 import { BottomNavRoute } from "../../types/navigation";
 import { COLORS } from "../../theme/colors";
 
+/** Props for the {@link BottomNavigationBar} component. */
 interface BottomNavigationBarProps {
     currentRoute: BottomNavRoute;
     onNavigate: (route: BottomNavRoute) => void;
 }
 
+/**
+ * The app's bottom navigation bar with tabs for Home, Explore, and Profile.
+ * Highlights the tab matching `currentRoute` and calls `onNavigate` when a tab is pressed.
+ */
 const BottomNavigationBar: React.FC<BottomNavigationBarProps> = ({
     currentRoute,
     onNavigate,

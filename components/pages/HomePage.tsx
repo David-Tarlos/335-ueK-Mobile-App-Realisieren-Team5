@@ -14,6 +14,10 @@ const WORLD_IMAGE =
 
 type HomePageProps = NativeStackScreenProps<RootStackParamList, "Home">;
 
+/**
+ * Home screen shown after a successful login.
+ * Displays a world map card and a button to navigate to the country list (Explore).
+ */
 export default function HomePage({ navigation }: HomePageProps) {
   const handleGoToCountries = () => {
     navigation.navigate("Explore");

@@ -8,6 +8,10 @@ import { STORAGE_KEYS } from "../../constants/storage";
 
 type ProfilePageProps = NativeStackScreenProps<RootStackParamList, "Profile">;
 
+/**
+ * Profile screen displaying the currently logged-in user's personal details.
+ * Fetches user data from the API using the stored user ID, and provides a logout action that clears secure storage and resets navigation to Login.
+ */
 export default function ProfilePage({ navigation }: ProfilePageProps) {
   const [userData, setUserData] = useState<UserDto | null>(null);
   const [loading, setLoading] = useState(true);

@@ -5,6 +5,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Typography from "../atoms/Typography";
 import { COLORS } from "../../theme/colors";
 
+/** Props for the {@link BottomNavItem} component. */
 interface BottomNavItemProps {
   label: string;
   active?: boolean;
@@ -12,6 +13,10 @@ interface BottomNavItemProps {
   onPress?: () => void;
 }
 
+/**
+ * A single item in the bottom navigation bar.
+ * Renders an icon and a label, highlighted when active.
+ */
 const BottomNavItem: React.FC<BottomNavItemProps> = ({
   label,
   active = false,
