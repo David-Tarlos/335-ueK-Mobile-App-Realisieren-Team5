@@ -14,7 +14,7 @@ export interface Country {
 /** Shape of the value provided by {@link CountryContext}. */
 interface CountryContextType {
     countries: Country[];
-    setCountries: (countries: Country[]) => void;
+    setCountries: React.Dispatch<React.SetStateAction<Country[]>>;
     updateCountry: (updatedCountry: Country) => void;
     deleteCountry: (id: number) => void;
 }
