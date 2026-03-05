@@ -3,6 +3,7 @@ import { StyleSheet } from "react-native";
 import { Snackbar } from "react-native-paper";
 import { COLORS } from "../../theme/colors";
 
+/** Props for the {@link UndoDeleteSnackbar} component. */
 interface UndoDeleteSnackbarProps {
   visible: boolean;
   countryName: string;
@@ -10,6 +11,10 @@ interface UndoDeleteSnackbarProps {
   onDismiss: () => void;
 }
 
+/**
+ * A snackbar shown after a country is deleted, giving the user 5 seconds to undo the action.
+ * The actual API delete call is deferred until the snackbar dismisses without undo.
+ */
 const UndoDeleteSnackbar: React.FC<UndoDeleteSnackbarProps> = ({
   visible,
   countryName,
