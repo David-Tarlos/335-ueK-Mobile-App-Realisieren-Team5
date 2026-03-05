@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { Alert } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import ProfileTemplate from "../templates/ProfileTemplate";
 import { getUserById, UserDto } from "../../constants/api";
 import * as SecureStore from "expo-secure-store";
 import { RootStackParamList } from "../../types/navigation";
 import { STORAGE_KEYS } from "../../constants/storage";
+import { getApiErrorMessage } from "../../utils/error";
 
 type ProfilePageProps = NativeStackScreenProps<RootStackParamList, "Profile">;
 
@@ -29,6 +31,8 @@ export default function ProfilePage({ navigation }: ProfilePageProps) {
       if (response.status === 200) {
         setUserData(response.data || {});
       }
+    } catch (error) {
+      Alert.alert("Error", getApiErrorMessage(error, "Could not load profile data. Please try again."));
     } finally {
       setLoading(false);
     }
