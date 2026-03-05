@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Alert } from "react-native";
-import * as ImagePicker from "expo-image-picker";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { createCountry } from "../../constants/api";
 import { COLORS } from "../../theme/colors";
 import { getApiErrorMessage } from "../../utils/error";
+import { pickFlagImage } from "../../utils/imagePicker";
 import DetailTemplate from "../templates/DetailTemplate";
 import CountryBanner from "../molecules/CountryBanner";
 import CountryForm from "../organisms/CountryForm";
@@ -35,22 +35,8 @@ export default function CountryAddPage({ navigation }: CountryAddPageProps) {
     const [errors, setErrors] = useState<CountryFormErrors>({});
 
     const handlePickImage = async () => {
-        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (status !== 'granted') {
-            Alert.alert("Permission Denied", "Sorry, we need camera roll permissions to make this work!");
-            return;
-        }
-
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ['images'],
-            allowsEditing: true,
-            aspect: [16, 9],
-            quality: 1,
-        });
-
-        if (!result.canceled) {
-            setFlagUrl(result.assets[0].uri);
-        }
+        const uri = await pickFlagImage();
+        if (uri) setFlagUrl(uri);
     };
 
     const validate = (): boolean => {
