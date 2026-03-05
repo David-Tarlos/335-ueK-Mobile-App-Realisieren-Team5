@@ -12,7 +12,7 @@ export interface Country {
 
 interface CountryContextType {
     countries: Country[];
-    setCountries: (countries: Country[]) => void;
+    setCountries: React.Dispatch<React.SetStateAction<Country[]>>;
     updateCountry: (updatedCountry: Country) => void;
     deleteCountry: (id: number) => void;
 }

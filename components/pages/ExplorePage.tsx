@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -6,10 +6,11 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import CountryFiltersHeader from "../organisms/CountryFiltersHeader";
 import CountryListCard from "../organisms/CountryListCard";
 import CountriesEmptyState from "../molecules/CountriesEmptyState";
+import UndoDeleteSnackbar from "../molecules/UndoDeleteSnackbar";
 import BottomNavigationBar from "../organisms/BottomNavigationBar";
 import Typography from "../atoms/Typography";
-import { CountryDto, getCountries } from "../../constants/api";
-import { RootStackParamList } from "../../types/navigation";
+import { CountryDto, deleteCountryById, getCountries } from "../../constants/api";
+import { PendingDeletionCountry, RootStackParamList } from "../../types/navigation";
 import { COLORS } from "../../theme/colors";
 import { getApiErrorMessage } from "../../utils/error";
 
@@ -35,12 +36,21 @@ const matchesRegion = (countryRegion: string, selectedRegion: string): boolean =
   return countryRegion.toLowerCase() === selectedRegion.toLowerCase();
 };
 
-export default function ExplorePage({ navigation }: ExplorePageProps) {
+export default function ExplorePage({ navigation, route }: ExplorePageProps) {
+  const deleteTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const countriesRef = useRef<Country[]>([]);
+  const pendingDeletionRef = useRef<PendingDeletionCountry | null>(null);
   const [search, setSearch] = useState("");
   const [activeRegion, setActiveRegion] = useState("All Regions");
   const { countries, setCountries } = useCountries();
   const [loading, setLoading] = useState(false);
   const [loadError, setLoadError] = useState("");
+  const [pendingDeletion, setPendingDeletion] = useState<PendingDeletionCountry | null>(null);
+  const [showUndoSnackbar, setShowUndoSnackbar] = useState(false);
+
+  useEffect(() => {
+    countriesRef.current = countries;
+  }, [countries]);
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -71,6 +81,67 @@ export default function ExplorePage({ navigation }: ExplorePageProps) {
 
     fetchCountries();
   }, [countries.length, setCountries]);
+
+  useEffect(() => {
+    if (!route.params?.pendingDeletion) {
+      return;
+    }
+
+    const deletedCountry = route.params.pendingDeletion;
+    setPendingDeletion(deletedCountry);
+    pendingDeletionRef.current = deletedCountry;
+    setShowUndoSnackbar(true);
+
+    if (deleteTimerRef.current) {
+      clearTimeout(deleteTimerRef.current);
+    }
+
+    deleteTimerRef.current = setTimeout(async () => {
+      try {
+        await deleteCountryById(deletedCountry.id);
+      } catch (error) {
+        const latestCountries = countriesRef.current;
+        if (!latestCountries.some((country) => country.id === deletedCountry.id)) {
+          setCountries([deletedCountry, ...latestCountries]);
+        }
+        setLoadError(getApiErrorMessage(error, "Failed to delete"));
+      } finally {
+        pendingDeletionRef.current = null;
+        setPendingDeletion(null);
+        setShowUndoSnackbar(false);
+      }
+    }, 5000);
+
+    navigation.setParams({ pendingDeletion: undefined });
+  }, [navigation, route.params?.pendingDeletion, setCountries]);
+
+  useEffect(() => {
+    return () => {
+      if (deleteTimerRef.current) {
+        clearTimeout(deleteTimerRef.current);
+      }
+
+      if (pendingDeletionRef.current) {
+        void deleteCountryById(pendingDeletionRef.current.id);
+      }
+    };
+  }, []);
+
+  const handleUndoDelete = () => {
+    if (!pendingDeletion) return;
+
+    if (deleteTimerRef.current) {
+      clearTimeout(deleteTimerRef.current);
+    }
+
+    const latestCountries = countriesRef.current;
+    if (!latestCountries.some((country) => country.id === pendingDeletion.id)) {
+      setCountries([pendingDeletion, ...latestCountries]);
+    }
+    pendingDeletionRef.current = null;
+    setPendingDeletion(null);
+    setShowUndoSnackbar(false);
+  };
 
   const filteredCountries = useMemo(() => {
     const normalizedSearch = search.trim().toLowerCase();
@@ -127,6 +198,15 @@ export default function ExplorePage({ navigation }: ExplorePageProps) {
         <Pressable style={styles.fab} onPress={() => navigation.navigate("CountryAdd")}>
           <MaterialCommunityIcons name="plus" size={24} color={COLORS.white} />
         </Pressable>
+
+        <View style={styles.snackbarWrapper}>
+          <UndoDeleteSnackbar
+            visible={showUndoSnackbar}
+            countryName={pendingDeletion?.country_name ?? "Country"}
+            onUndo={handleUndoDelete}
+            onDismiss={() => setShowUndoSnackbar(false)}
+          />
+        </View>
 
         <BottomNavigationBar
           currentRoute="Explore"
@@ -185,5 +265,12 @@ const styles = StyleSheet.create({
     shadowRadius: 15,
     elevation: 6,
     zIndex: 10,
+  },
+  snackbarWrapper: {
+    position: "absolute",
+    left: 12,
+    right: 12,
+    bottom: 90,
+    zIndex: 20,
   },
 });

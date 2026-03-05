@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { deleteCountryById, getCountryById, updateCountryById } from "../../constants/api";
+import { getCountryById, updateCountryById } from "../../constants/api";
 import { COLORS } from "../../theme/colors";
 import { getApiErrorMessage } from "../../utils/error";
 import DetailTemplate from "../templates/DetailTemplate";
@@ -135,14 +135,19 @@ export default function CountryEditPage({ route, navigation }: CountryEditPagePr
             {
                 text: "Delete",
                 style: "destructive",
-                onPress: async () => {
-                    try {
-                        await deleteCountryById(id);
-                        navigation.navigate("Explore");
-                        deleteCountry(id);
-                    } catch (error) {
-                        Alert.alert("Error", getApiErrorMessage(error, "Failed to delete"));
-                    }
+                onPress: () => {
+                    const countryToDelete = countries.find((country) => country.id === id) ?? {
+                        id,
+                        country_name: name.trim(),
+                        capital: capital.trim() || null,
+                        population: parseInt(population.replace(/[^0-9]/g, "")) || 0,
+                        continent: continent.trim() || null,
+                        language: language.trim() || null,
+                        flag_url: flagUrl || null,
+                    };
+
+                    deleteCountry(id);
+                    navigation.navigate("Explore", { pendingDeletion: countryToDelete });
                 },
             },
         ]);
