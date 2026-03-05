@@ -56,7 +56,7 @@ const CountryForm: React.FC<CountryFormProps> = ({
                 style={styles.inputStyle}
             />
             <LabeledInput
-                label="Capital"
+                label="Capital *"
                 value={capital}
                 onChangeText={setCapital}
                 placeholder="Enter capital city"
@@ -66,7 +66,7 @@ const CountryForm: React.FC<CountryFormProps> = ({
 
             <View style={styles.row}>
                 <LabeledInput
-                    label="Population"
+                    label="Population *"
                     value={population}
                     onChangeText={setPopulation}
                     placeholder="e.g. 1000000"
@@ -82,7 +82,7 @@ const CountryForm: React.FC<CountryFormProps> = ({
                             <Pressable onPress={() => setMenuVisible(true)}>
                                 <View pointerEvents="none">
                                     <LabeledInput
-                                        label="Region"
+                                        label="Region *"
                                         value={continent}
                                         onChangeText={() => { }}
                                         placeholder="Select region"

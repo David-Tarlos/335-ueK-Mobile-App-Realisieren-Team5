@@ -7,7 +7,11 @@ import { registerUser } from "../../constants/api";
 import { RootStackParamList } from "../../types/navigation";
 import { STORAGE_KEYS } from "../../constants/storage";
 import { apiErrorContains, getApiErrorMessage } from "../../utils/error";
-import { isValidEmail } from "../../utils/validation";
+import {
+  containsLetter,
+  getMissingPasswordRequirements,
+  isValidEmail,
+} from "../../utils/validation";
 
 type RegisterPageProps = NativeStackScreenProps<RootStackParamList, "Register">;
 
@@ -38,9 +42,15 @@ export default function RegisterPage({ navigation }: RegisterPageProps) {
     if (!firstName.trim()) {
       setFirstNameError("First name is required.");
       valid = false;
+    } else if (!containsLetter(firstName)) {
+      setFirstNameError("First name must contain at least one letter.");
+      valid = false;
     }
     if (!lastName.trim()) {
       setLastNameError("Last name is required.");
+      valid = false;
+    } else if (!containsLetter(lastName)) {
+      setLastNameError("Last name must contain at least one letter.");
       valid = false;
     }
     if (!email.trim()) {
@@ -53,9 +63,17 @@ export default function RegisterPage({ navigation }: RegisterPageProps) {
     if (!password) {
       setPasswordError("Password is required.");
       valid = false;
-    } else if (password.length < 8) {
-      setPasswordError("Password too short. Minimum length is 8 characters.");
-      valid = false;
+    } else {
+      const missingPasswordRequirements = getMissingPasswordRequirements(password);
+      if (missingPasswordRequirements.length > 0) {
+        setPasswordError(
+          `Password must contain ${missingPasswordRequirements.join(", ")}.`,
+        );
+        valid = false;
+      } else if (!containsLetter(password)) {
+        setPasswordError("Password must contain at least one letter.");
+        valid = false;
+      }
     }
 
     return valid;

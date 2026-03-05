@@ -6,13 +6,18 @@ import { COLORS } from "../../theme/colors";
 import { getApiErrorMessage } from "../../utils/error";
 import { pickFlagImage } from "../../utils/imagePicker";
 import DetailTemplate from "../templates/DetailTemplate";
+import AppAlertDialog from "../molecules/AppAlertDialog";
 import CountryBanner from "../molecules/CountryBanner";
 import CountryForm from "../organisms/CountryForm";
 import AppButton from "../atoms/AppButton";
 
 import { Country, useCountries } from "../../context/CountryContext";
 import { RootStackParamList } from "../../types/navigation";
-import { CountryFormErrors } from "../../utils/validation";
+import {
+    CountryFormErrors,
+    sanitizePopulationInput,
+    validateCountryForm,
+} from "../../utils/validation";
 
 type CountryEditPageProps = NativeStackScreenProps<RootStackParamList, "CountryEdit">;
 
@@ -28,6 +33,7 @@ export default function CountryEditPage({ route, navigation }: CountryEditPagePr
     const { countries, updateCountry, deleteCountry, setCountries } = useCountries();
     const [loading, setLoading] = useState(!countries.find(c => c.id === id));
     const [saving, setSaving] = useState(false);
+    const [showSuccessDialog, setShowSuccessDialog] = useState(false);
 
     const [name, setName] = useState("");
     const [capital, setCapital] = useState("");
@@ -79,13 +85,18 @@ export default function CountryEditPage({ route, navigation }: CountryEditPagePr
     };
 
     const handleSave = async () => {
-        if (!name.trim()) {
-            setErrors({ name: "Country name is required" });
-            return;
-        }
+        const newErrors = validateCountryForm({
+            name,
+            capital,
+            population,
+            continent,
+            language,
+        });
+        setErrors(newErrors);
+        if (Object.keys(newErrors).length > 0) return;
 
         setSaving(true);
-        const updatedPop = parseInt(population.replace(/[^0-9]/g, "")) || 0;
+        const updatedPop = parseInt(sanitizePopulationInput(population), 10) || 0;
         try {
             const updatedData = {
                 country_name: name.trim(),
@@ -99,8 +110,7 @@ export default function CountryEditPage({ route, navigation }: CountryEditPagePr
             await updateCountryById(id, updatedData);
 
             updateCountry({ id, ...updatedData } as Country);
-            Alert.alert("Success", "Country details updated");
-            navigation.goBack();
+            setShowSuccessDialog(true);
         } catch (error) {
             Alert.alert("Error", getApiErrorMessage(error, "Failed to save changes"));
         } finally {
@@ -130,6 +140,11 @@ export default function CountryEditPage({ route, navigation }: CountryEditPagePr
                 },
             },
         ]);
+    };
+
+    const handleSuccessConfirm = () => {
+        setShowSuccessDialog(false);
+        navigation.goBack();
     };
 
     if (loading) return null;
@@ -177,16 +192,35 @@ export default function CountryEditPage({ route, navigation }: CountryEditPagePr
                         if (errors.name) setErrors({ ...errors, name: undefined });
                     }}
                     capital={capital}
-                    setCapital={setCapital}
+                    setCapital={(val) => {
+                        setCapital(val);
+                        if (errors.capital) setErrors({ ...errors, capital: undefined });
+                    }}
                     population={population}
-                    setPopulation={setPopulation}
+                    setPopulation={(val) => {
+                        setPopulation(sanitizePopulationInput(val));
+                        if (errors.population) setErrors({ ...errors, population: undefined });
+                    }}
                     continent={continent}
-                    setContinent={setContinent}
+                    setContinent={(val) => {
+                        setContinent(val);
+                        if (errors.continent) setErrors({ ...errors, continent: undefined });
+                    }}
                     language={language}
-                    setLanguage={setLanguage}
+                    setLanguage={(val) => {
+                        setLanguage(val);
+                        if (errors.language) setErrors({ ...errors, language: undefined });
+                    }}
                     errors={errors}
                 />
             </View>
+
+            <AppAlertDialog
+                visible={showSuccessDialog}
+                title="Success"
+                message="Country details updated"
+                onConfirm={handleSuccessConfirm}
+            />
         </DetailTemplate>
     );
 }

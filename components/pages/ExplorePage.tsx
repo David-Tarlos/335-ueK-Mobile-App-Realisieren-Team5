@@ -146,7 +146,7 @@ export default function ExplorePage({ navigation, route }: ExplorePageProps) {
   const filteredCountries = useMemo(() => {
     const normalizedSearch = search.trim().toLowerCase();
 
-    return countries.filter((country) => {
+    const visibleCountries = countries.filter((country) => {
       const regionMatches = matchesRegion(country.continent || "", activeRegion);
       const searchMatches =
         normalizedSearch.length === 0 ||
@@ -155,6 +155,11 @@ export default function ExplorePage({ navigation, route }: ExplorePageProps) {
 
       return regionMatches && searchMatches;
     });
+
+    // Keep list ordering predictable: countries are displayed alphabetically by name.
+    return visibleCountries.sort((a, b) =>
+      a.country_name.localeCompare(b.country_name, undefined, { sensitivity: "base" })
+    );
   }, [countries, search, activeRegion]);
 
   return (
