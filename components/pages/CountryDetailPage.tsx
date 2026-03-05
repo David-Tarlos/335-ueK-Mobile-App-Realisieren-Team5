@@ -20,7 +20,7 @@ type CountryDetailPageProps = NativeStackScreenProps<RootStackParamList, "Countr
  * Detail screen for a single country.
  * Reads the country from context if available, otherwise fetches it from the API.
  * Displays the flag banner, country name, and a detail card with capital, population, continent and language.
- * Provides Edit and Delete actions.
+ * Delete navigates back to Explore with a pendingDeletion param, enabling the undo-delete snackbar.
  */
 export default function CountryDetailPage({ route, navigation }: CountryDetailPageProps) {
     const { id } = route.params;
