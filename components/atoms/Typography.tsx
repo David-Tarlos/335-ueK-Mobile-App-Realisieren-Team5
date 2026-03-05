@@ -19,24 +19,25 @@ const Typography: React.FC<TypographyProps> = ({ variant, children, style }) => 
 const styles = StyleSheet.create({
     title: {
         fontSize: 22,
-        fontWeight: "bold",
+        fontFamily: "Inter_700Bold",
         color: COLORS.textPrimary,
         marginBottom: 4,
     },
     subtitle: {
         fontSize: 13,
+        fontFamily: "Inter_400Regular",
         color: COLORS.textTertiary,
         marginBottom: 28,
     },
     formTitle: {
         fontSize: 20,
-        fontWeight: "bold",
+        fontFamily: "Inter_700Bold",
         color: COLORS.textPrimary,
         marginBottom: 12,
     },
     label: {
         fontSize: 13,
-        fontWeight: "500",
+        fontFamily: "Inter_500Medium",
         color: COLORS.textSecondary,
         marginBottom: 4,
         marginTop: 4,
@@ -46,32 +47,34 @@ const styles = StyleSheet.create({
         textAlign: "center",
         marginTop: 9,
         fontSize: 14,
-        fontWeight: "500",
+        fontFamily: "Inter_500Medium",
     },
     text: {
         fontSize: 14,
+        fontFamily: "Inter_400Regular",
         color: COLORS.textTertiary,
     },
     header: {
         fontSize: 24,
-        fontWeight: "bold",
+        fontFamily: "Inter_700Bold",
         color: COLORS.textPrimary,
     },
     detailLabel: {
         fontSize: 10,
-        fontWeight: "bold",
+        fontFamily: "Inter_700Bold",
         color: COLORS.textMuted,
         textTransform: "uppercase",
         letterSpacing: 0.5,
     },
     detailValue: {
         fontSize: 16,
-        fontWeight: "bold",
+        fontFamily: "Inter_700Bold",
         color: COLORS.textPrimary,
         marginTop: 2,
     },
     secondaryText: {
         fontSize: 14,
+        fontFamily: "Inter_400Regular",
         color: COLORS.textTertiary,
     }
 });
