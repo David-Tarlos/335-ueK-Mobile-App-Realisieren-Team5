@@ -1,3 +1,4 @@
+/** Central color palette for the app. All components must use these values instead of hardcoded hex strings. */
 export const COLORS = {
   white: "#FFFFFF",
   black: "#000000",

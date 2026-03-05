@@ -19,4 +19,5 @@ export type RootStackParamList = {
   Explore: { pendingDeletion?: PendingDeletionCountry } | undefined;
 };
 
+/** The three routes accessible via the bottom navigation bar. */
 export type BottomNavRoute = 'Home' | 'Explore' | 'Profile';
