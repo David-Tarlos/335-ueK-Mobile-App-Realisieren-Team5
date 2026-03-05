@@ -16,6 +16,10 @@ import { RootStackParamList } from "./types/navigation";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
+/**
+ * Root component of the app.
+ * Loads fonts, sets up global providers (PaperProvider, CountryProvider) and the navigation stack.
+ */
 export default function App() {
   return (
     <PaperProvider>

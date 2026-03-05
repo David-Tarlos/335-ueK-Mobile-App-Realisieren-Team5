@@ -1,3 +1,4 @@
+/** Defines all screens in the app's navigation stack and their route params. */
 export type RootStackParamList = {
   Home: undefined;
   Login: undefined;
@@ -9,4 +10,5 @@ export type RootStackParamList = {
   Explore: undefined;
 };
 
+/** The three routes accessible via the bottom navigation bar. */
 export type BottomNavRoute = 'Home' | 'Explore' | 'Profile';
