@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import AuthTemplate from "../templates/AuthTemplate";
 import LoginForm from "../organisms/LoginForm";
@@ -63,8 +64,11 @@ export default function LoginPage({ navigation }: LoginPageProps) {
 
       navigation.navigate("Home");
     } catch (error) {
-      const message = getApiErrorMessage(error, "Connection error. Please try again.");
-      setPasswordError(message === "Connection error. Please try again." ? "Connection error. Please try again." : "Wrong credentials. Please try again.");
+      if (axios.isAxiosError(error) && error.response) {
+        setPasswordError("Wrong credentials. Please try again.");
+      } else {
+        setPasswordError(getApiErrorMessage(error, "Request timed out. Please try again."));
+      }
     } finally {
       setLoading(false);
     }
