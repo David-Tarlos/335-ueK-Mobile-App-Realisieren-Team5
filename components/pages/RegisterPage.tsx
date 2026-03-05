@@ -7,9 +7,7 @@ import { registerUser } from "../../constants/api";
 import { RootStackParamList } from "../../types/navigation";
 import { STORAGE_KEYS } from "../../constants/storage";
 import { apiErrorContains, getApiErrorMessage } from "../../utils/error";
-
-const isValidEmail = (email: string): boolean =>
-  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+import { isValidEmail } from "../../utils/validation";
 
 type RegisterPageProps = NativeStackScreenProps<RootStackParamList, "Register">;
 

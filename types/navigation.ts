@@ -1,4 +1,13 @@
-/** Defines all screens in the app's navigation stack and their route params. */
+export type PendingDeletionCountry = {
+  id: number;
+  country_name: string;
+  capital: string | null;
+  continent: string | null;
+  population: number | null;
+  flag_url: string | null;
+  language?: string | null;
+};
+
 export type RootStackParamList = {
   Home: undefined;
   Login: undefined;
@@ -7,7 +16,7 @@ export type RootStackParamList = {
   CountryDetail: { id: number };
   CountryEdit: { id: number };
   CountryAdd: undefined;
-  Explore: undefined;
+  Explore: { pendingDeletion?: PendingDeletionCountry } | undefined;
 };
 
 /** The three routes accessible via the bottom navigation bar. */

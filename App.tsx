@@ -1,4 +1,10 @@
 import { StatusBar } from "expo-status-bar";
+import {
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_700Bold,
+  useFonts,
+} from "@expo-google-fonts/inter";
 import { PaperProvider } from "react-native-paper";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -21,6 +27,16 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
  * Loads fonts, sets up global providers (PaperProvider, CountryProvider) and the navigation stack.
  */
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_700Bold,
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <PaperProvider>
       <CountryProvider>

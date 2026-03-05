@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Alert } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { deleteCountryById, getCountryById } from "../../constants/api";
+import { getCountryById } from "../../constants/api";
 import { COLORS } from "../../theme/colors";
 import { getApiErrorMessage } from "../../utils/error";
 import DetailTemplate from "../templates/DetailTemplate";
@@ -61,14 +61,12 @@ export default function CountryDetailPage({ route, navigation }: CountryDetailPa
             {
                 text: "Delete",
                 style: "destructive",
-                onPress: async () => {
-                    try {
-                        await deleteCountryById(id);
-                        navigation.navigate("Explore");
-                        deleteCountry(id);
-                    } catch (error) {
-                        Alert.alert("Error", getApiErrorMessage(error, "Failed to delete"));
-                    }
+                onPress: () => {
+                    const countryToDelete = displayCountry;
+                    if (!countryToDelete) return;
+
+                    deleteCountry(id);
+                    navigation.navigate("Explore", { pendingDeletion: countryToDelete });
                 },
             },
         ]);
