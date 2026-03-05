@@ -133,3 +133,70 @@ npm run web        # Im Browser starten
 | Axios | HTTP-Client für API-Calls |
 | Expo SecureStore | Sicheres Speichern von Token |
 | JSON Server (Docker) | Backend / REST API |
+
+---
+
+## Architektur
+
+Das Projekt folgt dem **Atomic Design**-Prinzip. Komponenten sind in folgende Schichten aufgeteilt:
+
+```
+components/
+├── atoms/       # Kleinste Bausteine (Button, TextInput, Typography, ...)
+├── molecules/   # Kombinationen aus Atoms (LabeledInput, PageHeader, ...)
+├── organisms/   # Komplexe UI-Bereiche (LoginForm, CountryListCard, ...)
+├── templates/   # Seiten-Layouts ohne Daten (AuthTemplate, MainTemplate, ...)
+└── pages/       # Screens mit Logik & API-Calls (LoginPage, ExplorePage, ...)
+```
+
+**Trennung von Logik und Darstellung:**
+- Pages (smart components) verwalten State und rufen die API auf.
+- Atoms, Molecules und Organisms (dumb components) sind rein deklarativ und erhalten alle Daten als Props.
+
+Weitere relevante Ordner:
+
+```
+constants/   # API-Konfiguration und Axios-Instanz
+context/     # Globaler Country-State (React Context)
+utils/       # Hilfsfunktionen (Fehlerbehandlung, Validierung)
+types/       # Gemeinsame TypeScript-Typen (Navigation)
+theme/       # Zentrale Farbdefinitionen (COLORS)
+```
+
+---
+
+## Code Guidelines
+
+- **Sprache:** TypeScript – alle Props, States und Funktionen sind typisiert.
+- **Komponenten:** React Functional Components mit `React.FC<Props>`.
+- **Benennung:** PascalCase für Komponenten und Typen, camelCase für Variablen und Funktionen.
+- **Styles:** `StyleSheet.create` pro Datei, Farben immer aus `theme/colors.ts` (kein Hardcoding).
+- **Kommentare:** TSDoc (`/** */`) für alle Komponenten, Pages und Utility-Funktionen.
+- **API-Calls:** Ausschliesslich über `constants/api.ts`, nie direkt in Komponenten.
+- **Fehlerbehandlung:** Alle async Funktionen haben `try/catch`, Fehlermeldungen über `utils/error.ts`.
+
+---
+
+## Testen
+
+Da die App manuell getestet wird, sind folgende Schritte empfohlen:
+
+### Voraussetzungen
+
+- Backend läuft (Docker Container `restdb` gestartet, siehe oben)
+- App läuft im Emulator oder auf einem Gerät
+
+### Manuelle Testschritte
+
+| Feature | Testschritt |
+|---|---|
+| Login | Mit gültigen Credentials einloggen → Home erscheint |
+| Login (Fehler) | Mit falschen Credentials einloggen → Fehlermeldung erscheint |
+| Registrierung | Neuen Account erstellen → automatisch eingeloggt |
+| Länder-Liste | Explore öffnen → Länder werden geladen und angezeigt |
+| Suche | Suchbegriff eingeben → Liste filtert sich live |
+| Region-Filter | Region-Tab wählen → nur Länder der Region angezeigt |
+| Land hinzufügen | FAB drücken → Formular ausfüllen → speichern → erscheint in Liste |
+| Land bearbeiten | Land öffnen → Edit → Änderungen speichern → aktualisiert |
+| Land löschen | Land öffnen → Delete → Bestätigen → aus Liste entfernt |
+| Logout | Profil → Logout → zurück zum Login-Screen |

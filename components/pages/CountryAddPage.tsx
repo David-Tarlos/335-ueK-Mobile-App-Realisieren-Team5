@@ -11,6 +11,7 @@ import CountryForm from "../organisms/CountryForm";
 import AppButton from "../atoms/AppButton";
 import { useCountries } from "../../context/CountryContext";
 import { RootStackParamList } from "../../types/navigation";
+import { CountryFormErrors } from "../../utils/validation";
 
 type CountryAddPageProps = NativeStackScreenProps<RootStackParamList, "CountryAdd">;
 
@@ -19,14 +20,6 @@ type CountryAddPageProps = NativeStackScreenProps<RootStackParamList, "CountryAd
  * Provides a flag image picker and a form for name, capital, population, region, and language.
  * Saves the new country via the API and appends it to the shared country context.
  */
-
-type CountryFormErrors = {
-    name?: string;
-    capital?: string;
-    population?: string;
-    continent?: string;
-    language?: string;
-};
 
 export default function CountryAddPage({ navigation }: CountryAddPageProps) {
     const { setCountries, countries } = useCountries();
