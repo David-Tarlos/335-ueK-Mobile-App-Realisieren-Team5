@@ -7,9 +7,7 @@ import * as SecureStore from "expo-secure-store";
 import { RootStackParamList } from "../../types/navigation";
 import { STORAGE_KEYS } from "../../constants/storage";
 import { getApiErrorMessage } from "../../utils/error";
-
-const isValidEmail = (email: string): boolean =>
-  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+import { isValidEmail } from "../../utils/validation";
 
 type LoginPageProps = NativeStackScreenProps<RootStackParamList, "Login">;
 

@@ -12,6 +12,7 @@ import AppButton from "../atoms/AppButton";
 
 import { Country, useCountries } from "../../context/CountryContext";
 import { RootStackParamList } from "../../types/navigation";
+import { CountryFormErrors } from "../../utils/validation";
 
 type CountryEditPageProps = NativeStackScreenProps<RootStackParamList, "CountryEdit">;
 
@@ -21,14 +22,6 @@ type CountryEditPageProps = NativeStackScreenProps<RootStackParamList, "CountryE
  * Allows picking a new flag image from the device library, and saves changes via the update API.
  * Also provides a Delete action.
  */
-
-type CountryFormErrors = {
-    name?: string;
-    capital?: string;
-    population?: string;
-    continent?: string;
-    language?: string;
-};
 
 export default function CountryEditPage({ route, navigation }: CountryEditPageProps) {
     const { id } = route.params;
