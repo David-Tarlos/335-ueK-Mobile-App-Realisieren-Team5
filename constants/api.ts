@@ -4,6 +4,7 @@ import * as SecureStore from 'expo-secure-store';
 import { STORAGE_KEYS } from './storage';
 
 const API_PORT = 3030;
+const API_TIMEOUT_MS = 8000;
 
 const API_HOST = Platform.select({
   android: '10.0.2.2',
@@ -19,6 +20,7 @@ const BASE_URL = `http://${API_HOST}:${API_PORT}`;
  */
 export const api = axios.create({
   baseURL: BASE_URL,
+  timeout: API_TIMEOUT_MS,
   headers: {
     'Content-Type': 'application/json',
   },
